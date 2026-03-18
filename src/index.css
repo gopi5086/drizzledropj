@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600;1,700&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 205 56% 28%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 205 56% 28%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 205 56% 28%;
+
+  --primary: 147 54% 36%;
+  /* DrizzleDrop green (logo) approximation - #3a7d5a in HSL */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 200 50% 36%;
+    /* Teal #2E6B8A approximation */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 0 0% 50%;
+
+  --accent: 147 54% 36%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 200 50% 36%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 205 56% 28%;
+    --sidebar-primary: 200 50% 36%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 96%;
+    --sidebar-accent-foreground: 205 56% 28%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 200 50% 36%;
+
+    --font-serif: 'Fraunces', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-display: 'Montserrat', sans-serif;
+    --font-hero: 'Poppins', sans-serif;
+
+    --shadow-elegant: 0 20px 64px -16px hsla(205, 56%, 28%, 0.15);
+    --shadow-card: 0 4px 24px -4px hsla(205, 56%, 28%, 0.08);
+  --shadow-glow: 0 0 40px hsla(147, 54%, 36%, 0.18);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  ::selection {
+    background: hsla(100, 38%, 32%, 0.3);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    /* gradient shifted to brand green */
+    background-image: linear-gradient(135deg, hsl(147 54% 36%), hsl(147 64% 46%), hsl(147 54% 36%));
+  }
+
+  .border-gold {
+    border-color: hsl(var(--primary));
+  }
+
+  .bg-gold-subtle {
+    background-color: hsla(147, 54%, 36%, 0.08);
+  }
+
+  .hover-gold-glow {
+    @apply transition-shadow duration-500;
+  }
+
+  .hover-gold-glow:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32 px-4 md:px-8;
+  }
+
+  .container-luxury {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .label-caps {
+  /* Larger, more readable section labels */
+  @apply text-sm md:text-base tracking-[0.18em] uppercase font-semibold text-muted-foreground;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  }
+
+  .heading-display {
+    font-family: 'Space Grotesk', sans-serif;
+  @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight;
+  }
+
+  .heading-section {
+    font-family: 'Space Grotesk', sans-serif;
+  @apply text-3xl md:text-5xl font-semibold tracking-tight;
+  }
+
+  .body-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    @apply text-base leading-relaxed text-muted-foreground;
+  }
+
+  .heading-serif {
+    font-family: 'Fraunces', serif;
+    @apply text-2xl md:text-3xl font-semibold tracking-tight;
+  }
+
+  .heading-accent {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-bold text-lg tracking-tight;
+  }
+}
