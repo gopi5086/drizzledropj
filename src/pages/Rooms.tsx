@@ -94,7 +94,7 @@ export default function Rooms() {
           className="absolute inset-0"
         >
           <img src={heroImg} alt="Luxury Accommodations" className="w-full h-full object-cover brightness-[0.85]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#fdfdfd]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/20" />
         </motion.div>
 
         <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">

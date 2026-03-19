@@ -150,7 +150,7 @@ export default function Navbar() {
           </button>
           <button
             onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
-            className={`hidden sm:flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
+            className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
               isTransparent
                 ? "bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
                 : "bg-[#2E6B8A]/10 hover:bg-[#2E6B8A]/20 text-[#2E6B8A]"
