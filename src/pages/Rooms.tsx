@@ -86,7 +86,7 @@ export default function Rooms() {
   return (
     <div className="pt-20 bg-[#fdfdfd]">
       {/* ── Cinematic Hero ── */}
-      <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
+      <section className="relative h-[70vh] sm:h-[75vh] min-h-[400px] sm:min-h-[500px] overflow-hidden">
         <motion.div
           initial={{ scale: 1.15 }}
           animate={{ scale: 1 }}
@@ -99,12 +99,12 @@ export default function Rooms() {
 
         <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
           <Reveal>
-            <p className="label-caps !text-[#C5A861] mb-6 tracking-[0.4em] font-bold">The Art of Living</p>
-            <h1 className="font-serif text-6xl md:text-8xl text-white font-bold leading-tight mb-8">
+            <p className="label-caps !text-[#C5A861] mb-4 sm:mb-6 tracking-[0.4em] font-bold">The Art of Living</p>
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl text-white font-bold leading-tight mb-4 sm:mb-8">
               Exquisite <br />
               <span className="italic text-[#C5A861] drop-shadow-[0_0_30px_rgba(197,168,97,0.3)]">Dwellings</span>
             </h1>
-            <div className="flex items-center gap-3 text-white/70 text-sm font-medium tracking-widest uppercase mb-10">
+            <div className="flex items-center gap-3 text-white/70 text-xs sm:text-sm font-medium tracking-widest uppercase mb-8 sm:mb-10">
               Chennai & Ooty
             </div>
           </Reveal>
@@ -114,23 +114,23 @@ export default function Rooms() {
       {/* Chennai Section */}
       <section className="section-padding overflow-hidden">
         <div className="container-luxury">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10 mb-12 md:mb-20">
             <div className="max-w-2xl">
               <Reveal>
-                <p className="label-caps !text-[#C5A861] mb-6">Metropolitan Elegance</p>
-                <h2 className="font-serif text-5xl md:text-6xl font-bold mb-8">DrizzleDrop <br /><span className="italic text-[#C5A861]">Chennai</span></h2>
-                <p className="body-text text-lg">Sophisticated urban sanctuaries located in the heart of the OMR IT Corridor. Perfect for the modern professional and global traveler.</p>
+                <p className="label-caps !text-[#C5A861] mb-4 sm:mb-6">Metropolitan Elegance</p>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">DrizzleDrop <br /><span className="italic text-[#C5A861]">Chennai</span></h2>
+                <p className="body-text text-sm md:text-lg">Sophisticated urban sanctuaries located in the heart of the OMR IT Corridor. Perfect for the modern professional and global traveler.</p>
               </Reveal>
             </div>
             <Reveal delay={0.3}>
               <div className="flex gap-1 text-[#C5A861] mb-2">
-                {[1, 2, 3].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
+                {[1, 2, 3].map(i => <Star key={i} className="w-4 sm:w-5 h-4 sm:h-5 fill-current" />)}
               </div>
-              <p className="text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Certified 3-Star Business Hotel</p>
+              <p className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-muted-foreground">Certified 3-Star Business Hotel</p>
             </Reveal>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {chennaiRooms.map((room) => (
               <RoomCard key={room.name + "chennai"} room={room} />
             ))}
@@ -144,17 +144,17 @@ export default function Rooms() {
       {/* Ooty Section */}
       <section className="section-padding bg-secondary/5 overflow-hidden">
         <div className="container-luxury">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20 text-right md:text-left">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10 mb-12 md:mb-20 text-right md:text-left">
             <div className="max-w-2xl">
               <Reveal direction="right">
-                <p className="label-caps !text-[#C5A861] mb-6">Mountain Sanctuaries</p>
-                <h2 className="font-serif text-5xl md:text-6xl font-bold mb-8">DrizzleDrop <br /><span className="italic text-[#C5A861]">Ooty</span></h2>
-                <p className="body-text text-lg">Alpine retreats with private balconies overlooking the historical Nilgiris. Experience the whisper of the hills and the mist of the valley.</p>
+                <p className="label-caps !text-[#C5A861] mb-4 sm:mb-6">Mountain Sanctuaries</p>
+                <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">DrizzleDrop <br /><span className="italic text-[#C5A861]">Ooty</span></h2>
+                <p className="body-text text-sm md:text-lg">Alpine retreats with private balconies overlooking the historical Nilgiris. Experience the whisper of the hills and the mist of the valley.</p>
               </Reveal>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {ootyRooms.map((room) => (
               <RoomCard key={room.name + "ooty"} room={room} />
             ))}
@@ -163,17 +163,17 @@ export default function Rooms() {
       </section>
 
       {/* Final Comfort Banner */}
-      <section className="py-32 bg-[#0a0a0a] text-white relative overflow-hidden">
+      <section className="py-16 sm:py-24 md:py-32 bg-[#0a0a0a] text-white relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10 pointer-events-none">
           <div className="w-full h-full bg-[radial-gradient(circle_at_center,_#C5A861_0%,_transparent_70%)]" />
         </div>
         <div className="container-luxury text-center relative z-10 px-4">
           <Reveal>
-            <h2 className="font-serif text-4xl md:text-6xl font-bold mb-8">Rest in <span className="italic text-[#C5A861]">Purest</span> Silence</h2>
-            <p className="text-white/50 max-w-xl mx-auto mb-12">Whether it's the buzz of the city or the quiet of the hills, we ensure your sleep is undisturbed and your awakening is magical.</p>
+            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">Rest in <span className="italic text-[#C5A861]">Purest</span> Silence</h2>
+            <p className="text-white/50 max-w-xl mx-auto mb-8 sm:mb-12 text-sm sm:text-base">Whether it's the buzz of the city or the quiet of the hills, we ensure your sleep is undisturbed and your awakening is magical.</p>
             <button
               onClick={() => openBooking()}
-              className="px-12 py-5 border border-[#C5A861] text-[#C5A861] text-xs font-bold uppercase tracking-[0.3em] hover:bg-[#C5A861] hover:text-white transition-all duration-700 rounded-full"
+              className="px-8 sm:px-12 py-4 sm:py-5 border border-[#C5A861] text-[#C5A861] text-xs font-bold uppercase tracking-[0.3em] hover:bg-[#C5A861] hover:text-white transition-all duration-700 rounded-full"
             >
               Plan Your Escape
             </button>

@@ -152,7 +152,7 @@ export default function Gallery() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 space-y-3"
+              className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-3 space-y-2 sm:space-y-3"
             >
               {images.map((src, i) => (
                 <motion.div
@@ -161,18 +161,22 @@ export default function Gallery() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ delay: Math.min(i * 0.04, 0.5), duration: 0.4 }}
-                  className="break-inside-avoid group relative overflow-hidden cursor-pointer mb-3"
+                  className="break-inside-avoid group relative overflow-hidden cursor-pointer mb-2 sm:mb-3 rounded"
                   onClick={() => setLightbox(src)}
                 >
                   <img
                     src={src}
                     alt={`DrizzleDrop Hotels photo ${i + 1}`}
-                    className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${i % 4 === 0 ? "h-80" : i % 4 === 1 ? "h-56" : i % 4 === 2 ? "h-72" : "h-64"
-                      }`}
+                    className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${
+                      i % 4 === 0 ? "h-48 sm:h-64 md:h-72 lg:h-80" : 
+                      i % 4 === 1 ? "h-40 sm:h-48 md:h-56" : 
+                      i % 4 === 2 ? "h-48 sm:h-56 md:h-64 lg:h-72" : 
+                      "h-44 sm:h-56 md:h-60 lg:h-64"
+                    }`}
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                    <ZoomIn className="w-7 h-7 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100" />
+                    <ZoomIn className="w-5 sm:w-6 lg:w-7 h-5 sm:h-6 lg:h-7 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100" />
                   </div>
                 </motion.div>
               ))}
@@ -185,7 +189,7 @@ export default function Gallery() {
       <AnimatePresence>
         {lightbox && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-3 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -196,19 +200,19 @@ export default function Gallery() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
               transition={{ type: "spring", damping: 22 }}
-              className="relative max-w-5xl max-h-[90vh] w-full"
+              className="relative max-w-5xl max-h-[85vh] sm:max-h-[90vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={lightbox}
                 alt="Gallery full view"
-                className="w-full h-full object-contain max-h-[88vh] rounded-lg"
+                className="w-full h-full object-contain max-h-[83vh] sm:max-h-[88vh] rounded-lg"
               />
               <button
                 onClick={() => setLightbox(null)}
-                className="absolute top-3 right-3 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors border border-white/20"
+                className="absolute top-2 sm:top-3 right-2 sm:right-3 w-8 sm:w-10 h-8 sm:h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors border border-white/20"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
               </button>
             </motion.div>
           </motion.div>

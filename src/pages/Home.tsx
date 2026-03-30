@@ -54,17 +54,17 @@ export default function Home() {
               subtitle="DrizzleDrop Inn offers hassle-free accommodation where modern facilities meet exceptional service. Whether it's your business stay in Chennai or a scenic vacation in Ooty, we provide an ideal abode for the modern traveller."
             />
           </Reveal>
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12">
             {[
               { icon: Wifi, title: "Modern Facilities", desc: "Electricity Backup, WIFI connectivity, and 24 hours Hot Water in all locations." },
               { icon: Shield, title: "Safety First", desc: "Enhanced cleaning procedures for a secure and confident stay experience." },
               { icon: Car, title: "Ample Parking", desc: "Secure private car parking available for all our guests at no additional charge." },
             ].map((item, i) => (
               <Reveal key={item.title} delay={0.2 + i * 0.1}>
-                <div className="glass-card p-8 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow h-full">
-                  <item.icon className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h3 className="font-serif text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="body-text text-sm">{item.desc}</p>
+                <div className="glass-card p-6 sm:p-8 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow h-full">
+                  <item.icon className="w-6 sm:w-8 h-6 sm:h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                  <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="body-text text-xs sm:text-sm">{item.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -83,36 +83,36 @@ export default function Home() {
           <Reveal width="100%">
             <SectionHeading label="Our Properties" title="Two Destinations, One Promise" />
           </Reveal>
-          <div className="grid md:grid-cols-2 gap-12 mt-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 mt-12 h-full items-stretch">
             {/* Chennai */}
             <Reveal delay={0.3} width="100%">
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)]"
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
                 onClick={() => navigate('/rooms')}
               >
-                <div className="relative w-full aspect-[16/9] sm:aspect-[4/3] md:aspect-[16/9] overflow-hidden rounded-t-3xl">
+                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
                   <img src={chennaiImg} alt="DrizzleDrop Chennai" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30" />
 
-                  <div className="absolute bottom-8 left-8 right-8 text-white">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-2 bg-[#C5A861] rounded-full">
-                        <MapPin className="w-4 h-4 text-white" />
+                  <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div className="p-1.5 sm:p-2 bg-[#C5A861] rounded-full">
+                        <MapPin className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                       </div>
-                      <span className="text-xs font-bold tracking-[0.2em] uppercase">Thoriaipakkam, Chennai</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Thoriaipakkam, Chennai</span>
                     </div>
-                    <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4">DrizzleDrop Inn OMR</h3>
+                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn OMR</h3>
                   </div>
                 </div>
-                <div className="p-10">
-                  <p className="body-text text-base mb-8 leading-relaxed text-muted-foreground">
+                <div className="p-6 sm:p-10">
+                  <p className="body-text text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed text-muted-foreground">
                     A sophisticated 3-star business hotel located at Thoriaipakkam. Featuring 35 well-furnished rooms and suites with a panoramic terrace, rooftop dining, and multi-cuisine delicacies.
                   </p>
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["IT Hubs", "OMR Corridor", "Rooftop Dining", "Fast WiFi"].map((tag) => (
-                      <span key={tag} className="text-[10px] uppercase tracking-widest font-bold px-4 py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
+                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center gap-3 text-[#C5A861] font-bold text-xs uppercase tracking-widest group/btn">
@@ -128,33 +128,33 @@ export default function Home() {
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)]"
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
                 onClick={() => {
                   const el = document.getElementById('location');
                   el?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
-                <div className="relative w-full aspect-[16/9] sm:aspect-[4/3] md:aspect-[16/9] overflow-hidden rounded-t-3xl">
+                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
                   <img src={ootyImg} alt="DrizzleDrop Ooty" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/30" />
 
-                  <div className="absolute bottom-8 left-8 right-8 text-white">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="p-2 bg-[#C5A861] rounded-full">
-                        <MapPin className="w-4 h-4 text-white" />
+                  <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <div className="p-1.5 sm:p-2 bg-[#C5A861] rounded-full">
+                        <MapPin className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                       </div>
-                      <span className="text-xs font-bold tracking-[0.2em] uppercase">Nilgiris, Ooty</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Nilgiris, Ooty</span>
                     </div>
-                    <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4">DrizzleDrop Inn Ooty</h3>
+                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn Ooty</h3>
                   </div>
                 </div>
-                <div className="p-10">
-                  <p className="body-text text-base mb-8 leading-relaxed text-muted-foreground">
+                <div className="p-6 sm:p-10">
+                  <p className="body-text text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed text-muted-foreground">
                     An enchanting getaway featuring 8 hill-view apartment type individual rooms with private balconies. Enjoy panoramic views of the hills and the historical Nilgiris toy train.
                   </p>
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["Hill Views", "Toy Train Route", "Private Balcony", "Quiet Luxury"].map((tag) => (
-                      <span key={tag} className="text-[10px] uppercase tracking-widest font-bold px-4 py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
+                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center gap-3 text-[#C5A861] font-bold text-xs uppercase tracking-widest group/btn">
@@ -174,51 +174,53 @@ export default function Home() {
           <Reveal width="100%">
             <SectionHeading label="Find Us" title="Explore the Surroundings" />
           </Reveal>
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-8">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="lg:col-span-2 space-y-6 sm:space-y-8">
               <Reveal delay={0.2} width="100%">
-                <div className="border border-border/50 overflow-hidden rounded-xl">
+                <div className="border border-border/50 overflow-hidden rounded-lg sm:rounded-xl">
                   <iframe
                     title="DrizzleDrop Chennai"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5847992975273!2d80.22950347411972!3d12.93438611569501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525d3e8c850455%3A0xad75b35ac6cfc12!2sDrizzleDrop%20Inn%2CCHENNAI!5e0!3m2!1sen!2sus!4v1773836584953!5m2!1sen!2sus"
                     width="100%"
-                    height="300"
+                    height="250"
+                    className="sm:h-[300px]"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                   />
                   <div className="p-4 bg-card border-t border-border/50">
-                    <h4 className="font-serif text-lg font-semibold">DrizzleDrop Inn Chennai</h4>
-                    <p className="text-sm text-muted-foreground">Rajiv Gandhi Salai, Thoriaipakkam, OMR IT Corridor</p>
+                    <h4 className="font-serif text-base sm:text-lg font-semibold">DrizzleDrop Inn Chennai</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Rajiv Gandhi Salai, Thoriaipakkam, OMR IT Corridor</p>
                   </div>
                 </div>
               </Reveal>
               <Reveal delay={0.3} width="100%">
-                <div className="border border-border/50 overflow-hidden rounded-xl">
+                <div className="border border-border/50 overflow-hidden rounded-lg sm:rounded-xl">
                   <iframe
                     title="DrizzleDrop Ooty"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39892631.06442901!2d31.07136452959029!3d52.391215641873124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8962ea346ed07%3A0xf65c4c81e400f184!2sDrizzleDrop%20Inn!5e0!3m2!1sen!2sus!4v1773834594116!5m2!1sen!2sus"
                     width="100%"
-                    height="300"
+                    height="250"
+                    className="sm:h-[300px]"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                   />
                   <div className="p-4 bg-card border-t border-border/50">
-                    <h4 className="font-serif text-lg font-semibold">DrizzleDrop Inn Ooty</h4>
-                    <p className="text-sm text-muted-foreground">2 KM from Ooty Bus Stand & Railway Station</p>
+                    <h4 className="font-serif text-base sm:text-lg font-semibold">DrizzleDrop Inn Ooty</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">2 KM from Ooty Bus Stand & Railway Station</p>
                   </div>
                 </div>
               </Reveal>
             </div>
 
             <Reveal delay={0.4} width="100%">
-              <div className="bg-secondary/10 p-8 rounded-xl border border-border/50 h-full">
-                <h3 className="font-serif text-2xl font-bold mb-6 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-primary" />
+              <div className="bg-secondary/10 p-6 sm:p-8 rounded-lg sm:rounded-xl border border-border/50 h-full">
+                <h3 className="font-serif text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
+                  <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
                   Ooty: See & Do
                 </h3>
-                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar text-sm sm:text-base">
                   {[
                     { name: "Nilgiri mountain Railway", dist: "2.8 KM" },
                     { name: "Ooty Lake", dist: "3.3 KM" },
@@ -231,7 +233,7 @@ export default function Home() {
                     { name: "Deer Park", dist: "2.0 KM" },
                     { name: "Arboretum", dist: "1.5 KM" },
                   ].map((att) => (
-                    <div key={att.name} className="flex justify-between items-center text-sm border-b border-border/20 pb-2">
+                    <div key={att.name} className="flex justify-between items-center text-xs sm:text-sm border-b border-border/20 pb-2">
                       <span className="font-medium">{att.name}</span>
                       <span className="text-muted-foreground">{att.dist}</span>
                     </div>
@@ -250,17 +252,17 @@ export default function Home() {
           <Reveal width="100%">
             <SectionHeading label="Testimonials" title="What Our Guests Say" />
           </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {reviews.map((r, i) => (
               <Reveal key={i} delay={0.1 * i}>
-                <div className="glass-card p-6 hover:border-primary/30 transition-all duration-500 h-full">
+                <div className="glass-card p-4 sm:p-6 hover:border-primary/30 transition-all duration-500 h-full">
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-4 h-4 ${j < r.rating ? "text-primary fill-primary" : "text-muted"}`} />
+                      <Star key={j} className={`w-3 sm:w-4 h-3 sm:h-4 ${j < r.rating ? "text-primary fill-primary" : "text-muted"}`} />
                     ))}
                   </div>
-                  <p className="text-sm text-foreground/80 mb-4 italic font-serif">"{r.text}"</p>
-                  <p className="label-caps">{r.name}</p>
+                  <p className="text-xs sm:text-sm text-foreground/80 mb-4 italic font-serif">"{r.text}"</p>
+                  <p className="label-caps text-[10px] sm:text-xs">{r.name}</p>
                 </div>
               </Reveal>
             ))}
@@ -274,18 +276,18 @@ export default function Home() {
           <Reveal width="100%">
             <SectionHeading label="Latest News" title="From Our Journal" />
           </Reveal>
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-8 sm:mt-12">
             {blogPosts.map((post, i) => (
               <Reveal key={post.title} delay={0.1 * i} width="100%">
                 <div className="group cursor-pointer h-full">
-                  <div className="bg-background p-8 border border-border/50 rounded-2xl hover:border-primary/50 transition-all duration-500 hover:shadow-xl h-full">
-                    <span className="text-[10px] uppercase tracking-widest text-primary font-bold mb-4 block">
+                  <div className="bg-background p-6 sm:p-8 border border-border/50 rounded-xl sm:rounded-2xl hover:border-primary/50 transition-all duration-500 hover:shadow-xl h-full">
+                    <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary font-bold mb-3 sm:mb-4 block">
                       {post.category} • {post.date}
                     </span>
-                    <h3 className="font-serif text-xl font-bold mb-4 group-hover:text-primary transition-colors">
+                    <h3 className="font-serif text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 group-hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <div className="h-px bg-border/50 w-full mb-4" />
+                    <div className="h-px bg-border/50 w-full mb-3 sm:mb-4" />
                     <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                       Read More
                       <div className="h-0.5 w-4 bg-primary group-hover:w-8 transition-all duration-300" />
@@ -327,7 +329,7 @@ export default function Home() {
           <Reveal width="100%">
             <SectionHeading label="Get in Touch" title="Contact Us" />
           </Reveal>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto justify-items-center">
             {[
               { icon: MessageCircle, label: "WhatsApp", value: "+91 86678 25086", href: "https://wa.me/918667825086" },
               { icon: Mail, label: "Email", value: "info@drizzledrop.com", href: "mailto:info@drizzledrop.com" },
@@ -336,7 +338,7 @@ export default function Home() {
               <Reveal key={label} delay={0.2 + i * 0.1}>
                 <a
                   href={href}
-                  className="glass-card p-6 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow block h-full"
+                  className="glass-card p-6 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow block h-full w-full sm:w-auto"
                 >
                   <Icon className="w-8 h-8 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
                   <p className="label-caps mb-1">{label}</p>

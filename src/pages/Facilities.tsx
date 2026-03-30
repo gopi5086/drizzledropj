@@ -40,7 +40,7 @@ export default function Facilities() {
   return (
     <div className="pt-20">
       {/* ── Hero Section ── */}
-      <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
+      <section className="relative h-[60vh] sm:h-[70vh] min-h-[350px] sm:min-h-[450px] overflow-hidden">
         <motion.div
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
@@ -57,11 +57,11 @@ export default function Facilities() {
 
         <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
           <Reveal>
-            <p className="label-caps text-[#C5A861] mb-4">World-Class Comfort</p>
-            <h1 className="font-serif text-5xl md:text-7xl text-white font-bold mb-6">
+            <p className="label-caps text-[#C5A861] mb-3 sm:mb-4">World-Class Comfort</p>
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-4 sm:mb-6">
               Our <span className="italic text-[#C5A861]">Facilities</span>
             </h1>
-            <p className="text-white/70 max-w-2xl mx-auto text-lg leading-relaxed">
+            <p className="text-white/70 max-w-2xl mx-auto text-xs sm:text-base md:text-lg leading-relaxed px-2">
               From business efficiency in Chennai to nature's serenity in Ooty, we provide everything you need for a seamless stay.
             </p>
           </Reveal>
@@ -79,15 +79,15 @@ export default function Facilities() {
             />
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16">
             {mainFacilities.map((f, i) => (
               <Reveal key={f.title} delay={i * 0.1}>
-                <div className="group bg-white p-10 rounded-2xl border border-border/50 hover:border-[#C5A861]/40 transition-all duration-500 hover:shadow-2xl h-full">
-                  <div className="h-14 w-14 bg-secondary/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-[#C5A861] group-hover:text-white transition-all duration-300">
-                    <f.icon className="w-7 h-7" />
+                <div className="group bg-white p-8 sm:p-10 rounded-xl sm:rounded-2xl border border-border/50 hover:border-[#C5A861]/40 transition-all duration-500 hover:shadow-2xl h-full">
+                  <div className="h-12 sm:h-14 w-12 sm:w-14 bg-secondary/10 rounded-full flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-[#C5A861] group-hover:text-white transition-all duration-300">
+                    <f.icon className="w-6 sm:w-7 h-6 sm:h-7" />
                   </div>
-                  <h3 className="font-serif text-xl font-bold mb-3 tracking-tight">{f.title}</h3>
-                  <p className="body-text text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className="font-serif text-lg sm:text-xl font-bold mb-2 sm:mb-3 tracking-tight">{f.title}</h3>
+                  <p className="body-text text-xs sm:text-sm leading-relaxed">{f.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -96,35 +96,35 @@ export default function Facilities() {
       </section>
 
       {/* ── Visual Breakout ── */}
-      <section className="py-20 bg-secondary/5 overflow-hidden">
-        <div className="container-luxury flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
+      <section className="py-12 sm:py-16 md:py-20 bg-secondary/5 overflow-hidden">
+        <div className="container-luxury flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+          <div className="w-full lg:w-1/2">
             <Reveal direction="left">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video lg:aspect-square">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video lg:aspect-square">
                 <img src={receptionImg} alt="Reception" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-10 left-10 text-white">
-                  <p className="text-sm font-bold tracking-widest uppercase mb-2">Hospitality</p>
-                  <h3 className="font-serif text-3xl font-bold">24/7 Assistance</h3>
+                <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 text-white">
+                  <p className="text-xs sm:text-sm font-bold tracking-widest uppercase mb-1 sm:mb-2">Hospitality</p>
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold">24/7 Assistance</h3>
                 </div>
               </div>
             </Reveal>
           </div>
-          <div className="lg:w-1/2 space-y-8">
+          <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
             <Reveal>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold">Service Above <br /><span className="italic text-[#C5A861]">Expectations</span></h2>
-              <p className="body-text text-lg leading-relaxed">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Service Above <br /><span className="italic text-[#C5A861]">Expectations</span></h2>
+              <p className="body-text text-sm md:text-base lg:text-lg leading-relaxed">
                 Our staff is dedicated to ensuring your stay is perfect. From the moment you check in at our premium reception desks until your departure, every request is handled with professional care.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-3 sm:space-y-4">
                 {[
                   "Express Check-in & Check-out",
                   "Personalized Concierge Service",
                   "Daily Housekeeping & Turndown",
                   "Valet Parking Assist"
                 ].map(item => (
-                  <li key={item} className="flex items-center gap-3 text-sm font-bold tracking-wide">
-                    <CheckCircle className="w-5 h-5 text-[#C5A861]" />
+                  <li key={item} className="flex items-center gap-3 text-xs sm:text-sm font-bold tracking-wide">
+                    <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -140,13 +140,13 @@ export default function Facilities() {
           <Reveal width="100%">
             <SectionHeading label="Extensive List" title="Everything You Need" />
           </Reveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 sm:mt-12">
             {additionalFacilities.map((f, i) => (
               <Reveal key={f.title} delay={i * 0.05} direction="up">
-                <div className="bg-[#fcfcfc] border border-border/40 p-8 rounded-xl text-center hover:bg-white hover:shadow-lg transition-all transform hover:-translate-y-1">
-                  <f.icon className="w-6 h-6 mx-auto mb-4 text-[#C5A861]" />
-                  <h4 className="text-[10px] font-bold tracking-[0.2em] uppercase mb-2">{f.title}</h4>
-                  <p className="text-[11px] text-muted-foreground">{f.desc}</p>
+                <div className="bg-[#fcfcfc] border border-border/40 p-6 sm:p-8 rounded-lg sm:rounded-xl text-center hover:bg-white hover:shadow-lg transition-all transform hover:-translate-y-1">
+                  <f.icon className="w-5 sm:w-6 h-5 sm:h-6 mx-auto mb-3 sm:mb-4 text-[#C5A861]" />
+                  <h4 className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase mb-1 sm:mb-2">{f.title}</h4>
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">{f.desc}</p>
                 </div>
               </Reveal>
             ))}

@@ -51,19 +51,19 @@ const policies = [
 
 export default function Overview() {
   return (
-    <div className="pt-24">
+    <div className="pt-16 sm:pt-20 md:pt-24">
       {/* Hero */}
-      <section className="relative min-h-[40vh] flex flex-col items-center justify-center bg-secondary/10 mt-8 rounded-2xl mx-4 lg:mx-12 overflow-hidden">
+      <section className="relative min-h-[35vh] sm:min-h-[40vh] flex flex-col items-center justify-center bg-secondary/10 mt-4 sm:mt-6 md:mt-8 rounded-xl sm:rounded-2xl mx-3 sm:mx-4 md:mx-6 lg:mx-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img src={landscapeImg} className="w-full h-full object-cover opacity-30" alt="DrizzleDrop Overview" />
         </div>
         <div className="relative z-20 text-center px-4">
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="label-caps text-primary mb-4">About Us</motion.p>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="label-caps text-primary mb-2 sm:mb-4">About Us</motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="heading-display text-4xl md:text-6xl"
+            className="heading-display text-2xl sm:text-3xl md:text-4xl lg:text-6xl"
           >
             The DrizzleDrop Experience
           </motion.h1>
@@ -78,22 +78,22 @@ export default function Overview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
           >
             <div>
-              <p className="font-serif text-2xl md:text-3xl leading-relaxed text-foreground/90 mb-6 italic">
+              <p className="font-serif text-lg sm:text-2xl md:text-3xl leading-relaxed text-foreground/90 mb-4 sm:mb-6 italic">
                 "Where your mind, body, and soul will relax and become one with nature."
               </p>
-              <p className="body-text mb-4">
+              <p className="body-text text-xs sm:text-base mb-3 sm:mb-4">
                 DrizzleDrop Inn Chennai is a sophisticated 3-star business hotel offering modern accommodation and smart facilities in the OMR IT Corridor.
               </p>
-              <p className="body-text">
+              <p className="body-text text-xs sm:text-base">
                 DrizzleDrop Inn Ooty is a quaint retreat with 8 hill-view apartments, offering panoramic views of the Nilgiris hills and the famous toy train.
               </p>
             </div>
-            <div className="bg-secondary/20 p-8 rounded-2xl border border-border/50">
-              <h3 className="font-serif text-xl font-bold mb-4">Right to Refuse Service</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+            <div className="bg-secondary/20 p-6 sm:p-8 rounded-lg sm:rounded-2xl border border-border/50">
+              <h3 className="font-serif text-lg sm:text-xl font-bold mb-3 sm:mb-4">Right to Refuse Service</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 DrizzleDrop Inn is privately owned and operated. We reserve the right to refuse service to anyone for reasons that do not violate laws.
                 We maintain a zero-tolerance policy for disorderly conduct, unsafe behavior, or failure to comply with hotel standards.
               </p>
@@ -104,10 +104,10 @@ export default function Overview() {
 
       {/* Ooty History */}
       <section className="section-padding bg-background">
-        <div className="container-luxury grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+        <div className="container-luxury grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="relative h-[250px] sm:h-[300px] md:h-[400px] rounded-lg sm:rounded-2xl overflow-hidden shadow-lg md:shadow-2xl">
             <img src={storyImg} className="w-full h-full object-cover" alt="Ooty Hills" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-bottom p-8">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-bottom p-6 sm:p-8">
               <p className="text-white font-serif text-lg">"Nilgiris means Blue Mountains"</p>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Overview() {
             </p>
             <div className="flex gap-4 items-center">
               <div className="h-[1px] bg-primary flex-1" />
-              <span className="text-[10px] uppercase tracking-widest font-bold text-primary">Discover Udhagamandalam</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-primary">Discover Udhagamandalam</span>
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function Overview() {
       <section className="section-padding bg-secondary/5">
         <div className="container-luxury">
           <SectionHeading label="Our Values" title="Prodigious Hospitality" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {values.map((v, i) => (
               <motion.div
                 key={v.title}
@@ -139,11 +139,11 @@ export default function Overview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="glass-card p-8 text-center group hover:border-primary/30 transition-all duration-500"
+                className="glass-card p-6 sm:p-8 text-center group hover:border-primary/30 transition-all duration-500"
               >
-                <v.icon className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <h3 className="font-serif text-xl font-semibold mb-2">{v.title}</h3>
-                <p className="body-text text-sm">{v.desc}</p>
+                <v.icon className="w-6 sm:w-8 h-6 sm:h-8 text-primary mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="font-serif text-lg sm:text-xl font-semibold mb-1 sm:mb-2">{v.title}</h3>
+                <p className="body-text text-xs sm:text-sm">{v.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -154,7 +154,7 @@ export default function Overview() {
       <section className="section-padding">
         <div className="container-luxury">
           <SectionHeading label="Information" title="Guest Policies" />
-          <div className="grid md:grid-cols-2 gap-8 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 sm:mt-12">
             {policies.map((policy, i) => (
               <motion.div
                 key={policy.title}
@@ -162,17 +162,17 @@ export default function Overview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex gap-6 p-6 border border-border/50 rounded-xl hover:bg-secondary/5 transition-colors"
+                className="flex gap-4 sm:gap-6 p-4 sm:p-6 border border-border/50 rounded-lg sm:rounded-xl hover:bg-secondary/5 transition-colors"
               >
-                <div className="bg-primary/10 p-3 rounded-lg h-fit">
-                  <policy.icon className="w-6 h-6 text-primary" />
+                <div className="bg-primary/10 p-2.5 sm:p-3 rounded-lg h-fit">
+                  <policy.icon className="w-5 sm:w-6 h-5 sm:h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-xl font-bold mb-3">{policy.title}</h3>
-                  <ul className="space-y-2">
+                  <h3 className="font-serif text-lg sm:text-xl font-bold mb-2 sm:mb-3">{policy.title}</h3>
+                  <ul className="space-y-1.5 sm:space-y-2">
                     {policy.items.map((item, idx) => (
-                      <li key={idx} className="body-text text-sm flex gap-2">
-                        <span className="text-primary mt-1">•</span>
+                      <li key={idx} className="body-text text-xs sm:text-sm flex gap-2">
+                        <span className="text-primary mt-0.5 sm:mt-1 shrink-0">•</span>
                         {item}
                       </li>
                     ))}

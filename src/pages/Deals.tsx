@@ -39,7 +39,7 @@ export default function Deals() {
       <section className="section-padding">
         <div className="container-luxury">
           <SectionHeading label="Special Offers" title="Exclusive Deals" subtitle="Handpicked packages for unforgettable experiences" />
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {deals.map((deal, i) => (
               <motion.div
                 key={deal.title}
@@ -47,23 +47,23 @@ export default function Deals() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12, duration: 0.6 }}
-                className="group border border-border/50 overflow-hidden hover:border-primary/30 transition-all duration-500 hover-gold-glow flex flex-col"
+                className="group border border-border/50 overflow-hidden hover:border-primary/30 transition-all duration-500 hover-gold-glow flex flex-col rounded-lg"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-40 sm:h-48 overflow-hidden">
                   <img src={deal.image} alt={deal.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <span className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold bg-primary text-primary-foreground">
+                  <span className="absolute top-2 sm:top-4 left-2 sm:left-4 px-2 sm:px-3 py-1 text-xs font-semibold bg-primary text-primary-foreground rounded">
                     {deal.badge}
                   </span>
                 </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <deal.icon className="w-6 h-6 text-primary mb-3" />
-                  <h3 className="font-serif text-2xl font-semibold mb-2">{deal.title}</h3>
-                  <p className="body-text text-sm mb-4 flex-1">{deal.desc}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-serif text-xl font-semibold text-primary">{deal.price}</span>
+                <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                  <deal.icon className="w-5 sm:w-6 h-5 sm:h-6 text-primary mb-2 sm:mb-3" />
+                  <h3 className="font-serif text-lg sm:text-2xl font-semibold mb-1 sm:mb-2">{deal.title}</h3>
+                  <p className="body-text text-xs sm:text-sm mb-3 sm:mb-4 flex-1">{deal.desc}</p>
+                  <div className="flex items-center justify-between gap-2 sm:gap-4">
+                    <span className="font-serif text-base sm:text-xl font-semibold text-primary">{deal.price}</span>
                     <Link
                       to="/rooms"
-                      className="px-5 py-2 bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-all duration-300"
+                      className="px-3 sm:px-5 py-1.5 sm:py-2 bg-primary text-primary-foreground text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-300 rounded"
                     >
                       Book Now
                     </Link>

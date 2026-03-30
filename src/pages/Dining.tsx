@@ -28,7 +28,7 @@ export default function Dining() {
   return (
     <div className="pt-20">
       {/* ── Hero Section ── */}
-      <section className="relative h-[65vh] min-h-[450px] overflow-hidden bg-[#0d1b2a]">
+      <section className="relative h-[70vh] sm:h-[75vh] min-h-[400px] sm:min-h-[500px] overflow-hidden bg-[#0d1b2a]">
         <motion.div
           initial={{ scale: 1.15, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -51,12 +51,12 @@ export default function Dining() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <p className="label-caps text-[#C5A861] mb-6 tracking-[0.4em] font-bold">Culinary Excellence</p>
-            <h1 className="font-serif text-6xl md:text-8xl text-white font-bold leading-[0.9] mb-8">
+            <p className="label-caps text-[#C5A861] mb-4 sm:mb-6 tracking-[0.4em] font-bold">Culinary Excellence</p>
+            <h1 className="font-serif text-2xl sm:text-4xl md:text-6xl lg:text-8xl text-white font-bold leading-[1] sm:leading-[1.1] md:leading-[0.9] mb-4 sm:mb-8">
               A Symphony <br />
               <span className="italic text-[#C5A861] drop-shadow-[0_0_20px_rgba(197,168,97,0.3)]">of Tastes</span>
             </h1>
-            <p className="text-white/70 max-w-2xl mx-auto text-lg md:text-xl font-light tracking-wide leading-relaxed">
+            <p className="text-white/70 max-w-2xl mx-auto text-xs sm:text-base md:text-lg font-light tracking-wide leading-relaxed px-2">
               Experience the perfect blend of local tradition and global flair. At DrizzleDrop, every meal is an occasion to celebrate.
             </p>
           </motion.div>
@@ -66,18 +66,18 @@ export default function Dining() {
       {/* ── Highlights Grid ── */}
       <section className="section-padding bg-[#fcfcfc]">
         <div className="container-luxury">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
             {highlights.map((h, i) => (
               <Reveal key={h.title} delay={i * 0.1}>
-                <div className="group bg-white p-10 rounded-2xl border border-border/40 hover:border-[#C5A861]/40 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(46,107,138,0.08)] h-full overflow-hidden relative">
+                <div className="group bg-white p-6 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl border border-border/40 hover:border-[#C5A861]/40 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(46,107,138,0.08)] h-full overflow-hidden relative">
                   {/* Subtle bg decoration */}
                   <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-[#C5A861]/10 transition-colors" />
 
-                  <div className="h-16 w-16 bg-[#C5A861]/10 rounded-xl flex items-center justify-center mb-8 group-hover:bg-[#C5A861] group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 group-hover:rotate-6">
-                    <h.icon className="w-8 h-8 transition-transform duration-500" />
+                  <div className="h-12 sm:h-16 w-12 sm:w-16 bg-[#C5A861]/10 rounded-lg sm:rounded-xl flex items-center justify-center mb-6 sm:mb-8 group-hover:bg-[#C5A861] group-hover:text-white transition-all duration-500 transform group-hover:-translate-y-2 group-hover:rotate-6">
+                    <h.icon className="w-6 sm:w-8 h-6 sm:h-8 transition-transform duration-500" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold mb-4 tracking-tight">{h.title}</h3>
-                  <p className="body-text text-sm leading-relaxed text-muted-foreground">{h.desc}</p>
+                  <h3 className="font-serif text-lg sm:text-2xl font-bold mb-3 sm:mb-4 tracking-tight">{h.title}</h3>
+                  <p className="body-text text-xs sm:text-sm leading-relaxed text-muted-foreground">{h.desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -88,14 +88,14 @@ export default function Dining() {
       {/* ── Cinematic Features ── */}
       <section className="section-padding overflow-hidden">
         <div className="container-luxury">
-          <div className="space-y-32">
+          <div className="space-y-16 md:space-y-32">
 
             {/* Chennai Feature */}
-            <div className="flex flex-col lg:flex-row items-center gap-16">
-              <div className="lg:w-1/2">
+            <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+              <div className="w-full lg:w-1/2">
                 <Reveal direction="left">
                   <div className="relative">
-                    <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                    <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
                       <img src={chennaiDining1} alt="Chennai Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]" />
                     </div>
                     {/* Decorative element */}
@@ -103,16 +103,16 @@ export default function Dining() {
                   </div>
                 </Reveal>
               </div>
-              <div className="lg:w-1/2 space-y-6">
+              <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                 <Reveal>
                   <span className="text-[#C5A861] font-bold tracking-[0.2em] uppercase text-xs">Exquisite Spaces</span>
-                  <h2 className="font-serif text-4xl md:text-5xl font-bold leading-tight">Chennai Rooftop <br /><span className="italic text-[#C5A861]">Experience</span></h2>
-                  <p className="body-text text-lg leading-relaxed">
+                  <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Chennai Rooftop <br /><span className="italic text-[#C5A861]">Experience</span></h2>
+                  <p className="body-text text-sm sm:text-base md:text-lg leading-relaxed">
                     Our rooftop specialty restaurant in Chennai offers Multi-Cuisine and Asian delicacies. A modern vibe with exceptional services makes it an ideal abode for the modern traveller.
                   </p>
-                  <div className="pt-4 flex flex-wrap gap-3">
+                  <div className="pt-2 sm:pt-4 flex flex-wrap gap-2 sm:gap-3">
                     {["Gourmet Dining", "City Views", "Signature Cocktails"].map(tag => (
-                      <span key={tag} className="px-5 py-2 rounded-full border border-border/60 text-[10px] font-bold uppercase tracking-widest bg-secondary/30">{tag}</span>
+                      <span key={tag} className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-border/60 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest bg-secondary/30">{tag}</span>
                     ))}
                   </div>
                 </Reveal>
@@ -120,28 +120,28 @@ export default function Dining() {
             </div>
 
             {/* Ooty Feature */}
-            <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
-              <div className="lg:w-1/2">
+            <div className="flex flex-col lg:flex-row-reverse items-center gap-8 md:gap-16">
+              <div className="w-full lg:w-1/2">
                 <Reveal direction="right">
                   <div className="relative">
-                    <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                    <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
                       <img src={ootyDining1} alt="Ooty Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]" />
                     </div>
                     {/* Decorative element */}
-                    <div className="absolute -z-10 -top-6 -right-6 w-full h-full border border-[#C5A861]/20 rounded-3xl" />
+                    <div className="absolute -z-10 -top-6 -right-6 w-full h-full border border-[#C5A861]/20 rounded-2xl md:rounded-3xl" />
                   </div>
                 </Reveal>
               </div>
-              <div className="lg:w-1/2 space-y-6">
+              <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                 <Reveal>
                   <span className="text-[#C5A861] font-bold tracking-[0.2em] uppercase text-xs">Breathtaking Views</span>
-                  <h2 className="font-serif text-4xl md:text-5xl font-bold leading-tight">Ooty Valley <br /><span className="italic text-[#C5A861]">Panorama</span></h2>
-                  <p className="body-text text-lg leading-relaxed">
+                  <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Ooty Valley <br /><span className="italic text-[#C5A861]">Panorama</span></h2>
+                  <p className="body-text text-sm sm:text-base md:text-lg leading-relaxed">
                     Located on the rooftop with a magnificent view of the valley. Enjoy fine-dine or the comfort of your room. Treat your taste buds to new and exciting dishes every single day.
                   </p>
-                  <div className="pt-4 flex flex-wrap gap-3">
+                  <div className="pt-2 sm:pt-4 flex flex-wrap gap-2 sm:gap-3">
                     {["Hill Views", "Garden To Table", "Mountain Breeze"].map(tag => (
-                      <span key={tag} className="px-5 py-2 rounded-full border border-border/60 text-[10px] font-bold uppercase tracking-widest bg-secondary/30">{tag}</span>
+                      <span key={tag} className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-border/60 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest bg-secondary/30">{tag}</span>
                     ))}
                   </div>
                 </Reveal>
@@ -153,15 +153,15 @@ export default function Dining() {
       </section>
 
       {/* ── Rooftop View Banner ── */}
-      <section className="relative h-[50vh] min-h-[400px] my-20">
+      <section className="relative h-[50vh] sm:h-[60vh] min-h-[350px] sm:min-h-[400px] my-12 sm:my-16 md:my-20">
         <div className="absolute inset-0">
           <img src={rooftopView} alt="Rooftop" className="w-full h-full object-cover attachment-fixed" />
           <div className="absolute inset-0 bg-black/60" />
         </div>
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
           <Reveal>
-            <h2 className="font-serif text-4xl md:text-5xl text-white mb-6">Dine Under the Stars</h2>
-            <p className="text-white/70 max-w-xl mx-auto leading-relaxed">Experience a magical evening at our rooftop decks with panoramic views and candlelight ambiance.</p>
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-4 sm:mb-6">Dine Under the Stars</h2>
+            <p className="text-white/70 max-w-xl mx-auto leading-relaxed text-xs sm:text-sm md:text-base">Experience a magical evening at our rooftop decks with panoramic views and candlelight ambiance.</p>
           </Reveal>
         </div>
       </section>

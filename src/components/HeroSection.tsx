@@ -83,35 +83,7 @@ function ShimmerParticles() {
   );
 }
 
-function SlideIndicators({
-  total,
-  current,
-  onSelect,
-}: {
-  total: number;
-  current: number;
-  onSelect: (i: number) => void;
-}) {
-  return (
-    <div className="absolute bottom-10 right-10 z-30 flex items-center gap-3">
-      {Array.from({ length: total }).map((_, i) => (
-        <button
-          key={i}
-          onClick={() => onSelect(i)}
-          className="group relative flex items-center justify-center p-2"
-          aria-label={`Go to slide ${i + 1}`}
-        >
-          <div
-            className={`h-1.5 rounded-full transition-all duration-700 ${i === current
-              ? "w-8 bg-[#C5A861]"
-              : "w-3 bg-white/30 group-hover:bg-white/60"
-              }`}
-          />
-        </button>
-      ))}
-    </div>
-  );
-}
+// SlideIndicators removed as per request to eliminate background changing lines
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -137,7 +109,7 @@ export default function HeroSection() {
   const slide = heroSlides[currentSlide];
 
   return (
-    <section className="relative w-full h-[95vh] min-h-[750px] overflow-hidden bg-[#0a0a0a]">
+    <section className="relative w-full h-[90vh] sm:h-[95vh] min-h-[500px] sm:min-h-[650px] md:min-h-[750px] overflow-hidden bg-[#0a0a0a]">
       {/* Background Slides */}
       <AnimatePresence mode="popLayout" custom={direction}>
         <motion.div
@@ -178,7 +150,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8"
           >
-            <span className="px-6 py-2 rounded-full border border-[#C5A861]/30 bg-black/20 backdrop-blur-md text-[#C5A861] text-[10px] uppercase font-bold tracking-[0.3em] flex items-center gap-3">
+            <span className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-[#C5A861]/30 bg-black/20 backdrop-blur-md text-[#C5A861] text-[8px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-2 sm:gap-3">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C5A861] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C5A861]"></span>
@@ -194,7 +166,7 @@ export default function HeroSection() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[1] sm:leading-[0.85] text-white"
+            className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1] sm:leading-[1.1] md:leading-[0.9] text-white"
             style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, letterSpacing: "-0.02em" }}
           >
             Welcome to
@@ -210,7 +182,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1.2 }}
-          className="text-base sm:text-lg md:text-2xl text-white/60 font-light tracking-[0.1em] sm:tracking-widest max-w-3xl mb-12"
+          className="text-xs sm:text-sm md:text-lg lg:text-2xl text-white/60 font-light tracking-[0.05em] sm:tracking-[0.1em] md:tracking-widest max-w-3xl mb-8 sm:mb-12 px-2"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Curated Hospitality In The Heart Of Chennai & Ooty
@@ -228,11 +200,7 @@ export default function HeroSection() {
 
       </div>
 
-      <SlideIndicators
-        total={heroSlides.length}
-        current={currentSlide}
-        onSelect={goToSlide}
-      />
+
 
     </section>
   );

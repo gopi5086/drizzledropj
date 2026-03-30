@@ -129,42 +129,42 @@
   }
 
   .section-padding {
-    @apply py-20 md:py-28 lg:py-32 px-4 md:px-8;
+    @apply py-16 sm:py-20 md:py-28 lg:py-32 px-4 sm:px-6 md:px-8;
   }
 
   .container-luxury {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-8;
   }
 
   .label-caps {
   /* Larger, more readable section labels */
-  @apply text-sm md:text-base tracking-[0.18em] uppercase font-semibold text-muted-foreground;
+  @apply text-xs sm:text-sm md:text-base tracking-[0.18em] uppercase font-semibold text-muted-foreground;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   }
 
   .heading-display {
     font-family: 'Space Grotesk', sans-serif;
-  @apply text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight;
+  @apply text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight;
   }
 
   .heading-section {
     font-family: 'Space Grotesk', sans-serif;
-  @apply text-3xl md:text-5xl font-semibold tracking-tight;
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight;
   }
 
   .body-text {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    @apply text-base leading-relaxed text-muted-foreground;
+    @apply text-sm sm:text-base md:text-base leading-relaxed text-muted-foreground;
   }
 
   .heading-serif {
     font-family: 'Fraunces', serif;
-    @apply text-2xl md:text-3xl font-semibold tracking-tight;
+    @apply text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight;
   }
 
   .heading-accent {
     font-family: 'Space Grotesk', sans-serif;
-    @apply font-bold text-lg tracking-tight;
+    @apply text-base sm:text-lg md:text-xl font-bold tracking-tight;
   }
 }
