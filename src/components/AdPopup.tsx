@@ -12,7 +12,8 @@ interface Ad {
   isActive: boolean;
 }
 
-const API_BASE = "https://drizzle-background-5.onrender.com/api";
+const BACKEND_BASE = "https://drizzle-background-5.onrender.com";
+const API_BASE = `${BACKEND_BASE}/api`;
 
 export default function AdPopup() {
   const [ads, setAds] = useState<Ad[]>([]);
@@ -104,7 +105,7 @@ export default function AdPopup() {
             {/* Display a single full-width image occupying the container */}
             <div className="w-full">
               <img
-                src={`http://localhost:5000${currentAd.images[currentImageIndex]}`}
+                src={`${BACKEND_BASE}${currentAd.images[currentImageIndex]}`}
                 alt={currentAd.title || "Ad"}
                 className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg"
                 style={{ display: "block" }}

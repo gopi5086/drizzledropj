@@ -19,7 +19,8 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import driLogo from "@/assets/drilogo.png";
 
-const API_BASE = "https://drizzle-background-5.onrender.com/api";
+const BACKEND_BASE = "https://drizzle-background-5.onrender.com";
+const API_BASE = `${BACKEND_BASE}/api`;
 
 interface Ad {
   _id: string;
@@ -124,7 +125,7 @@ export default function AdminDashboard() {
   // Populate title and image preview when editing
   setFormTitle(ad.title || "");
   setFormImages(null);
-  setFormImagePreviews(ad.images.length ? [`http://localhost:5000${ad.images[0]}`] : []);
+  setFormImagePreviews(ad.images.length ? [`${BACKEND_BASE}${ad.images[0]}`] : []);
     setIsCreateModalOpen(true);
   };
 
@@ -425,7 +426,7 @@ export default function AdminDashboard() {
                               {ad.images.slice(0, 3).map((img, i) => (
                                 <img
                                   key={i}
-                                  src={`http://localhost:5000${img}`}
+                                  src={`${BACKEND_BASE}${img}`}
                                   alt=""
                                   className="w-10 sm:w-12 h-10 sm:h-12 object-cover rounded-lg border border-gray-200"
                                 />
