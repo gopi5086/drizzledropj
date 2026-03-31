@@ -19,7 +19,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import driLogo from "@/assets/drilogo.png";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://drizzle-background-5.onrender.com/api";
 
 interface Ad {
   _id: string;

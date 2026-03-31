@@ -12,7 +12,7 @@ interface Ad {
   isActive: boolean;
 }
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://drizzle-background-5.onrender.com/api";
 
 export default function AdPopup() {
   const [ads, setAds] = useState<Ad[]>([]);
