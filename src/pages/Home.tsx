@@ -63,7 +63,7 @@ export default function Home() {
               <Reveal key={item.title} delay={0.2 + i * 0.1}>
                 <div className="glass-card p-6 sm:p-8 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow h-full">
                   <item.icon className="w-6 sm:w-8 h-6 sm:h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h3 className="font-serif text-lg sm:text-xl font-semibold mb-2">{item.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-medium mb-2">{item.title}</h3>
                   <p className="body-text text-xs sm:text-sm">{item.desc}</p>
                 </div>
               </Reveal>
@@ -75,7 +75,7 @@ export default function Home() {
       {/* Properties */}
       <section id="properties" className="section-padding bg-[#fdfdfd] relative overflow-hidden">
         {/* Subtle background text */}
-        <div className="absolute top-0 right-0 text-[20vw] font-serif font-bold text-black/[0.02] select-none pointer-events-none -translate-y-1/2">
+        <div className="absolute top-0 right-0 text-[20vw] font-bold text-black/[0.02] select-none pointer-events-none -translate-y-1/2">
           Experience
         </div>
 
@@ -103,12 +103,12 @@ export default function Home() {
                       </div>
                       <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Thoriaipakkam, Chennai</span>
                     </div>
-                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn OMR</h3>
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn OMR</h3>
                   </div>
                 </div>
                 <div className="p-6 sm:p-10">
                   <p className="body-text text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed text-muted-foreground">
-                    A sophisticated 3-star business hotel located at Thoriaipakkam. Featuring 35 well-furnished rooms and suites with a panoramic terrace, rooftop dining, and multi-cuisine delicacies.
+                    a sophisticated 3-star business hotel located in Thoriaipakkam.Experience comfort and elegance with our 35 well-furnished rooms and suites, designed to cater to both business travelers and leisure guests. Enjoy breathtaking panoramic views from our spacious terrace, unwind with rooftop dining, and indulge in a variety of multi-cuisine delicacies.
                   </p>
                   <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["IT Hubs", "OMR Corridor", "Rooftop Dining", "Fast WiFi"].map((tag) => (
@@ -145,7 +145,7 @@ export default function Home() {
                       </div>
                       <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Nilgiris, Ooty</span>
                     </div>
-                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn Ooty</h3>
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn Ooty</h3>
                   </div>
                 </div>
                 <div className="p-6 sm:p-10">
@@ -189,7 +189,7 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="p-4 bg-card border-t border-border/50">
-                    <h4 className="font-serif text-base sm:text-lg font-semibold">DrizzleDrop Inn Chennai</h4>
+                    <h4 className="text-base sm:text-lg font-medium">DrizzleDrop Inn Chennai</h4>
                     <p className="text-xs sm:text-sm text-muted-foreground">Rajiv Gandhi Salai, Thoriaipakkam, OMR IT Corridor</p>
                   </div>
                 </div>
@@ -207,7 +207,7 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="p-4 bg-card border-t border-border/50">
-                    <h4 className="font-serif text-base sm:text-lg font-semibold">DrizzleDrop Inn Ooty</h4>
+                    <h4 className="text-base sm:text-lg font-medium">DrizzleDrop Inn Ooty</h4>
                     <p className="text-xs sm:text-sm text-muted-foreground">2 KM from Ooty Bus Stand & Railway Station</p>
                   </div>
                 </div>
@@ -216,7 +216,7 @@ export default function Home() {
 
             <Reveal delay={0.4} width="100%">
               <div className="bg-secondary/10 p-6 sm:p-8 rounded-lg sm:rounded-xl border border-border/50 h-full">
-                <h3 className="font-serif text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
+                <h3 className="text-lg sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
                   <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-primary" />
                   Ooty: See & Do
                 </h3>
@@ -224,12 +224,12 @@ export default function Home() {
                   {[
                     { name: "Nilgiri mountain Railway", dist: "2.8 KM" },
                     { name: "Ooty Lake", dist: "3.3 KM" },
-                    { name: "Rose Garden", dist: "4.0 KM" },
-                    { name: "Botanical Garden", dist: "4.9 KM" },
+                    { name: "Ooty Bus Stand", dist: "4.0 KM" },
+                    { name: "Charing Cross", dist: "4.9 KM" },
                     { name: "Tea Factory", dist: "7.4 KM" },
-                    { name: "Dodabetta View Point", dist: "11 KM" },
-                    { name: "Avalanche", dist: "22 KM" },
-                    { name: "Coonoor", dist: "21 KM" },
+                    { name: "Arboretum", dist: "11 KM" },
+                    { name: "Deer Park", dist: "22 KM" },
+                    { name: "Botanical Garden", dist: "21 KM" },
                     { name: "Deer Park", dist: "2.0 KM" },
                     { name: "Arboretum", dist: "1.5 KM" },
                   ].map((att) => (
@@ -261,7 +261,7 @@ export default function Home() {
                       <Star key={j} className={`w-3 sm:w-4 h-3 sm:h-4 ${j < r.rating ? "text-primary fill-primary" : "text-muted"}`} />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 mb-4 italic font-serif">"{r.text}"</p>
+                  <p className="text-xs sm:text-sm text-foreground/80 mb-4 italic">"{r.text}"</p>
                   <p className="label-caps text-[10px] sm:text-xs">{r.name}</p>
                 </div>
               </Reveal>
@@ -284,10 +284,9 @@ export default function Home() {
                     <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary font-bold mb-3 sm:mb-4 block">
                       {post.category} • {post.date}
                     </span>
-                    <h3 className="font-serif text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 group-hover:text-primary transition-colors">
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 group-hover:text-primary transition-colors">
                       {post.title}
                     </h3>
-                    <div className="h-px bg-border/50 w-full mb-3 sm:mb-4" />
                     <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                       Read More
                       <div className="h-0.5 w-4 bg-primary group-hover:w-8 transition-all duration-300" />
@@ -310,7 +309,7 @@ export default function Home() {
             <Accordion type="single" collapsible className="space-y-2">
               {faqs.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
-                  <AccordionTrigger className="text-left font-serif text-lg hover:text-primary transition-colors">
+                  <AccordionTrigger className="text-left text-lg hover:text-primary transition-colors">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="body-text text-sm">

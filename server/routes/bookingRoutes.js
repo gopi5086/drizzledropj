@@ -9,10 +9,6 @@ function validateBooking({ name, phone, email, location, roomType, adults }) {
   if (!name || !name.trim())                           errors.push("Name is required");
   if (!phone || !/^\+?[\d\s\-]{7,15}$/.test(phone))   errors.push("Invalid phone number");
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("Invalid email");
-  if (!["Drizzle Drop Inn Chennai", "Drizzle Drop Inn Ooty"].includes(location))
-                                                       errors.push("Invalid location");
-  if (!["Deluxe Room", "Standard Room", "Triple Room", "Family Room"].includes(roomType))
-                                                       errors.push("Invalid room type");
   if (!adults || Number(adults) < 1)                   errors.push("At least 1 adult required");
   return errors;
 }
@@ -184,10 +180,10 @@ router.post("/", async (req, res) => {
       name: name.trim(),
       phone: phone.trim(),
       email: email.trim().toLowerCase(),
-      location,
-      roomType,
-      adults: Number(adults),
-      children: Number(children),
+      location: location || "Not Specified",
+      roomType: roomType || "Deluxe Room",
+      adults: Number(adults) || 1,
+      children: Number(children) || 0,
     });
 
     // 3. Email to hotel (non-blocking — don't fail the request if email errors)
@@ -215,7 +211,7 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     console.error("Booking error:", err);
-    return res.status(500).json({ success: false, message: "Server error. Please try again." });
+    return res.status(500).json({ success: false, message: `Server error: ${err.message}` });
   }
 });
 

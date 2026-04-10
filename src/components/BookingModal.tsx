@@ -37,14 +37,13 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const response = await fetch("https://formsubmit.co/ajax/gngopinath24@gmail.com", {
+            const response = await fetch("/api/bookings", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",
                 },
                 body: JSON.stringify({
-                    _subject: "New Hotel Booking Request",
                     ...data,
                     location: bookingData.location,
                     checkIn: bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set",
@@ -56,10 +55,12 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
             if (response.ok) {
                 setSuccess(true);
             } else {
-                setError("Something went wrong. Please try again.");
+                const errorData = await response.json().catch(() => ({}));
+                const errorMessage = errorData?.errors?.join(", ") || errorData?.message || "Something went wrong. Please try again.";
+                setError(errorMessage);
             }
         } catch (err) {
-            setError("Failed to submit request. Please check your connection.");
+            setError(`Failed to submit request. Please check your connection. Error: ${err instanceof Error ? err.message : String(err)}`);
         } finally {
             setLoading(false);
         }

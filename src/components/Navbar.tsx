@@ -1,37 +1,86 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, UserCircle } from "lucide-react";
+import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail } from "lucide-react";
 import driLogo from "../assets/drilogo.png";
 import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
 
-const navLinks = [
-  { label: "Home", path: "/" },
-  { label: "Facilities", path: "/facilities" },
-  { label: "Room / Tariff", path: "/rooms" },
+const locations = [
   {
-    label: "Gallery",
-    path: "/gallery",
-    dropdown: [
-      { label: "Chennai", path: "/gallery?location=chennai" },
-      { label: "Ooty", path: "/gallery?location=ooty" },
-    ],
+    key: "chennai",
+    label: "Chennai – OMR",
+    path: "/chennai",
+    sublabel: "Thoriaipakkam, Chennai",
+    phone: "+91 86678 25086",
+    color: "#2E6B8A",
   },
-  { label: "Deals", path: "/deals" },
-  { label: "Dining", path: "/dining" },
-  { label: "Overview", path: "/overview" },
-  { label: "Contact", path: "#contact" },
+  {
+    key: "ooty",
+    label: "Ooty – Nilgiris",
+    path: "/ooty",
+    sublabel: "2 KM from Ooty Bus Stand",
+    phone: "+91 86678 25086",
+    color: "#3a7d5a",
+  },
 ];
 
 export default function Navbar() {
   const { openBooking } = useBooking();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  const location = useLocation();
+  const [locationOpen, setLocationOpen] = useState(false);
+  const [mobileLocOpen, setMobileLocOpen] = useState(false);
+  const locationDropRef = useRef<HTMLDivElement>(null);
+
+  // Determine current location key
+  const pathParts = location.pathname.split("/");
+  // First, check if the first part of path is a valid location key
+  let currentLocKey = locations.find(l => pathParts[1] === l.key)?.key;
+
+  // If not in URL, check localStorage
+  useEffect(() => {
+    if (!currentLocKey) {
+      const stored = localStorage.getItem("selectedLocation");
+      if (stored && locations.find(l => l.key === stored)) {
+        // We don't necessarily want to redirect, just store the key for links
+        // but if the user wants it to be dynamic, we need to know it.
+      }
+    } else {
+      localStorage.setItem("selectedLocation", currentLocKey);
+    }
+  }, [currentLocKey]);
+
+  // If we still don't have it (e.g. at root /), try to get from localStorage for link generation
+  const activeLocKey = currentLocKey || localStorage.getItem("selectedLocation") || "";
+
+  const getNavLinks = (locKey: string) => {
+    const prefix = locKey ? `/${locKey}` : "";
+    return [
+      { label: "Home", path: locKey ? `${prefix}` : "/" },
+      { label: "Rooms/Tariff", path: `${prefix}/rooms` },
+      { label: "Dining", path: `${prefix}/dining` },
+      // Special case: Chennai Facilities should go to /chennai/facilities
+      { label: "Facilities", path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities` },
+      { label: "About", path: `${prefix}/about` },
+      { label: "Deals", path: `${prefix}/deals` },
+      {
+        label: "Gallery",
+        path: `${prefix}/gallery`,
+        dropdown: locKey ? undefined : [
+          { label: "Chennai Gallery", path: "/chennai/gallery" },
+          { label: "Ooty Gallery", path: "/ooty/gallery" },
+        ],
+      },
+      { label: "Contact", path: locKey ? `${prefix}#contact` : "/contact" },
+    ];
+  };
+
+  const navLinks = getNavLinks(activeLocKey);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -41,16 +90,35 @@ export default function Navbar() {
 
   useEffect(() => { setMobileOpen(false); }, [location]);
 
-  // Over hero → transparent bg, white text
-  // After scroll → white/light bg, dark teal text
+  // Close location dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (locationDropRef.current && !locationDropRef.current.contains(e.target as Node)) {
+        setLocationOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
   const isTransparent = !scrolled && !mobileOpen;
+
+  const currentLocObj = locations.find((l) => activeLocKey === l.key);
+
+  const handleLocationSelect = (loc: any) => {
+    localStorage.setItem("selectedLocation", loc.key);
+    setLocationOpen(false);
+    setMobileLocOpen(false);
+  };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-        ? "bg-white/98 backdrop-blur-md shadow-md border-b border-[#2E6B8A]/15 py-2"
-        : "bg-black/10 backdrop-blur-sm py-4"
-        }`}
+      style={{ top: '2rem' }} // Push navbar below the sticky TopContactBar (height: 2rem = 32px)
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        scrolled
+          ? "bg-white/98 backdrop-blur-md shadow-md border-b border-[#2E6B8A]/15 py-2"
+          : "bg-black/10 backdrop-blur-sm py-4"
+      }`}
     >
       <div className="container-luxury flex items-center justify-between">
 
@@ -65,16 +133,74 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-0.5">
+          {/* Location Switcher */}
+          <div className="relative" ref={locationDropRef}>
+            <button
+              onClick={() => setLocationOpen(!locationOpen)}
+              className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${
+                currentLocObj
+                  ? isTransparent ? "text-[#C5A861]" : "text-[#C5A861]"
+                  : isTransparent
+                  ? "text-white/90 hover:text-white"
+                  : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+              }`}
+            >
+              <MapPin className="w-3.5 h-3.5 opacity-70" />
+              {currentLocObj ? currentLocObj.label : "Our Locations"}
+              <ChevronDown className={`w-3 h-3 opacity-70 transition-transform duration-300 ${locationOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            <AnimatePresence>
+              {locationOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-full left-0 mt-2 bg-white rounded-xl min-w-[240px] shadow-2xl border border-[#2E6B8A]/15 overflow-hidden"
+                >
+                  {locations.map((loc) => {
+                    const isActive = activeLocKey === loc.key;
+                    return (
+                      <Link
+                        key={loc.path}
+                        to={loc.path}
+                        onClick={() => handleLocationSelect(loc)}
+                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${
+                          isActive ? "bg-gray-50" : ""
+                        }`}
+                      >
+                        <div
+                          className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
+                          style={{ background: loc.color }}
+                        />
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-bold text-[#2a2a2a]">{loc.label}</span>
+                            {isActive && (
+                              <span className="text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full text-white" style={{ background: loc.color }}>
+                                Current
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">{loc.sublabel}</p>
+                          <p className="text-xs font-medium mt-0.5" style={{ color: loc.color }}>{loc.phone}</p>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Regular nav links */}
           {navLinks.map((link) => {
             const isHash = link.path.startsWith("#");
             const isActive = isHash ? false : location.pathname === link.path;
 
             const handleClick = (e: React.MouseEvent) => {
-              if (isHash && location.pathname === "/") {
-                e.preventDefault();
-                const el = document.getElementById(link.path.substring(1));
-                el?.scrollIntoView({ behavior: "smooth" });
-              } else if (link.path === "/" && location.pathname === "/") {
+              if (link.path === "/" && location.pathname === "/") {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
@@ -90,25 +216,23 @@ export default function Navbar() {
                 <Link
                   to={link.path}
                   onClick={handleClick}
-                  className={`px-3.5 py-2 text-sm font-semibold tracking-wide transition-all duration-300 relative group flex items-center gap-1 rounded-md ${isActive
-                    ? isTransparent
-                      ? "text-[#3a7d5a]"
-                      : "text-[#2E6B8A]"
-                    : isTransparent
+                  className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1 rounded-md ${
+                    isActive
+                      ? isTransparent ? "text-[#3a7d5a]" : "text-[#2E6B8A]"
+                      : isTransparent
                       ? "text-white/90 hover:text-white"
                       : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
-                    }`}
+                  }`}
                 >
                   {link.label}
                   {link.dropdown && <ChevronDown className="w-3 h-3 opacity-70" />}
-                  {/* Underline accent */}
                   <span
-                    className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
-                      }`}
+                    className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${
+                      isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
+                    }`}
                   />
                 </Link>
 
-                {/* Dropdown */}
                 {link.dropdown && (
                   <AnimatePresence>
                     {galleryOpen && (
@@ -117,13 +241,13 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 bg-white rounded-xl py-2 min-w-[160px] shadow-xl border border-[#2E6B8A]/15"
+                        className="absolute top-full left-0 mt-2 bg-white rounded-xl py-2 min-w-[200px] shadow-xl border border-[#2E6B8A]/15"
                       >
                         {link.dropdown.map((item) => (
                           <Link
                             key={item.path}
                             to={item.path}
-                            className="block px-5 py-2.5 text-sm text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/8 transition-colors font-medium"
+                            className="block px-5 py-2.5 text-sm text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/8 transition-colors font-medium text-center"
                           >
                             {item.label}
                           </Link>
@@ -137,17 +261,19 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right side: Book Now + Admin Icon + mobile toggle */}
+        {/* Right side */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => openBooking()}
-            className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${isTransparent
-              ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
-              : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
-              }`}
+            onClick={() => openBooking({ location: currentLocObj ? currentLocObj.label : undefined })}
+            className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${
+              isTransparent
+                ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
+                : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
+            }`}
           >
             Book Now
           </button>
+
           <button
             onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
             className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
@@ -159,10 +285,12 @@ export default function Navbar() {
           >
             <UserCircle className="w-5 h-5" />
           </button>
+
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`lg:hidden p-2 rounded-md transition-colors ${isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"
-              }`}
+            className={`lg:hidden p-2 rounded-md transition-colors ${
+              isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"
+            }`}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -179,14 +307,57 @@ export default function Navbar() {
             className="lg:hidden bg-white border-t border-[#2E6B8A]/15 overflow-hidden shadow-lg"
           >
             <nav className="container-luxury py-4 flex flex-col gap-1">
+
+              {/* Mobile Location Switcher */}
+              <div>
+                <button
+                  onClick={() => setMobileLocOpen(!mobileLocOpen)}
+                  className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-md text-[#2E6B8A] bg-[#2E6B8A]/5 mb-1"
+                >
+                  <span className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    {currentLocObj ? currentLocObj.label : "Our Locations"}
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${mobileLocOpen ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence>
+                  {mobileLocOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-3 mb-1 overflow-hidden"
+                    >
+                      {locations.map((loc) => (
+                        <Link
+                          key={loc.path}
+                          to={loc.path}
+                          onClick={() => handleLocationSelect(loc)}
+                          className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${
+                            activeLocKey === loc.key
+                              ? "font-bold"
+                              : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                          }`}
+                          style={activeLocKey === loc.key ? { color: loc.color, background: `${loc.color}10` } : {}}
+                        >
+                          <div className="font-semibold">{loc.label}</div>
+                          <div className="text-xs opacity-60">{loc.sublabel}</div>
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {navLinks.map((link) => (
                 <div key={link.path}>
                   <Link
                     to={link.path}
-                    className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${location.pathname === link.path
-                      ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
-                      : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
-                      }`}
+                    className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${
+                      location.pathname === link.path
+                        ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
+                        : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -205,11 +376,9 @@ export default function Navbar() {
                   )}
                 </div>
               ))}
+
               <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  openBooking();
-                }}
+                onClick={() => { setMobileOpen(false); openBooking(); }}
                 className="mt-3 mx-2 text-center px-6 py-3 bg-[#3a7d5a] text-white text-sm font-bold tracking-widest uppercase rounded-md hover:bg-[#3a7d5a] transition-colors"
               >
                 Book Now

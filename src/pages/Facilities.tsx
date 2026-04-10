@@ -1,42 +1,25 @@
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import {
-  Wifi, Car, Utensils, Flame, Droplets, Globe, Trophy, Baby,
-  Stethoscope, Key, Shirt, Sparkles, Zap, Coffee, Wind, Tv,
-  Shield, UserCheck, CheckCircle
-} from "lucide-react";
-
-// Original images from asset_images
+import { CheckCircle } from "lucide-react";
 import facilityHero from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (3).jpeg";
 import receptionImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).jpeg";
 import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).jpeg";
+import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
 
-const mainFacilities = [
-  { title: "CAR PARKING", icon: Car, desc: "Ample private secure parking" },
-  { title: "WIFI CONNECTIVITY", icon: Wifi, desc: "High-speed wireless internet" },
-  { title: "RESTAURANT", icon: Utensils, desc: "In-house rooftop multi-cuisine" },
-  { title: "HOT WATER", icon: Droplets, desc: "24 hours continuous supply" },
-  { title: "POWER BACKUP", icon: Zap, desc: "Full electricity backup" },
-  { title: "SMART TV", icon: Tv, desc: "Google TV entertainment" },
-];
-
-const additionalFacilities = [
-  { title: "BONFIRE", icon: Flame, desc: "Campfire at the lawn (Ooty)" },
-  { title: "KETTLE", icon: Coffee, desc: "In-room tea/coffee maker" },
-  { title: "LAUNDRY", icon: Shirt, desc: "Professional cleaning" },
-  { title: "TRAVEL DESK", icon: Globe, desc: "Tour and travel assistance" },
-  { title: "BASKETBALL", icon: Trophy, desc: "On-site sports facility" },
-  { title: "PLAY AREA", icon: Baby, desc: "Dedicated children area" },
-  { title: "ROOM HEATER", icon: Zap, desc: "Available for cold nights" },
-  { title: "TOILETRIES", icon: Sparkles, desc: "Premium bath amenities" },
-  { title: "HAIR DRYER", icon: Wind, desc: "Available on request" },
-  { title: "DOCTOR ON-CALL", icon: Stethoscope, desc: "Medical assistance" },
-  { title: "CAR RENTAL", icon: Key, desc: "Vehicle hire services" },
-  { title: "BARBEQUE", icon: Utensils, desc: "Special request dining" },
-];
+import { useParams } from "react-router-dom";
 
 export default function Facilities() {
+  const { locationId } = useParams();
+
+  const isOoty = locationId?.toLowerCase() === "ooty";
+  const isChennai = locationId?.toLowerCase() === "chennai";
+
+  // Facilities to show: Ooty gets all, Chennai gets only common
+  const facilitiesToShow = isOoty
+    ? [...commonFacilities, ...ootyExtraFacilities]
+    : commonFacilities;
+
   return (
     <div className="pt-20">
       {/* ── Hero Section ── */}
@@ -58,7 +41,7 @@ export default function Facilities() {
         <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
           <Reveal>
             <p className="label-caps text-[#C5A861] mb-3 sm:mb-4">World-Class Comfort</p>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl text-white font-bold mb-4 sm:mb-6">
               Our <span className="italic text-[#C5A861]">Facilities</span>
             </h1>
             <p className="text-white/70 max-w-2xl mx-auto text-xs sm:text-base md:text-lg leading-relaxed px-2">
@@ -68,25 +51,25 @@ export default function Facilities() {
         </div>
       </section>
 
-      {/* ── Main Amenities ── */}
+      {/* ── Facilities Section (Shared for both locations) ── */}
       <section className="section-padding bg-background">
         <div className="container-luxury">
           <Reveal width="100%">
             <SectionHeading
-              label="Standard Services"
-              title="Modern Comforts"
+              label="Our Facilities"
+              title={isOoty ? "Drizzledrop Inn Ooty" : isChennai ? "Drizzledrop Inn Chennai" : "Our Hotels"}
               subtitle="Every detail is curated to provide a hassle-free and luxurious experience."
             />
           </Reveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16">
-            {mainFacilities.map((f, i) => (
+            {facilitiesToShow.map((f, i) => (
               <Reveal key={f.title} delay={i * 0.1}>
                 <div className="group bg-white p-8 sm:p-10 rounded-xl sm:rounded-2xl border border-border/50 hover:border-[#C5A861]/40 transition-all duration-500 hover:shadow-2xl h-full">
                   <div className="h-12 sm:h-14 w-12 sm:w-14 bg-secondary/10 rounded-full flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-[#C5A861] group-hover:text-white transition-all duration-300">
                     <f.icon className="w-6 sm:w-7 h-6 sm:h-7" />
                   </div>
-                  <h3 className="font-serif text-lg sm:text-xl font-bold mb-2 sm:mb-3 tracking-tight">{f.title}</h3>
+                  <h3 className="text-lg sm:text-xl font-medium mb-2 sm:mb-3 tracking-tight">{f.title}</h3>
                   <p className="body-text text-xs sm:text-sm leading-relaxed">{f.desc}</p>
                 </div>
               </Reveal>
@@ -105,14 +88,14 @@ export default function Facilities() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 text-white">
                   <p className="text-xs sm:text-sm font-bold tracking-widest uppercase mb-1 sm:mb-2">Hospitality</p>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold">24/7 Assistance</h3>
+                  <h3 className="text-2xl sm:text-3xl font-medium">24/7 Assistance</h3>
                 </div>
               </div>
             </Reveal>
           </div>
           <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8">
             <Reveal>
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Service Above <br /><span className="italic text-[#C5A861]">Expectations</span></h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">Service Above <br /><span className="italic text-[#C5A861]">Expectations</span></h2>
               <p className="body-text text-sm md:text-base lg:text-lg leading-relaxed">
                 Our staff is dedicated to ensuring your stay is perfect. From the moment you check in at our premium reception desks until your departure, every request is handled with professional care.
               </p>
@@ -134,50 +117,8 @@ export default function Facilities() {
         </div>
       </section>
 
-      {/* ── More Facilities ── */}
-      <section className="section-padding">
-        <div className="container-luxury">
-          <Reveal width="100%">
-            <SectionHeading label="Extensive List" title="Everything You Need" />
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 sm:mt-12">
-            {additionalFacilities.map((f, i) => (
-              <Reveal key={f.title} delay={i * 0.05} direction="up">
-                <div className="bg-[#fcfcfc] border border-border/40 p-6 sm:p-8 rounded-lg sm:rounded-xl text-center hover:bg-white hover:shadow-lg transition-all transform hover:-translate-y-1">
-                  <f.icon className="w-5 sm:w-6 h-5 sm:h-6 mx-auto mb-3 sm:mb-4 text-[#C5A861]" />
-                  <h4 className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase mb-1 sm:mb-2">{f.title}</h4>
-                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">{f.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Safety & Standards ── */}
-      <section className="section-padding bg-[#0a0a0a] text-white">
-        <div className="container-luxury text-center max-w-4xl mx-auto">
-          <Reveal>
-            <Shield className="w-12 h-12 text-[#C5A861] mx-auto mb-8 opacity-60" />
-            <h2 className="font-serif text-4xl md:text-5xl font-bold mb-8">Your Safety is Our <span className="italic text-[#C5A861]">Prioritised Promise</span></h2>
-            <p className="text-white/60 text-lg leading-relaxed mb-12">
-              "We have formulated and enhanced our cleaning Operating Procedures at all our resorts which encompasses cleaning, sanitizing and checking, as a set of comprehensive procedures."
-            </p>
-            <div className="grid sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
-              <div className="p-10 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
-                <UserCheck className="w-10 h-10 text-[#C5A861] mx-auto mb-4" />
-                <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Sanitized Rooms</h4>
-                <p className="text-xs text-white/40">Complete medical-grade sanitization before check-in.</p>
-              </div>
-              <div className="p-10 border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
-                <Shield className="w-10 h-10 text-[#C5A861] mx-auto mb-4" />
-                <h4 className="font-bold mb-2 uppercase tracking-widest text-sm">Verified Staff</h4>
-                <p className="text-xs text-white/40">Highly trained professionals following safety protocols.</p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ── Safety & Standards section removed for DRY facilities data approach. Add back if needed. */}
+      
     </div>
   );
 }

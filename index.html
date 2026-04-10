@@ -3,20 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DrizzleDrop Hotels | Luxury Stay in Chennai & Ooty</title>
-    <meta name="description" content="Experience premium luxury hospitality at DrizzleDrop Hotels in Chennai and Ooty. Modern rooms, rooftop dining, valley views, and world-class service." />
-    <meta property="og:title" content="DrizzleDrop Hotels | Luxury Stay in Chennai & Ooty" />
-    <meta property="og:description" content="Premium hospitality across Chennai and Ooty. Where luxury meets comfort." />
-    <meta property="og:type" content="website" />
 
-    <link rel="canonical" href="https://drizzledrop.com" />
-    <link rel="icon" type="image/png" href="src/assets/drilogo.png" />
+    <!-- Default SEO (overridden per page by LocationPage.tsx useEffect) -->
+    <title>DrizzleDrop Hotels | Best Hotel in Chennai &amp; Ooty</title>
+    <meta name="description" content="DrizzleDrop Inn offers luxury hotel stays in Chennai (OMR IT Corridor) and Ooty (Nilgiris). Premium rooms, rooftop dining, private balconies &amp; world-class service. Book now!" />
+    <meta name="keywords" content="DrizzleDrop Inn, hotel in Chennai, hotel in Ooty, best hotel OMR Chennai, Ooty hill station hotel, Nilgiri hotel, luxury stay India" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="DrizzleDrop Hotels" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DrizzleDrop Hotels | Best Hotel in Chennai &amp; Ooty" />
+    <meta property="og:description" content="Premium hospitality at DrizzleDrop Inn – luxury stays in Chennai OMR and Ooty Nilgiris. Book your perfect getaway today." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.drizzledrop.com" />
+    <meta property="og:site_name" content="DrizzleDrop Hotels" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DrizzleDrop Hotels | Best Hotel in Chennai &amp; Ooty" />
+    <meta name="twitter:description" content="Luxury hotel stays in Chennai OMR and Ooty Nilgiris. Book your perfect escape at DrizzleDrop Inn." />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://www.drizzledrop.com" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/src/assets/drilogo.png" />
+
+    <!-- Preconnect for Google Fonts performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Organisation JSON-LD (site-wide) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Hotel",
+      "@type": "Organization",
       "name": "DrizzleDrop Hotels",
-      "description": "Premium luxury hotel chain in Chennai and Ooty, India"
+      "url": "https://www.drizzledrop.com",
+      "logo": "https://www.drizzledrop.com/src/assets/drilogo.png",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+91-86678-25086",
+          "contactType": "Reservations",
+          "areaServed": "IN",
+          "availableLanguage": ["English", "Tamil"]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/drizzledropinn",
+        "https://www.instagram.com/drizzledropinn"
+      ]
+    }
+    </script>
+
+    <!-- Breadcrumb JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drizzledrop.com" },
+        { "@type": "ListItem", "position": 2, "name": "Chennai", "item": "https://www.drizzledrop.com/chennai" },
+        { "@type": "ListItem", "position": 3, "name": "Ooty", "item": "https://www.drizzledrop.com/ooty" }
+      ]
     }
     </script>
   </head>

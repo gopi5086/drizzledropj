@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import SectionHeading from "@/components/SectionHeading";
 import { Heart, Clock, Sun } from "lucide-react";
 import ootyImg from "@/assets/ooty-valley.jpg";
@@ -34,11 +34,18 @@ const deals = [
 ];
 
 export default function Deals() {
+  const { locationId } = useParams<{ locationId?: string }>();
+  const loc = locationId ? locationId.toLowerCase() : "";
+
   return (
     <div className="pt-24">
       <section className="section-padding">
         <div className="container-luxury">
-          <SectionHeading label="Special Offers" title="Exclusive Deals" subtitle="Handpicked packages for unforgettable experiences" />
+          <SectionHeading
+            label={loc ? `${loc.charAt(0).toUpperCase() + loc.slice(1)} Offers` : "Special Offers"}
+            title={loc ? `${loc.charAt(0).toUpperCase() + loc.slice(1)} Deals` : "Exclusive Deals"}
+            subtitle="Handpicked packages for unforgettable experiences"
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {deals.map((deal, i) => (
               <motion.div
@@ -57,10 +64,10 @@ export default function Deals() {
                 </div>
                 <div className="p-4 sm:p-6 flex-1 flex flex-col">
                   <deal.icon className="w-5 sm:w-6 h-5 sm:h-6 text-primary mb-2 sm:mb-3" />
-                  <h3 className="font-serif text-lg sm:text-2xl font-semibold mb-1 sm:mb-2">{deal.title}</h3>
+                  <h3 className="text-lg sm:text-2xl font-medium mb-1 sm:mb-2">{deal.title}</h3>
                   <p className="body-text text-xs sm:text-sm mb-3 sm:mb-4 flex-1">{deal.desc}</p>
                   <div className="flex items-center justify-between gap-2 sm:gap-4">
-                    <span className="font-serif text-base sm:text-xl font-semibold text-primary">{deal.price}</span>
+                    <span className="text-base sm:text-xl font-medium text-primary">{deal.price}</span>
                     <Link
                       to="/rooms"
                       className="px-3 sm:px-5 py-1.5 sm:py-2 bg-primary text-primary-foreground text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-all duration-300 rounded"

@@ -110,10 +110,17 @@ const tabImages: Record<TabKey, string[]> = {
   ooty: ootyImages,
 };
 
+import { useParams } from "react-router-dom";
+
 export default function Gallery() {
+  const { locationId } = useParams();
   const [searchParams] = useSearchParams();
-  const initialTab = (searchParams.get("location") === "ooty" ? "ooty" : "all") as TabKey;
-  const [tab, setTab] = useState<TabKey>(initialTab);
+  
+  // Set initial tab based on params (URL path or query string)
+  const initialTabFromPath = locationId?.toLowerCase() === "ooty" ? "ooty" : locationId?.toLowerCase() === "chennai" ? "chennai" : null;
+  const initialTabFromSearch = searchParams.get("location") === "ooty" ? "ooty" : searchParams.get("location") === "chennai" ? "chennai" : "all";
+  
+  const [tab, setTab] = useState<TabKey>((initialTabFromPath || initialTabFromSearch) as TabKey);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
   const images = tabImages[tab];

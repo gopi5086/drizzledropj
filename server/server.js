@@ -6,6 +6,7 @@ const fs = require("fs");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const adRoutes = require("./routes/adRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 const Admin = require("./models/Admin");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/ads", adRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -57,7 +59,7 @@ const seedAdmin = async () => {
 connectDB().then(() => {
   seedAdmin();
   app.listen(PORT, () => {
-    console.log(`\n🏨 DrizzleDrop Server running on http://localhost:${PORT}`);
+    console.log(`\n🏨 DrizzleDrop Server running on localhost:${PORT}`);
     console.log(`📁 Uploads directory: ${uploadsDir}\n`);
   });
 });

@@ -13,11 +13,11 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       "/api": {
-        target: "https://drizzle-background-5.onrender.com",
+        target: "http://127.0.0.1:5000",
         changeOrigin: true,
       },
       "/uploads": {
-        target: "https://drizzle-background-5.onrender.com",
+        target: "http://127.0.0.1:5000",
         changeOrigin: true,
       },
     },
