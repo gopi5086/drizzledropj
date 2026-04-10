@@ -14,6 +14,8 @@ import Dining from "@/pages/Dining";
 import Deals from "@/pages/Deals";
 import About from "@/pages/About";
 import Overview from "@/pages/Overview";
+import Contact from "@/pages/Contact";
+import LocationPage from "@/components/LocationPage";
 import NotFound from "@/pages/NotFound";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
@@ -71,10 +73,7 @@ const NavigateToCanonical = () => {
   return <Navigate to={`/${locationId}`} replace />;
 };
 
-const NavigateToContact = () => {
-  const { locationId } = useParams();
-  return <Navigate to={`/${locationId}#contact`} replace />;
-};
+
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -109,10 +108,11 @@ const App = () => (
               <Route path="/:locationId/deals"      element={<Layout><Deals /></Layout>} />
               <Route path="/:locationId/gallery"    element={<Layout><Gallery /></Layout>} />
               <Route path="/:locationId/dining"     element={<Layout><Dining /></Layout>} />
-              <Route path="/:locationId/contact"    element={<NavigateToContact />} />
+              <Route path="/:locationId/contact"    element={<Layout><Contact /></Layout>} />
 
               {/* Shared pages */}
               <Route path="/"           element={<Layout><Home /></Layout>} />
+              <Route path="/contact"    element={<Layout><Contact /></Layout>} />
               <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
               <Route path="/rooms"      element={<Layout><Rooms /></Layout>} />
               <Route path="/gallery"    element={<Layout><Gallery /></Layout>} />

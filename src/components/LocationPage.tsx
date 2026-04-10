@@ -158,123 +158,52 @@ export default function LocationPage({ location }: Props) {
       {/* About Section */}
       <section id="about" className="section-padding" style={{ paddingTop: "clamp(5rem, 10vw, 7rem)" }}>
         <div className="container-luxury">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className={"max-w-6xl mx-auto"}>
             <Reveal delay={0.1} width="100%">
-              <div>
-                <p className="label-caps !text-[#C5A861] mb-4">{location.about.label}</p>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
+              <div className={"text-center flex flex-col items-center"}>
+                <p className={"label-caps !text-[#C5A861] mb-4 mx-auto"}>{location.about.label}</p>
+                <h2 className={"text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight max-w-4xl"}>
                   {location.about.title}
                 </h2>
-                <p className="body-text text-base leading-relaxed mb-10 text-muted-foreground">
+                <p className={"body-text text-base leading-relaxed mb-10 text-muted-foreground max-w-3xl text-lg"}>
                   {location.about.subtitle}
                 </p>
-                <div className="flex flex-col gap-5">
+                <div className={"grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 w-full text-left"}>
                   {location.about.features.map((f, i) => (
                     <Reveal key={f.title} delay={0.2 + i * 0.1}>
-                      <div className="flex gap-4 items-start">
+                      <div className={"flex gap-4 flex-col items-center text-center p-8 bg-white border border-[#3a7d5a]/10 rounded-3xl shadow-sm hover:shadow-[0_20px_40px_rgba(58,125,90,0.08)] hover:-translate-y-2 transition-all duration-300 h-full group"}>
                         <div
-                          className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                          style={{ background: `${accentColor}20` }}
+                          className={"flex items-center justify-center flex-shrink-0 w-16 h-16 rounded-[1rem] mx-auto mb-4 bg-[#f8faf9] group-hover:scale-110 transition-transform duration-300 shadow-inner border border-[#3a7d5a]/5"}
                         >
                           {(() => {
                             const Icon = featureIcons[i % featureIcons.length];
-                            return <Icon className="w-5 h-5" style={{ color: accentColor }} />;
+                            return <Icon className={"w-7 h-7"} style={{ color: accentColor }} />;
                           })()}
                         </div>
-                        <div>
-                          <h4 className="font-medium text-sm mb-1">{f.title}</h4>
-                          <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
+                        <div className={"w-full flex-1"}>
+                          <h4 className={"font-medium text-lg font-display font-bold mb-3 text-gray-900"}>{f.title}</h4>
+                          <p className={"text-xs text-muted-foreground leading-relaxed text-[14px] text-gray-600"}>{f.desc}</p>
                         </div>
                       </div>
                     </Reveal>
                   ))}
                 </div>
-                <div className="mt-10 flex gap-4">
+                <div className={"flex flex-wrap gap-4 mt-16 justify-center w-full"}>
                   <button
                     onClick={() => openBooking({ location: location.fullName })}
-                    className="px-7 py-3 text-white text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:opacity-90 hover:shadow-xl"
+                    className="px-8 py-3.5 text-white text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:opacity-90 hover:shadow-xl transform hover:-translate-y-0.5"
                     style={{ background: accentColor }}
                   >
                     Book Your Stay
                   </button>
                   <Link
-                    to={isChennai ? "/ooty/home" : "/chennai/home"}
-                    className="px-7 py-3 border text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:border-[#C5A861] hover:text-[#C5A861]"
+                    to={isChennai ? "/ooty" : "/chennai"}
+                    className="px-8 py-3.5 border text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:border-[#C5A861] hover:text-[#C5A861] hover:bg-[#C5A861]/5 transform hover:-translate-y-0.5"
                     style={{ borderColor: accentColor, color: accentColor }}
                   >
                     View {isChennai ? "Ooty" : "Chennai"} Property →
                   </Link>
                 </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.3} width="100%">
-              <div className="overflow-hidden rounded-2xl h-full flex items-center justify-center bg-[rgba(0,0,0,0.02)] p-4">
-                {isChennai ? (
-                  <div className="w-full h-full bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between">
-                    <div>
-                      <p className="label-caps text-[#C5A861] mb-3">Metropolitan Elegance</p>
-                      <h3 className="text-2xl font-bold mb-3">Where Business Meets Luxury</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        DrizzleDrop Inn Chennai is a sophisticated 3-star business hotel located at Thoriaipakkam on the OMR IT Corridor. Featuring 35 well-furnished rooms with panoramic terrace, rooftop dining, and multi-cuisine delicacies — designed for the modern professional.
-                      </p>
-
-                      <div className="space-y-3 mt-4">
-                        <div className="flex items-start gap-3">
-                          <MapPin className="w-5 h-5 text-[#2E6B8A] mt-1" />
-                          <div>
-                            <h4 className="font-medium">Prime OMR Location</h4>
-                            <p className="text-xs text-muted-foreground">Minutes from major IT parks, corporate offices, and Chennai's premier tech corridor.</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-3">
-                          <Star className="w-5 h-5 text-[#2E6B8A] mt-1" />
-                          <div>
-                            <h4 className="font-medium">Rooftop Dining</h4>
-                            <p className="text-xs text-muted-foreground">Enjoy multi-cuisine dining with panoramic city views from our exclusive rooftop restaurant.</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-3">
-                          <Shield className="w-5 h-5 text-[#2E6B8A] mt-1" />
-                          <div>
-                            <h4 className="font-medium">Business Ready</h4>
-                            <p className="text-xs text-muted-foreground">High-speed WiFi, 24-hour hot water, electricity backup, and secure parking for all guests.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-6 flex gap-3">
-                      <button
-                        onClick={() => openBooking({ location: location.fullName })}
-                        className="px-5 py-3 bg-[#2E6B8A] text-white rounded-md font-semibold hover:bg-[#255a75] transition"
-                      >
-                        Book Your Stay
-                      </button>
-
-                      <Link
-                        to="/ooty"
-                        className="px-5 py-3 border border-[#2E6B8A] text-[#2E6B8A] rounded-md font-semibold hover:bg-[#2E6B8A]/5 transition"
-                      >
-                        View Ooty Property →
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  location.gallery[0] ? (
-                    <img
-                      src={location.gallery[0].src}
-                      alt={location.gallery[0].alt}
-                      className="w-full h-full object-cover rounded-2xl"
-                    />
-                  ) : (
-                    <div className="p-8 text-center">
-                      <h4 className="text-lg font-semibold">{location.name}</h4>
-                      <p className="text-sm text-muted-foreground">{location.about.subtitle}</p>
-                    </div>
-                  )
-                )}
               </div>
             </Reveal>
           </div>
@@ -416,35 +345,37 @@ export default function LocationPage({ location }: Props) {
             <SectionHeading label="Find Us" title={`Explore ${location.name}`} />
           </Reveal>
           <div className={`grid ${location.nearbyAttractions ? "lg:grid-cols-3" : "lg:grid-cols-1"} gap-8`}>
-            <div className={location.nearbyAttractions ? "lg:col-span-2" : "w-full"}>
-              <Reveal delay={0.2} width="100%">
-                <div className="border border-border/50 overflow-hidden rounded-xl">
-                  <iframe
-                    title={`DrizzleDrop ${location.name}`}
-                    src={location.contact.mapEmbed}
-                    width="100%"
-                    height="350"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                  />
-                  <div className="p-4 bg-card border-t border-border/50">
-                    <h4 className="text-lg font-semibold">{location.fullName}</h4>
-                    <p className="text-sm text-muted-foreground mt-1">{location.contact.address}</p>
+            {location.key !== "ooty" && (
+              <div className={location.nearbyAttractions ? "lg:col-span-2" : "w-full"}>
+                <Reveal delay={0.2} width="100%">
+                  <div className="border border-border/50 overflow-hidden rounded-xl">
+                    <iframe
+                      title={`DrizzleDrop ${location.name}`}
+                      src={location.contact.mapEmbed}
+                      width="100%"
+                      height="350"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                    />
+                    <div className="p-4 bg-card border-t border-border/50">
+                      <h4 className="text-lg font-semibold">{location.fullName}</h4>
+                      <p className="text-sm text-muted-foreground mt-1">{location.contact.address}</p>
+                    </div>
                   </div>
-                </div>
-              </Reveal>
-            </div>
+                </Reveal>
+              </div>
+            )}
             {location.nearbyAttractions && (
               <Reveal delay={0.4} width="100%">
-                <div className="bg-secondary/10 p-6 sm:p-8 rounded-xl border border-border/50 h-full">
+                <div className={`bg-secondary/10 p-6 sm:p-8 rounded-xl border border-border/50 h-full ${location.key === 'ooty' ? 'col-span-1 lg:col-span-3 max-w-4xl mx-auto w-full' : ''}`}>
                   <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
                     <MapPin className="w-5 h-5 text-primary" />
                     Nearby Attractions
                   </h3>
-                  <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2">
+                  <div className={`space-y-3 ${location.key === 'ooty' ? 'grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2' : 'max-h-[350px] overflow-y-auto pr-2'}`}>
                     {location.nearbyAttractions.map((att) => (
-                      <div key={att.name} className="flex justify-between items-center text-sm border-b border-border/20 pb-2">
+                      <div key={att.name} className="flex justify-between items-center text-sm border-b border-border/20 pb-2 mb-2">
                         <span className="font-medium">{att.name}</span>
                         <span className="text-muted-foreground text-xs">{att.dist}</span>
                       </div>
@@ -479,33 +410,172 @@ export default function LocationPage({ location }: Props) {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="section-padding bg-card/50">
-        <div className="container-luxury">
-          <Reveal width="100%">
-            <SectionHeading label="Get in Touch" title={`Contact ${location.name} Property`} />
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-10">
-            {[
-              { icon: MessageCircle, label: "WhatsApp", value: location.contact.phone, href: location.contact.whatsapp },
-              { icon: Mail, label: "Email", value: location.contact.email, href: `mailto:${location.contact.email}` },
-              { icon: Phone, label: "Phone", value: location.contact.phone, href: `tel:${location.contact.phone}` },
-            ].map(({ icon: Icon, label, value, href }, i) => (
-              <Reveal key={label} delay={0.2 + i * 0.1}>
-                <a
-                  href={href}
-                  className="glass-card p-6 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow block h-full"
-                >
-                  <Icon className="w-8 h-8 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
-                  <p className="label-caps mb-1">{label}</p>
-                  <p className="text-sm text-foreground/80">{value}</p>
-                </a>
+      {location.key === "ooty" ? (
+        <section id="contact" className="bg-[#f8faf9] relative pb-20 mt-10 scroll-mt-28">
+          {/* Header Section (Hero Style) */}
+          <div className="relative pt-24 pb-32 overflow-hidden border-t border-[#3a7d5a]/10">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#1a3324] to-[#254d36]" />
+            <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center mix-blend-screen" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f8faf9]" />
+            <div className="container-luxury relative z-10 text-center">
+              <Reveal delay={0.1} width="100%">
+                <div className="max-w-4xl mx-auto space-y-6">
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#C5A861] drop-shadow-lg px-4 leading-tight">
+                    Connecting You from Inquiries to Reservations
+                  </h2>
+                  <p className="text-white text-lg md:text-xl font-medium leading-relaxed px-4 opacity-95">
+                    Feel free to reach out with any questions or feedback. We'd love to hear from you!
+                  </p>
+                </div>
               </Reveal>
-            ))}
+              <Reveal delay={0.3} width="100%">
+                <h3 className="text-sm md:text-base font-display font-bold text-white/60 mt-12 tracking-[0.25em] uppercase">
+                  Contact Us – DrizzleDrop Inn, Ooty
+                </h3>
+              </Reveal>
+            </div>
           </div>
-        </div>
-      </section>
 
+          <div className="container-luxury relative z-20 -mt-20">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 bg-white p-6 md:p-10 rounded-[2rem] shadow-[0_20px_50px_rgba(58,125,90,0.1)] border border-[#3a7d5a]/10">
+              
+              {/* Contact Information Cards */}
+              <div className="lg:col-span-2 space-y-5">
+                <Reveal delay={0.3}>
+                  <div className="bg-[#f3f7f5] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-lg transition-all duration-300 group border border-[#3a7d5a]/5 hover:border-[#3a7d5a]/20">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform transform-gpu text-[#3a7d5a]">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Address</h4>
+                      <p className="text-gray-600 leading-relaxed text-sm lg:text-base font-medium">
+                        DrizzleDrop Inn<br />
+                        215 H, Dispensary Road,<br />
+                        Fern Hill, Ooty,<br />
+                        Tamil Nadu – 643004
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
 
+                <Reveal delay={0.4}>
+                  <div className="bg-[#f3f7f5] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-lg transition-all duration-300 group border border-[#3a7d5a]/5 hover:border-[#3a7d5a]/20">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform transform-gpu text-[#3a7d5a]">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div className="w-full">
+                      <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Phone Numbers</h4>
+                      <div className="space-y-1">
+                        <a href="tel:+919150486153" className="block text-gray-600 hover:text-[#3a7d5a] transition-colors text-sm lg:text-base font-medium">+91 91504 86153</a>
+                        <a href="tel:+919962822355" className="block text-gray-600 hover:text-[#3a7d5a] transition-colors text-sm lg:text-base font-medium">+91 9962822355</a>
+                        <a href="tel:+919884912880" className="block text-gray-600 hover:text-[#3a7d5a] transition-colors text-sm lg:text-base font-medium">+91 9884912880</a>
+                      </div>
+                      <h4 className="font-bold text-gray-900 mt-5 mb-2 font-display text-lg">Landline</h4>
+                      <a href="tel:+914232440552" className="block text-gray-600 hover:text-[#3a7d5a] transition-colors text-sm lg:text-base font-medium">+91 423 2440552</a>
+                    </div>
+                  </div>
+                </Reveal>
+
+                <Reveal delay={0.5}>
+                  <div className="bg-[#f3f7f5] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-lg transition-all duration-300 group border border-[#3a7d5a]/5 hover:border-[#3a7d5a]/20">
+                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform transform-gpu text-[#3a7d5a]">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Email</h4>
+                      <a href="mailto:stay@drizzledropinn.com" className="text-gray-600 hover:text-[#3a7d5a] transition-colors text-sm lg:text-base font-medium break-all block">
+                        stay@drizzledropinn.com
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Map & CTA Area */}
+              <div className="lg:col-span-3 flex flex-col gap-6">
+                <Reveal delay={0.4} className="flex-1 min-h-[350px] relative">
+                  <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden group border border-[#3a7d5a]/20 shadow-md">
+                    <iframe
+                      title="DrizzleDrop Inn Ooty Location"
+                      src={location.contact.mapEmbed}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, filter: 'contrast(1.05) brightness(0.95)' }}
+                      allowFullScreen
+                      loading="lazy"
+                      className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 right-4 animate-fade-in-slow">
+                      <div className="bg-white/90 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-[#3a7d5a] px-4 py-2 rounded-full shadow-lg border border-[#3a7d5a]/10 flex items-center gap-2">
+                        <ZoomIn className="w-3.5 h-3.5" /> Map View
+                      </div>
+                    </div>
+                    <div className="absolute bottom-5 left-5 right-5 flex justify-center">
+                      <a 
+                        href="https://maps.app.goo.gl/UFnT4QX2u6FcCYZk7" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="bg-white/95 backdrop-blur-md text-[#3a7d5a] px-7 py-3.5 rounded-full font-bold shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(58,125,90,0.3)] hover:bg-[#3a7d5a] hover:text-white transition-all duration-300 flex items-center gap-2 text-sm uppercase tracking-widest transform hover:-translate-y-1"
+                      >
+                        <MapPin className="w-4 h-4" /> Get Directions
+                      </a>
+                    </div>
+                  </div>
+                </Reveal>
+
+                {/* Call-to-Action Section */}
+                <Reveal delay={0.6}>
+                  <div className="bg-gradient-to-br from-[#3a7d5a] to-[#25523a] p-8 md:p-10 rounded-[1.5rem] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden group">
+                     {/* Decorative background circle */}
+                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full mix-blend-overlay group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+                     <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#C5A861]/10 rounded-full mix-blend-overlay group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+                     
+                     <div className="relative z-10 text-center sm:text-left w-full sm:w-auto">
+                       <h3 className="text-white text-2xl md:text-3xl font-bold mb-2 font-display">Ready to visit Ooty?</h3>
+                       <p className="text-white/80 text-sm md:text-base">Secure your reservation or drop us a message.</p>
+                     </div>
+                     <div className="relative z-10 flex flex-col sm:flex-row w-full sm:w-auto gap-4">
+                       <a href="mailto:stay@drizzledropinn.com" className="w-full sm:w-auto px-7 py-3.5 border border-white/30 text-white rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-white hover:text-[#3a7d5a] hover:border-transparent transition-all shadow-sm transform hover:-translate-y-0.5 text-center">
+                         Send an Inquiry
+                       </a>
+                       <button onClick={() => openBooking({ location: location.fullName })} className="w-full sm:w-auto px-7 py-3.5 bg-[#C5A861] text-white rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-white hover:text-[#C5A861] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                         Book Your Stay
+                       </button>
+                     </div>
+                  </div>
+                </Reveal>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section id="contact" className="section-padding bg-card/50 scroll-mt-28">
+          <div className="container-luxury">
+            <Reveal width="100%">
+              <SectionHeading label="Get in Touch" title={`Contact ${location.name} Property`} />
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mt-10">
+              {[
+                { icon: MessageCircle, label: "WhatsApp", value: location.contact.phone, href: location.contact.whatsapp },
+                { icon: Mail, label: "Email", value: location.contact.email, href: `mailto:${location.contact.email}` },
+                { icon: Phone, label: "Phone", value: location.contact.phone, href: `tel:${location.contact.phone}` },
+              ].map(({ icon: Icon, label, value, href }, i) => (
+                <Reveal key={label} delay={0.2 + i * 0.1}>
+                  <a
+                    href={href}
+                    className="glass-card p-6 text-center group hover:border-primary/30 transition-all duration-500 hover-gold-glow block h-full"
+                  >
+                    <Icon className="w-8 h-8 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
+                    <p className="label-caps mb-1">{label}</p>
+                    <p className="text-sm text-foreground/80">{value}</p>
+                  </a>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

@@ -76,7 +76,7 @@ export default function Navbar() {
           { label: "Ooty Gallery", path: "/ooty/gallery" },
         ],
       },
-      { label: "Contact", path: locKey ? `${prefix}#contact` : "/contact" },
+      { label: "Contact", path: `${prefix}/contact` },
     ];
   };
 

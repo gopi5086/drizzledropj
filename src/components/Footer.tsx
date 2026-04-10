@@ -47,13 +47,7 @@ export default function Footer() {
               alt="DrizzleDrop Hotels Logo"
               className="h-12 sm:h-16 mb-4 sm:mb-6 object-contain"
             />
-            <p className="text-xs sm:text-sm text-black/60 leading-relaxed max-w-xs">
-              {currentLocKey === "chennai" 
-                ? "Hassle-free accommodation for your business stay in Chennai. Experience professional hospitality in its purest form."
-                : currentLocKey === "ooty"
-                ? "Experience nature and hospitality in its purest form at our scenic Ooty property. Your perfect vacation sanctuary."
-                : "Hassle-free accommodation for your business stay in Chennai and vacation in scenic Ooty. Experience nature and hospitality in its purest form."}
-            </p>
+
             <div className="flex gap-3 sm:gap-4 mt-6 sm:mt-8">
               {socialLinks.map(({ icon: Icon, href, label }) => (
                 <a
