@@ -99,7 +99,7 @@ export const chennaiData: LocationConfig = {
   key: "chennai",
   name: "Chennai",
   fullName: "DrizzleDrop Inn, Chennai",
-  tagline: "Sophisticated Business Stay in the OMR IT Corridor",
+  tagline: "Comfort and Convenience, Your Perfect Stay in Chennai.",
   heroSlides: [
     { image: chennaiHero1, location: "Chennai", tagline: "Sophisticated Business Stay" },
     { image: chennaiHero2, location: "OMR Corridor", tagline: "Modern Urban Luxury" },
@@ -107,14 +107,15 @@ export const chennaiData: LocationConfig = {
     { image: chennaiHero4, location: "DrizzleDrop", tagline: "Comfort in Every Corner" },
   ],
   about: {
-    label: "Metropolitan Elegance",
-    title: "Where Business Meets Luxury",
+    label: "A Premier 3-Star Business Hotel",
+    title: "DrizzleDrop Inn, Chennai",
     subtitle:
-      "DrizzleDrop Inn Chennai is a sophisticated 3-star business hotel located at Thoriaipakkam on the OMR IT Corridor. Featuring 35 well-furnished rooms with panoramic terrace, rooftop dining, and multi-cuisine delicacies — designed for the modern professional.",
+      "Discover hassle-free accommodation in the heart of Chennai at DrizzleDrop Inn, a modern 3-star property ideal for both business travelers and vacationers. Perfectly situated in the city center at Thoriaipakkam, the hotel places you at the core of Chennai’s vibrant business and shopping districts. Experience the art of hospitality at DrizzleDrop Inn, Chennai — where modern comfort meets traditional warmth.",
     features: [
-      { title: "Prime OMR Location", desc: "Minutes from major IT parks, corporate offices, and Chennai's premier tech corridor." },
-      { title: "Rooftop Dining", desc: "Enjoy multi-cuisine dining with panoramic city views from our exclusive rooftop restaurant." },
-      { title: "Business Ready", desc: "High-speed WiFi, 24-hour hot water, electricity backup, and secure parking for all guests." },
+      { title: "Prime Location", desc: "Strategically located on Rajiv Gandhi Salai (OMR IT Corridor), just a 30-minute drive from Chennai Airport. Close to major IT hubs, Dakshina Chitra, ECR, and theme parks." },
+      { title: "Comfort & Luxury", desc: "Experience upscale comfort with 35 beautifully appointed rooms and suites, each offering panoramic views from the terrace and modern amenities like flat-screen Google TVs." },
+      { title: "Facilities & Services", desc: "Rooftop restaurant with panoramic views, state-of-the-art Wi-Fi, 24-hour room service, laundry, and essential facilities including electricity backup and secure parking." },
+      { title: "Business & Leisure", desc: "Enjoy a relaxing stay with facilities designed for your comfort and convenience. The hotel also offers car rental services, ensuring a seamless experience." },
     ],
   },
   rooms: [
@@ -183,7 +184,7 @@ export const ootyData: LocationConfig = {
   key: "ooty",
   name: "Ooty",
   fullName: "DrizzleDrop Inn, Ooty",
-  tagline: "Enchanting Hill-Station Escape in the Nilgiris",
+  tagline: "Unwind with Panoramic Hill Views and the Magic of the Nilgiris.",
   heroSlides: [
     { image: ootyHero1, location: "Ooty", tagline: "Enchanting Nature Escapes" },
     { image: ootyHero2, location: "Nilgiris", tagline: "Where Mist Meets Mountain" },

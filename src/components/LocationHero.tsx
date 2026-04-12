@@ -122,10 +122,10 @@ export default function LocationHero({ location }: Props) {
             className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1] sm:leading-[1.1] md:leading-[0.9] text-white"
             style={{ fontWeight: 700, letterSpacing: "-0.02em" }}
           >
-            Welcome to DrizzleDrop Inn
+            Welcome to DrizzleDrop Inn,
             <br />
             <span className="italic bg-gradient-to-r from-[#C5A861] via-[#EBD5A3] to-[#C5A861] bg-clip-text text-transparent filter drop-shadow-[0_2px_15px_rgba(197,168,97,0.3)]">
-              {location.name}
+              {location.name.toUpperCase()}
             </span>
           </motion.h1>
         </div>

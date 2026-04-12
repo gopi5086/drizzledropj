@@ -168,12 +168,12 @@ export default function LocationPage({ location }: Props) {
                 <p className={"body-text text-base leading-relaxed mb-10 text-muted-foreground max-w-3xl text-lg"}>
                   {location.about.subtitle}
                 </p>
-                <div className={"grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 w-full text-left"}>
+                <div className={`grid grid-cols-1 md:grid-cols-2 ${location.about.features.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-8 mt-8 w-full text-left`}>
                   {location.about.features.map((f, i) => (
                     <Reveal key={f.title} delay={0.2 + i * 0.1}>
-                      <div className={"flex gap-4 flex-col items-center text-center p-8 bg-white border border-[#3a7d5a]/10 rounded-3xl shadow-sm hover:shadow-[0_20px_40px_rgba(58,125,90,0.08)] hover:-translate-y-2 transition-all duration-300 h-full group"}>
+                      <div className={`flex gap-4 flex-col items-center text-center p-8 bg-white border rounded-3xl shadow-sm hover:-translate-y-2 transition-all duration-300 h-full group ${isChennai ? 'border-[#2E6B8A]/10 hover:shadow-[0_20px_40px_rgba(46,107,138,0.08)]' : 'border-[#3a7d5a]/10 hover:shadow-[0_20px_40px_rgba(58,125,90,0.08)]'}`}>
                         <div
-                          className={"flex items-center justify-center flex-shrink-0 w-16 h-16 rounded-[1rem] mx-auto mb-4 bg-[#f8faf9] group-hover:scale-110 transition-transform duration-300 shadow-inner border border-[#3a7d5a]/5"}
+                          className={`flex items-center justify-center flex-shrink-0 w-16 h-16 rounded-[1rem] mx-auto mb-4 bg-[#f8faf9] group-hover:scale-110 transition-transform duration-300 shadow-inner border ${isChennai ? 'border-[#2E6B8A]/5' : 'border-[#3a7d5a]/5'}`}
                         >
                           {(() => {
                             const Icon = featureIcons[i % featureIcons.length];

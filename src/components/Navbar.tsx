@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail } from "lucide-re
 import driLogo from "../assets/drilogo.png";
 import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
+import { useLocationContext } from "@/context/LocationContext";
 
 const locations = [
   {
@@ -37,36 +38,30 @@ export default function Navbar() {
   const [mobileLocOpen, setMobileLocOpen] = useState(false);
   const locationDropRef = useRef<HTMLDivElement>(null);
 
-  // Determine current location key
+  const { currentLocation, setCurrentLocation } = useLocationContext();
+
+  // Determine current location key from URL
   const pathParts = location.pathname.split("/");
-  // First, check if the first part of path is a valid location key
-  let currentLocKey = locations.find(l => pathParts[1] === l.key)?.key;
+  const currentLocKey = locations.find(l => pathParts[1] === l.key)?.key;
 
-  // If not in URL, check localStorage
+  // Sync valid URL location to context
   useEffect(() => {
-    if (!currentLocKey) {
-      const stored = localStorage.getItem("selectedLocation");
-      if (stored && locations.find(l => l.key === stored)) {
-        // We don't necessarily want to redirect, just store the key for links
-        // but if the user wants it to be dynamic, we need to know it.
-      }
-    } else {
-      localStorage.setItem("selectedLocation", currentLocKey);
+    if (currentLocKey && currentLocKey !== currentLocation) {
+      setCurrentLocation(currentLocKey as any);
     }
-  }, [currentLocKey]);
+  }, [currentLocKey, currentLocation, setCurrentLocation]);
 
-  // If we still don't have it (e.g. at root /), try to get from localStorage for link generation
-  const activeLocKey = currentLocKey || localStorage.getItem("selectedLocation") || "";
+  const activeLocKey = currentLocKey || currentLocation || "";
 
   const getNavLinks = (locKey: string) => {
     const prefix = locKey ? `/${locKey}` : "";
     return [
       { label: "Home", path: locKey ? `${prefix}` : "/" },
-      { label: "Rooms/Tariff", path: `${prefix}/rooms` },
+      { label: "Rooms & Tariff", path: `${prefix}/rooms` },
       { label: "Dining", path: `${prefix}/dining` },
       // Special case: Chennai Facilities should go to /chennai/facilities
       { label: "Facilities", path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities` },
-      { label: "About", path: `${prefix}/about` },
+      { label: locKey === "chennai" ? "About" : "About", path: `${prefix}/about` },
       { label: "Deals", path: `${prefix}/deals` },
       {
         label: "Gallery",
@@ -106,7 +101,7 @@ export default function Navbar() {
   const currentLocObj = locations.find((l) => activeLocKey === l.key);
 
   const handleLocationSelect = (loc: any) => {
-    localStorage.setItem("selectedLocation", loc.key);
+    setCurrentLocation(loc.key);
     setLocationOpen(false);
     setMobileLocOpen(false);
   };
@@ -114,11 +109,10 @@ export default function Navbar() {
   return (
     <header
       style={{ top: '2rem' }} // Push navbar below the sticky TopContactBar (height: 2rem = 32px)
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
           ? "bg-white/98 backdrop-blur-md shadow-md border-b border-[#2E6B8A]/15 py-2"
           : "bg-black/10 backdrop-blur-sm py-4"
-      }`}
+        }`}
     >
       <div className="container-luxury flex items-center justify-between">
 
@@ -137,13 +131,12 @@ export default function Navbar() {
           <div className="relative" ref={locationDropRef}>
             <button
               onClick={() => setLocationOpen(!locationOpen)}
-              className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${
-                currentLocObj
+              className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
                   ? isTransparent ? "text-[#C5A861]" : "text-[#C5A861]"
                   : isTransparent
-                  ? "text-white/90 hover:text-white"
-                  : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
-              }`}
+                    ? "text-white/90 hover:text-white"
+                    : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+                }`}
             >
               <MapPin className="w-3.5 h-3.5 opacity-70" />
               {currentLocObj ? currentLocObj.label : "Our Locations"}
@@ -166,9 +159,8 @@ export default function Navbar() {
                         key={loc.path}
                         to={loc.path}
                         onClick={() => handleLocationSelect(loc)}
-                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${
-                          isActive ? "bg-gray-50" : ""
-                        }`}
+                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${isActive ? "bg-gray-50" : ""
+                          }`}
                       >
                         <div
                           className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
@@ -216,20 +208,18 @@ export default function Navbar() {
                 <Link
                   to={link.path}
                   onClick={handleClick}
-                  className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1 rounded-md ${
-                    isActive
+                  className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1 rounded-md ${isActive
                       ? isTransparent ? "text-[#3a7d5a]" : "text-[#2E6B8A]"
                       : isTransparent
-                      ? "text-white/90 hover:text-white"
-                      : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
-                  }`}
+                        ? "text-white/90 hover:text-white"
+                        : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+                    }`}
                 >
                   {link.label}
                   {link.dropdown && <ChevronDown className="w-3 h-3 opacity-70" />}
                   <span
-                    className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${
-                      isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
-                    }`}
+                    className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
+                      }`}
                   />
                 </Link>
 
@@ -265,22 +255,20 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => openBooking({ location: currentLocObj ? currentLocObj.label : undefined })}
-            className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${
-              isTransparent
+            className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${isTransparent
                 ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
                 : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
-            }`}
+              }`}
           >
             Book Now
           </button>
 
           <button
             onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
-            className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
-              isTransparent
+            className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${isTransparent
                 ? "bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
                 : "bg-[#2E6B8A]/10 hover:bg-[#2E6B8A]/20 text-[#2E6B8A]"
-            }`}
+              }`}
             title="Admin Panel"
           >
             <UserCircle className="w-5 h-5" />
@@ -288,9 +276,8 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`lg:hidden p-2 rounded-md transition-colors ${
-              isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"
-            }`}
+            className={`lg:hidden p-2 rounded-md transition-colors ${isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"
+              }`}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -333,11 +320,10 @@ export default function Navbar() {
                           key={loc.path}
                           to={loc.path}
                           onClick={() => handleLocationSelect(loc)}
-                          className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${
-                            activeLocKey === loc.key
+                          className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${activeLocKey === loc.key
                               ? "font-bold"
                               : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
-                          }`}
+                            }`}
                           style={activeLocKey === loc.key ? { color: loc.color, background: `${loc.color}10` } : {}}
                         >
                           <div className="font-semibold">{loc.label}</div>
@@ -353,11 +339,10 @@ export default function Navbar() {
                 <div key={link.path}>
                   <Link
                     to={link.path}
-                    className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${
-                      location.pathname === link.path
+                    className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${location.pathname === link.path
                         ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
                         : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>

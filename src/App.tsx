@@ -23,6 +23,7 @@ import AdminRoute from "@/components/AdminRoute";
 import SocialFloatingIcons from "@/components/SocialFloatingIcons";
 import { BookingProvider } from "@/context/BookingContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LocationProvider, RootLocationRedirect } from "@/context/LocationContext";
 import BookingModal from "@/components/BookingModal";
 import { useBooking } from "@/context/BookingContext";
 import { locationMap } from "@/data/locationData";
@@ -83,6 +84,7 @@ const App = () => (
       <AuthProvider>
         <BookingProvider>
           <BrowserRouter>
+            <LocationProvider>
             <Routes>
               {/* Admin routes – no Layout */}
               <Route path="/admin" element={<AdminLogin />} />
@@ -111,7 +113,7 @@ const App = () => (
               <Route path="/:locationId/contact"    element={<Layout><Contact /></Layout>} />
 
               {/* Shared pages */}
-              <Route path="/"           element={<Layout><Home /></Layout>} />
+              <Route path="/"           element={<RootLocationRedirect><Layout><Home /></Layout></RootLocationRedirect>} />
               <Route path="/contact"    element={<Layout><Contact /></Layout>} />
               <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
               <Route path="/rooms"      element={<Layout><Rooms /></Layout>} />
@@ -123,6 +125,7 @@ const App = () => (
             </Routes>
             <SocialFloatingIcons />
             <GlobalBookingModal />
+            </LocationProvider>
           </BrowserRouter>
         </BookingProvider>
       </AuthProvider>
