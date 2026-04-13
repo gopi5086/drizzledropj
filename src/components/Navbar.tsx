@@ -110,10 +110,9 @@ export default function Navbar() {
 
   return (
     <header
-      style={{ top: scrolled ? '0' : '2.25rem' }} // Synchronized with TopContactBar height (36px = 2.25rem)
-      className={`fixed left-0 right-0 z-40 transition-all duration-300 ${scrolled
-        ? "bg-white/98 backdrop-blur-md shadow-lg border-b border-[#2E6B8A]/15 py-1.5"
-        : "bg-black/20 backdrop-blur-sm py-3"
+      className={`fixed left-0 right-0 z-[100] transition-all duration-300 ${scrolled
+        ? "top-0 bg-white/98 backdrop-blur-md shadow-lg border-b border-[#2E6B8A]/15 py-1.5"
+        : "top-[92px] md:top-9 bg-black/20 backdrop-blur-sm py-3"
         }`}
     >
       <div className="container-luxury flex items-center justify-between">
@@ -123,7 +122,7 @@ export default function Navbar() {
           <img
             src={driLogo}
             alt="DrizzleDrop Inn"
-            className="h-[60px] lg:h-[72px] w-auto object-contain"
+            className="h-[48px] sm:h-[60px] lg:h-[72px] w-auto object-contain"
           />
         </Link>
 

@@ -13,7 +13,11 @@ interface Deal {
   isPopup: boolean;
 }
 
-const BACKEND_BASE = window.location.hostname === "localhost" ? "http://localhost:5000" : "https://drizzle-background-5.onrender.com";
+const IS_LOCAL = window.location.hostname === "localhost" || 
+                 window.location.hostname === "127.0.0.1" || 
+                 window.location.hostname.startsWith("192.168.") || 
+                 window.location.hostname.startsWith("10.");
+const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzledropj-1.onrender.com";
 
 export default function DealPopup() {
   const [deal, setDeal] = useState<Deal | null>(null);
@@ -30,15 +34,20 @@ export default function DealPopup() {
           const popupDeal = deals.find((d: any) => d.isPopup);
           if (popupDeal) {
             setDeal(popupDeal);
-            // Show after a short delay
-            setTimeout(() => setIsOpen(true), 3000);
-          }
+            try {
+              localStorage.setItem("drizzledrop_peak_deal", JSON.stringify(popupDeal));
+            } catch (e) {
+              console.warn("Deal storage quota exceeded");
+            }
+            // Show after a short delay if not already open from cache
+            if (!isOpen) setTimeout(() => setIsOpen(true), 2500);
+          } else {       }
         }
       } catch (error) {
         console.error("Failed to fetch popup deal:", error);
       }
     };
-    
+
     fetchPopupDeal();
   }, []);
 
@@ -55,7 +64,7 @@ export default function DealPopup() {
             className="relative w-full max-w-lg bg-white rounded-3xl overflow-hidden shadow-2xl border border-primary/20"
           >
             {/* Close Button */}
-            <button 
+            <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 z-10 p-2 bg-black/20 hover:bg-black/40 text-white rounded-full backdrop-blur-md transition-colors"
             >
@@ -64,11 +73,16 @@ export default function DealPopup() {
 
             {/* Image Section */}
             <div className="relative aspect-video">
-              <img src={deal.image} alt={deal.title} className="w-full h-full object-cover" />
+              <img 
+                src={deal.image} 
+                alt={deal.title} 
+                className="w-full h-full object-cover" 
+                onError={() => setIsOpen(false)}
+              />
               <div className="absolute top-4 left-4">
-                 <span className="bg-red-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
-                    HOT OFFER
-                 </span>
+                <span className="bg-red-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+                  HOT OFFER
+                </span>
               </div>
             </div>
 
@@ -80,17 +94,17 @@ export default function DealPopup() {
                   {deal.dealType.replace(/([A-Z])/g, ' $1').trim()}
                 </div>
               </div>
-              
+
               <h2 className="text-3xl font-bold mb-3 font-serif text-gray-900">
                 {deal.title}
               </h2>
-              
+
               <p className="text-muted-foreground mb-8 text-sm leading-relaxed">
                 {deal.description}
               </p>
 
               <div className="flex flex-col gap-3">
-                <button 
+                <button
                   onClick={() => {
                     openBooking();
                     setIsOpen(false);
@@ -100,7 +114,7 @@ export default function DealPopup() {
                   CLAIM {deal.discountPercentage}% DISCOUNT NOW
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button 
+                <button
                   onClick={() => setIsOpen(false)}
                   className="text-gray-400 text-xs font-bold uppercase tracking-widest hover:text-gray-600 transition-colors py-2"
                 >

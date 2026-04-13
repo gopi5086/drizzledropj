@@ -43,9 +43,9 @@ export default function Home() {
 
   return (
     <>
-      <SEO 
-        title="DrizzleDrop Inn | Luxury & Modern Hotels in Chennai & Ooty" 
-        description="Experience unparalleled hospitality with DrizzleDrop Inn. Perfect for business stays in Chennai IT corridor or scenic valley vacations in Ooty Nilgiris." 
+      <SEO
+        title="DrizzleDrop Inn | Luxury & Modern Hotels in Chennai & Ooty"
+        description="Experience unparalleled hospitality with DrizzleDrop Inn. Perfect for business stays in Chennai IT corridor or scenic valley vacations in Ooty Nilgiris."
       />
       <HeroSection />
 
@@ -155,7 +155,9 @@ export default function Home() {
                 </div>
                 <div className="p-6 sm:p-10">
                   <p className="body-text text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed text-muted-foreground">
-                    An enchanting getaway featuring 8 hill-view apartment type individual rooms with private balconies. Enjoy panoramic views of the hills and the historical Nilgiris toy train.
+                    Experience an enchanting getaway at our hill-view resort, featuring 8 individual rooms with private balconies.Relax and enjoy stunning panoramic views of the lush hills and the historic Nilgiris toy train, making your stay truly unforgettable.
+                    A perfect retreat nestled in nature’s beauty.
+
                   </p>
                   <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["Hill Views", "Toy Train Route", "Private Balcony", "Quiet Luxury"].map((tag) => (
@@ -228,22 +230,34 @@ export default function Home() {
                 <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar text-sm sm:text-base">
                   {[
                     { name: "Nilgiri mountain Railway", dist: "2.8 KM" },
-                    { name: "Ooty Lake", dist: "3.3 KM" },
-                    { name: "Ooty Bus Stand", dist: "4.0 KM" },
-                    { name: "Charing Cross", dist: "4.9 KM" },
-                    { name: "Tea Factory", dist: "7.4 KM" },
-                    { name: "Arboretum", dist: "11 KM" },
-                    { name: "Deer Park", dist: "22 KM" },
-                    { name: "Botanical Garden", dist: "21 KM" },
-                    { name: "Deer Park", dist: "2.0 KM" },
+                    { name: "Ooty lake", dist: "3.3 KM" },
+                    { name: "Ooty Bus stand", dist: "2.3 KM" },
+                    { name: "Charing cross", dist: "4.0 KM" },
+                    { name: "Cairn hill", dist: "2.1 KM" },
                     { name: "Arboretum", dist: "1.5 KM" },
+                    { name: "Deer Park", dist: "2.0 KM" },
+                    { name: "Botanical garden", dist: "4.9 KM" },
+                    { name: "Rose garden", dist: "4.0 KM" },
+                    { name: "Pykara Lake", dist: "25 KM" },
+                    { name: "Tea factory", dist: "7.4 KM" },
+                    { name: "Dodabetta view point", dist: "11 KM" },
+                    { name: "Coonoor", dist: "21 KM" },
+                    { name: "Kotagiri", dist: "31 KM" },
+                    { name: "Avalanche", dist: "22 KM" },
+                    { name: "Emarald", dist: "19 KM" },
+                    { name: "Murugan Temple", dist: "4.5 KM" },
+                    { name: "Upper Bhavani", dist: "39 KM" },
+                    { name: "Gudalur", dist: "52 KM" },
+                    { name: "Mudhumalai", dist: "48 KM" },
+                    { name: "Pine Forest", dist: "10 KM" },
+                    { name: "Wax mesuem", dist: "5.2 KM" },
+                    { name: "Snow Park", dist: "2.7 KM" },
                   ].map((att) => (
                     <div key={att.name} className="flex justify-between items-center text-xs sm:text-sm border-b border-border/20 pb-2">
                       <span className="font-medium">{att.name}</span>
                       <span className="text-muted-foreground">{att.dist}</span>
                     </div>
                   ))}
-                  <p className="text-xs text-muted-foreground mt-4 italic">And many more: Pykara Lake, Kotagiri, Mudumalai, Murugan Temple...</p>
                 </div>
               </div>
             </Reveal>

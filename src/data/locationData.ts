@@ -52,7 +52,9 @@ export interface RoomData {
   name: string;
   type: string;
   desc: string;
-  price: string;
+  price?: string;
+  epPrice?: string;
+  cpPrice?: string;
   image: string;
   amenities: string[];
 }
@@ -110,19 +112,51 @@ export const chennaiData: LocationConfig = {
     label: "A Premier 3-Star Business Hotel",
     title: "DrizzleDrop Inn, Chennai",
     subtitle:
-      "Discover hassle-free accommodation in the heart of Chennai at DrizzleDrop Inn, a modern 3-star property ideal for both business travelers and vacationers. Perfectly situated in the city center at Thoriaipakkam, the hotel places you at the core of Chennai’s vibrant business and shopping districts. Experience the art of hospitality at DrizzleDrop Inn, Chennai — where modern comfort meets traditional warmth.",
+      "A sophisticated 3-star sanctuary in the heart of Thoraipakkam. Perfectly positioned along the OMR IT Corridor, we offer modern professionals and leisure guests a seamless blend of contemporary luxury and traditional South Indian warmth.",
     features: [
-      { title: "Prime Location", desc: "Strategically located on Rajiv Gandhi Salai (OMR IT Corridor), just a 30-minute drive from Chennai Airport. Close to major IT hubs, Dakshina Chitra, ECR, and theme parks." },
-      { title: "Comfort & Luxury", desc: "Experience upscale comfort with 35 beautifully appointed rooms and suites, each offering panoramic views from the terrace and modern amenities like flat-screen Google TVs." },
-      { title: "Facilities & Services", desc: "Rooftop restaurant with panoramic views, state-of-the-art Wi-Fi, 24-hour room service, laundry, and essential facilities including electricity backup and secure parking." },
-      { title: "Business & Leisure", desc: "Enjoy a relaxing stay with facilities designed for your comfort and convenience. The hotel also offers car rental services, ensuring a seamless experience." },
+      { title: "Strategic Location", desc: "Located on OMR, just 30 minutes from Chennai Airport and minutes from major IT hubs, Dakshina Chitra, and ECR." },
+      { title: "Refined Comfort", desc: "35 elegantly appointed rooms and suites featuring panoramic terrace views and modern amenities like smart Google TVs." },
+      { title: "Premium Facilities", desc: "Signature rooftop dining, high-speed Wi-Fi, 24-hour room service, and secure parking with 100% power backup." },
+      { title: "Seamless Experience", desc: "Tailored for business and leisure with dedicated car rentals, laundry services, and focus on guest-centric hospitality." },
     ],
   },
   rooms: [
-    { name: "Standard Room", type: "Business Comfort", desc: "Well-furnished room ideal for business travelers, featuring smart Google TV and ergonomic workspace.", price: "₹2,999", image: roomStandard, amenities: ["WiFi", "Google TV", "Work Desk", "Toiletries"] },
-    { name: "Triple Room", type: "Group Stay", desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.", price: "₹3,999", image: roomTriple, amenities: ["WiFi", "Google TV", "Extra Bed", "Toiletries"] },
-    { name: "Family Room", type: "Spacious Retreat", desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.", price: "₹4,999", image: roomFamily, amenities: ["WiFi", "Google TV", "Spacious", "24h Hot Water"] },
-    { name: "Deluxe Room", type: "Executive Luxury", desc: "Sophisticated accommodation with upscale furnishings and premium hospitality services.", price: "₹4,499", image: roomDeluxe, amenities: ["WiFi", "Google TV", "Mini Bar", "Laundry"] },
+    {
+      name: "Standard Room",
+      type: "Business Comfort",
+      desc: "Well-furnished room ideal for business travelers, featuring smart Google TV and ergonomic workspace.",
+      epPrice: "₹2,450",
+      cpPrice: "₹2,650",
+      image: roomStandard,
+      amenities: ["WiFi", "Google TV", "Work Desk", "Toiletries"]
+    },
+    {
+      name: "Deluxe Room",
+      type: "Executive Luxury",
+      desc: "Sophisticated accommodation with upscale furnishings and premium hospitality services.",
+      epPrice: "₹2,800",
+      cpPrice: "₹3,000",
+      image: roomDeluxe,
+      amenities: ["WiFi", "Google TV", "Mini Bar", "Laundry"]
+    },
+    {
+      name: "Triple Room",
+      type: "Group Stay",
+      desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.",
+      epPrice: "₹3,200",
+      cpPrice: "₹3,500",
+      image: roomTriple,
+      amenities: ["WiFi", "Google TV", "Extra Bed", "Toiletries"]
+    },
+    {
+      name: "Family Room",
+      type: "Spacious Retreat",
+      desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.",
+      epPrice: "₹3,700",
+      cpPrice: "₹4,100",
+      image: roomFamily,
+      amenities: ["WiFi", "Google TV", "Spacious", "24h Hot Water"]
+    },
   ],
   gallery: [
     { src: cg0, alt: "DrizzleDrop Inn Chennai lobby" },
@@ -203,10 +237,42 @@ export const ootyData: LocationConfig = {
     ],
   },
   rooms: [
-    { name: "Standard Room", type: "Alpine Solace", desc: "Individual apartment-type room with private balcony offering excellent panoramic Nilgiri hill views.", price: "₹3,499", image: roomStandard, amenities: ["Balcony", "WiFi", "Google TV", "Scenic View"] },
-    { name: "Deluxe Room", type: "Luxury View", desc: "Enchanting hill-view room with premium furnishings and a private balcony to enjoy the Nilgiris.", price: "₹4,999", image: roomDeluxe, amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"] },
-    { name: "Triple Room", type: "Cozy Trio", desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.", price: "₹4,499", image: roomTriple, amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"] },
-    { name: "Family Room", type: "Grand Vista", desc: "Large hill-station getaway for the whole family with multiple beds and breathtaking valley views.", price: "₹5,999", image: roomFamily, amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"] },
+    {
+      name: "Standard Room",
+      type: "Alpine Solace",
+      desc: "Individual apartment-type room with private balcony offering excellent panoramic Nilgiri hill views.",
+      epPrice: "₹2,450",
+      cpPrice: "₹2,650",
+      image: roomStandard,
+      amenities: ["Balcony", "WiFi", "Google TV", "Scenic View"]
+    },
+    {
+      name: "Deluxe Room",
+      type: "Luxury View",
+      desc: "Enchanting hill-view room with premium furnishings and a private balcony to enjoy the Nilgiris.",
+      epPrice: "₹2,800",
+      cpPrice: "₹3,000",
+      image: roomDeluxe,
+      amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"]
+    },
+    {
+      name: "Triple Room",
+      type: "Cozy Trio",
+      desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.",
+      epPrice: "₹3,200",
+      cpPrice: "₹3,500",
+      image: roomTriple,
+      amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"]
+    },
+    {
+      name: "Family Room",
+      type: "Grand Vista",
+      desc: "Large hill-station getaway for the whole family with multiple beds and breathtaking valley views.",
+      epPrice: "₹3,700",
+      cpPrice: "₹4,100",
+      image: roomFamily,
+      amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"]
+    },
   ],
   gallery: [
     { src: og0, alt: "DrizzleDrop Inn Ooty panoramic view" },
@@ -284,7 +350,7 @@ export const ootyData: LocationConfig = {
     { name: "Gudalur", dist: "52 KM" },
     { name: "Mudhumalai", dist: "48 KM" },
     { name: "Pine Forest", dist: "10 KM" },
-    { name: "Wax museum", dist: "5.2 KM" },
+    { name: "Wax mesuem", dist: "5.2 KM" },
     { name: "Snow Park", dist: "2.7 KM" },
   ],
 };

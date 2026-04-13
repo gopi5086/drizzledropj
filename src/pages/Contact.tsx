@@ -42,15 +42,14 @@ const ChennaiContact = ({ locationData, openBooking }: any) => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex-1 bg-[#f0f4f8] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white hover:border-[#2E6B8A]/20 transition-all duration-300 group border border-[#2E6B8A]/5"
+              className="flex-1 bg-[#f0f4f8] p-6 lg:p-8 rounded-[2rem] flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white transition-all duration-300 group border border-[#2E6B8A]/5 shadow-sm"
             >
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_4px_20px_rgb(0,0,0,0.05)] group-hover:shadow-[0_4px_20px_rgba(46,107,138,0.15)] group-hover:scale-110 transition-all duration-300 transform-gpu text-[#2E6B8A]">
-                  <Building2 className="w-5 h-5" />
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-all duration-300 text-[#2E6B8A]">
+                  <Building2 className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Our Location</h4>
                   <p className="text-gray-600 leading-relaxed text-sm lg:text-base font-medium">
-                    DrizzleDrop Inn – Chennai<br />
                     A4, 4/476/77, Chandrasekaran Avenue,<br />
                     1st Main Road, Thoraipakkam,<br />
                     Chennai, Tamil Nadu – 600097
@@ -63,14 +62,14 @@ const ChennaiContact = ({ locationData, openBooking }: any) => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex-1 bg-[#f0f4f8] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white hover:border-[#2E6B8A]/20 transition-all duration-300 group border border-[#2E6B8A]/5"
+              className="flex-1 bg-[#f0f4f8] p-6 lg:p-8 rounded-[2rem] flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white transition-all duration-300 group border border-[#2E6B8A]/5 shadow-sm"
             >
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_4px_20px_rgb(0,0,0,0.05)] group-hover:shadow-[0_4px_20px_rgba(46,107,138,0.15)] group-hover:scale-110 transition-all duration-300 transform-gpu text-[#2E6B8A]">
-                  <Phone className="w-5 h-5" />
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-all duration-300 text-[#2E6B8A]">
+                  <Phone className="w-6 h-6" />
                 </div>
                 <div className="w-full">
                   <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Mobile</h4>
-                  <div className="space-y-1 block">
+                  <div className="space-y-1">
                     <a href="tel:+919791178349" className="block text-gray-600 hover:text-[#2E6B8A] transition-colors text-sm lg:text-base font-medium">+91 97911 78349</a>
                     <a href="tel:+919962823455" className="block text-gray-600 hover:text-[#2E6B8A] transition-colors text-sm lg:text-base font-medium">+91 99628 23455</a>
                     <a href="tel:+918438861737" className="block text-gray-600 hover:text-[#2E6B8A] transition-colors text-sm lg:text-base font-medium">+91 84388 61737</a>
@@ -85,10 +84,10 @@ const ChennaiContact = ({ locationData, openBooking }: any) => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex-1 bg-[#f0f4f8] p-6 rounded-[1.5rem] flex items-start gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white hover:border-[#2E6B8A]/20 transition-all duration-300 group border border-[#2E6B8A]/5"
+              className="flex-1 bg-[#f0f4f8] p-6 lg:p-8 rounded-[2rem] flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-5 hover:shadow-xl hover:-translate-y-1 hover:bg-white transition-all duration-300 group border border-[#2E6B8A]/5 shadow-sm"
             >
-                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 shadow-[0_4px_20px_rgb(0,0,0,0.05)] group-hover:shadow-[0_4px_20px_rgba(46,107,138,0.15)] group-hover:scale-110 transition-all duration-300 transform-gpu text-[#2E6B8A]">
-                  <Mail className="w-5 h-5" />
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-all duration-300 text-[#2E6B8A]">
+                  <Mail className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2 font-display text-lg">Email</h4>

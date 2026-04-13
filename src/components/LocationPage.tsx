@@ -47,17 +47,39 @@ function RoomCard({ room }: { room: LocationConfig["rooms"][0] }) {
             alt={`${room.name} at DrizzleDrop Inn`}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
           />
-          <div className="absolute top-5 right-5 px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
-            <span className="text-lg font-bold text-[#2E6B8A]">{room.price}</span>
-            <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
+          <div className="absolute top-5 right-5 flex flex-col gap-2 items-end min-w-[150px]">
+            {(room.epPrice || room.cpPrice) ? (
+              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 w-full scale-90 origin-top-right">
+                {room.epPrice && (
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">EP <span className="font-medium opacity-60">(Room Only)</span></span>
+                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.epPrice}</span>
+                  </div>
+                )}
+                {room.cpPrice && (
+                  <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-1 mt-0.5">
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">CP <span className="font-medium opacity-60">(W/ BFast)</span></span>
+                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.cpPrice}</span>
+                  </div>
+                )}
+              </div>
+            ) : room.price && (
+              <div className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
+                <span className="text-lg font-bold text-[#2E6B8A]">{room.price}</span>
+                <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
+              </div>
+            )}
           </div>
           <div className="absolute bottom-5 left-5">
             <span className="px-3 py-1 bg-[#C5A861] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{room.type}</span>
           </div>
         </div>
         <div className="p-7 flex-1 flex flex-col">
-          <h3 className="text-2xl font-medium mb-3 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
-          <p className="body-text text-sm mb-6 leading-relaxed text-muted-foreground/90">{room.desc}</p>
+          <h3 className="text-2xl font-medium mb-1 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
+          <p className="px-3 py-1 bg-[#2E6B8A]/5 text-[#2E6B8A] text-[9px] font-bold uppercase tracking-wider rounded-md w-fit mb-4">{room.type}</p>
+          <p className="body-text text-sm mb-6 leading-relaxed text-muted-foreground/90 min-h-[4.5rem]">
+            {room.desc}
+          </p>
           <div className="grid grid-cols-2 gap-3 mb-7 mt-auto">
             {room.amenities.map((a) => (
               <div key={a} className="flex items-center gap-2 text-xs font-medium text-foreground/70">
@@ -107,8 +129,8 @@ export default function LocationPage({ location }: Props) {
 
   return (
     <>
-      <SEO 
-        title={location.seo.title} 
+      <SEO
+        title={location.seo.title}
         description={location.seo.description}
         url={location.seo.canonical}
       />
@@ -390,13 +412,13 @@ export default function LocationPage({ location }: Props) {
           <Reveal width="100%">
             <SectionHeading label="Get in Touch" title={`Contact ${location.name} Property`} />
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-12 px-4">
             {[
               {
                 icon: MessageCircle,
                 label: "WhatsApp",
-                value: "+91 86678 25086",
-                href: "https://wa.me/918667825086",
+                value: isChennai ? "+91 97911 78349" : "+91 91504 86153",
+                href: `https://wa.me/${(isChennai ? "919791178349" : "919150486153")}`,
                 description: "Instant chat with our team",
                 color: "#25D366"
               },
@@ -413,25 +435,25 @@ export default function LocationPage({ location }: Props) {
                 label: "Phone",
                 value: location.contact.phone,
                 href: `tel:${location.contact.phone.replace(/\s+/g, "")}`,
-                description: location.key === 'chennai' ? "Landline: +91 44 24580009" : "Landline: +91 423 2440552",
+                description: isChennai ? "Landline: +91 44 24580009" : "Landline: +91 423 2440552",
                 color: "#2E6B8A"
               },
             ].map(({ icon: Icon, label, value, href, description, color }, i) => (
               <Reveal key={label} delay={0.2 + i * 0.1}>
                 <a
                   href={href}
-                  className="group relative block h-full"
+                  className="group relative block h-full w-full mx-auto max-w-sm md:max-w-none"
                 >
-                  <div className="glass-card p-8 text-center h-full transition-all duration-500 border border-white/10 group-hover:border-primary/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden">
+                  <div className="glass-card p-10 flex flex-col items-center text-center h-full transition-all duration-500 border border-[#C5A861]/10 group-hover:border-[#C19E5F]/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden">
                     <div
-                      className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 shadow-lg"
-                      style={{ background: `${color}15` }}
+                      className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 shadow-lg"
+                      style={{ background: `${color}10` }}
                     >
-                      <Icon className="w-7 h-7" style={{ color: color }} />
+                      <Icon className="w-8 h-8" style={{ color: color }} />
                     </div>
-                    <h4 className="text-xl font-bold mb-2 text-gray-800 tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>{label}</h4>
-                    <p className="text-[#C5A861] font-bold text-sm mb-3 tracking-wide">{value}</p>
-                    <p className="text-gray-500 text-xs leading-relaxed">{description}</p>
+                    <h4 className="text-xl font-bold mb-2 text-gray-900 tracking-tight font-display">{label}</h4>
+                    <p className="text-[#C5A861] font-bold text-base mb-3 tracking-wide">{value}</p>
+                    <p className="text-muted-foreground text-xs leading-relaxed max-w-[200px]">{description}</p>
 
                     <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500" />
                   </div>

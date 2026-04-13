@@ -20,8 +20,8 @@ export default function SocialFloatingIcons() {
   const routerLocation = useLocation();
 
   // Determine current location context
-  const locKey = /chennai/i.test(routerLocation.pathname) ? "chennai" : 
-                /ooty/i.test(routerLocation.pathname) ? "ooty" : "default";
+  const locKey = /chennai/i.test(routerLocation.pathname) ? "chennai" :
+    /ooty/i.test(routerLocation.pathname) ? "ooty" : "default";
 
   const socialIcons = [
     {
@@ -52,7 +52,7 @@ export default function SocialFloatingIcons() {
       {/* Expanded Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             className="flex flex-col gap-3 mb-1"
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -70,7 +70,7 @@ export default function SocialFloatingIcons() {
                 aria-label={social.label}
               >
                 {social.icon}
-                
+
                 {/* Desktop Label */}
                 <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-black/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-widest rounded shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap hidden md:block">
                   {social.label}
@@ -89,12 +89,12 @@ export default function SocialFloatingIcons() {
         className={`w-12 h-12 md:w-14 md:h-14 ${isOpen ? "bg-black" : "bg-[#C5A861]"} text-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.2)] flex items-center justify-center transition-colors duration-300 z-[101]`}
       >
         <motion.div
-           animate={{ rotate: isOpen ? 180 : 0 }}
-           transition={{ duration: 0.3 }}
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
         >
           {isOpen ? <X className="w-6 h-6 md:w-7 md:h-7" /> : <Plus className="w-6 h-6 md:w-7 md:h-7" />}
         </motion.div>
-        
+
         {/* Pulse effect when closed */}
         {!isOpen && (
           <span className="absolute inset-0 rounded-full bg-[#C5A861] animate-ping opacity-25 -z-10" />

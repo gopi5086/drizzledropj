@@ -13,7 +13,8 @@ interface Message {
   type?: "text" | "options" | "booking-form";
 }
 
-const API_BASE = "http://localhost:5000/api";
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_BASE = IS_LOCAL ? "http://localhost:5000/api" : "https://drizzledropj-1.onrender.com/api";
 const WEB3FORMS_KEY = "868bd7f9-4108-4342-bf38-75a5dd580e00";
 
 export default function Chatbot() {
