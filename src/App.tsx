@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Route, Routes, useParams, Navigate, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -23,28 +24,32 @@ import AdminRoute from "@/components/AdminRoute";
 import SocialFloatingIcons from "@/components/SocialFloatingIcons";
 import { BookingProvider } from "@/context/BookingContext";
 import { AuthProvider } from "@/context/AuthContext";
-import { LocationProvider, RootLocationRedirect } from "@/context/LocationContext";
-import BookingModal from "@/components/BookingModal";
+import { LocationProvider } from "@/context/LocationContext";
+import NavbarBookingModal from "@/components/NavbarBookingModal";
 import { useBooking } from "@/context/BookingContext";
 import { locationMap } from "@/data/locationData";
 import { useEffect } from "react";
+import ScrollToTop from "@/components/ScrollToTop";
+import NoupeChatbot from "@/components/NoupeChatbot";
+import AdPopup from "@/components/AdPopup";
+import DealPopup from "@/components/DealPopup";
 
 const queryClient = new QueryClient();
 
 const GlobalBookingModal = () => {
   const { isModalOpen, closeBooking, initialData } = useBooking();
   return (
-    <BookingModal
+    <NavbarBookingModal
       isOpen={isModalOpen}
       onClose={closeBooking}
       bookingData={{
-        location: initialData?.location || "DrizzleDrop Inn, Chennai",
-        adults: Number(initialData?.guests) || 1,
+        location: initialData?.location || "",
+        adults: Number(initialData?.guests) || 0,
         children: 0,
         rooms: 1,
-        checkIn: initialData?.checkIn || new Date(),
-        checkOut: initialData?.checkOut || new Date(new Date().setDate(new Date().getDate() + 1)),
-        roomType: initialData?.roomType || "Deluxe Room",
+        checkIn: initialData?.checkIn,
+        checkOut: initialData?.checkOut,
+        roomType: initialData?.roomType,
       }}
     />
   );
@@ -77,6 +82,7 @@ const NavigateToCanonical = () => {
 
 
 const App = () => (
+  <HelmetProvider>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -84,9 +90,10 @@ const App = () => (
       <AuthProvider>
         <BookingProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <LocationProvider>
             <Routes>
-              {/* Admin routes – no Layout */}
+              {/* Admin routes – prioritized at top */}
               <Route path="/admin" element={<AdminLogin />} />
               <Route
                 path="/admin/dashboard"
@@ -96,6 +103,8 @@ const App = () => (
                   </AdminRoute>
                 }
               />
+
+              {/* ... existing routes ... */}
 
               {/* Main routes */}
               <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
@@ -113,7 +122,8 @@ const App = () => (
               <Route path="/:locationId/contact"    element={<Layout><Contact /></Layout>} />
 
               {/* Shared pages */}
-              <Route path="/"           element={<RootLocationRedirect><Layout><Home /></Layout></RootLocationRedirect>} />
+              <Route path="/"           element={<Layout><Home /></Layout>} />
+              <Route path="/about"      element={<Layout><About /></Layout>} />
               <Route path="/contact"    element={<Layout><Contact /></Layout>} />
               <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
               <Route path="/rooms"      element={<Layout><Rooms /></Layout>} />
@@ -124,6 +134,9 @@ const App = () => (
               <Route path="*"           element={<Layout><NotFound /></Layout>} />
             </Routes>
             <SocialFloatingIcons />
+            <NoupeChatbot />
+            <AdPopup />
+            <DealPopup />
             <GlobalBookingModal />
             </LocationProvider>
           </BrowserRouter>
@@ -131,6 +144,7 @@ const App = () => (
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

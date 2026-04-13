@@ -11,12 +11,13 @@ const socialLinks = [
 
 const quickLinks = [
   { label: "Home", path: "/" },
-  { label: "Facilities", path: "/facilities" },
-  { label: "Room / Tariff", path: "/rooms" },
-  { label: "Gallery", path: "/gallery" },
-  { label: "Deals", path: "/deals" },
+  { label: "Rooms & Tariff", path: "/rooms" },
   { label: "Dining", path: "/dining" },
-  { label: "Policies & Terms", path: "/overview" },
+  { label: "Facilities", path: "/facilities" },
+  { label: "About", path: "/about" },
+  { label: "Deals", path: "/deals" },
+  { label: "Gallery", path: "/gallery" },
+  { label: "Contact", path: "/contact" },
 ];
 
 const locationLinks = [
@@ -45,7 +46,7 @@ export default function Footer() {
             <img
               src={logoImage}
               alt="DrizzleDrop Hotels Logo"
-              className="h-12 sm:h-16 mb-4 sm:mb-6 object-contain"
+              className="h-10 sm:h-12 mb-4 sm:mb-6 object-contain"
             />
 
             <div className="flex gap-3 sm:gap-4 mt-6 sm:mt-8">
@@ -95,16 +96,18 @@ export default function Footer() {
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 sm:w-5 h-4 sm:h-5 mt-0.5 text-[#C5A861] shrink-0" />
                   <span className="leading-relaxed">
-                    Thoriaipakkam, OMR IT Corridor,<br />Rajiv Gandhi Salai, Chennai – 600097
+                    A4, 4/476/77, Chandrasekaran Avenue,<br />
+                    1st Main Road, Thoraipakkam,<br />
+                    Chennai, Tamil Nadu – 600097
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="tel:+918667825086" className="hover:text-[#C5A861] transition-colors">+91 86678 25086</a>
+                  <a href="tel:+919791178349" className="hover:text-[#C5A861] transition-colors">+91 97911 78349</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="mailto:info@drizzledrop.com" className="hover:text-[#C5A861] transition-colors">info@drizzledrop.com</a>
+                  <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-[#C19E5F] shrink-0" />
+                  <a href="mailto:stay@drizzledropinn.com" className="hover:text-[#C19E5F] transition-colors">stay@drizzledropinn.com</a>
                 </li>
               </ul>
               <Link
@@ -124,16 +127,16 @@ export default function Footer() {
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 sm:w-5 h-4 sm:h-5 mt-0.5 text-[#C5A861] shrink-0" />
                   <span className="leading-relaxed">
-                    2 KM from Ooty Bus Stand<br />&amp; Railway Station, Nilgiris – 643001
+                    215 H, Dispensary Road,<br />Fern Hill, Ooty, Tamil Nadu – 643004
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="tel:+918667825086" className="hover:text-[#C5A861] transition-colors">+91 86678 25086</a>
+                  <a href="tel:+919150486153" className="hover:text-[#C5A861] transition-colors">+91 91504 86153</a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="mailto:ooty@drizzledrop.com" className="hover:text-[#C5A861] transition-colors">ooty@drizzledrop.com</a>
+                  <a href="mailto:stay@drizzledropinn.com" className="hover:text-[#C5A861] transition-colors">stay@drizzledropinn.com</a>
                 </li>
               </ul>
               <Link

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/Booking");
 const transporter = require("../config/mailer");
+const authMiddleware = require("../middleware/authMiddleware");
 
 // ── Validation helper ─────────────────────────────────────────────────────────
 function validateBooking({ name, phone, email, location, roomType, adults }) {
@@ -216,8 +217,7 @@ router.post("/", async (req, res) => {
 });
 
 // ── GET /api/bookings  (admin: list all) ──────────────────────────────────────
-// Protected by verifyToken middleware — mount it in server.js accordingly
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   try {
     const bookings = await Booking.find().sort({ createdAt: -1 });
     res.json({ success: true, bookings });
@@ -227,7 +227,7 @@ router.get("/", async (req, res) => {
 });
 
 // ── PATCH /api/bookings/:id/status  (admin: update status) ───────────────────
-router.patch("/:id/status", async (req, res) => {
+router.patch("/:id/status", authMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
     if (!["pending", "confirmed", "cancelled"].includes(status)) {

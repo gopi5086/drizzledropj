@@ -13,15 +13,15 @@ const locations = [
     label: "Chennai – OMR",
     path: "/chennai",
     sublabel: "Thoriaipakkam, Chennai",
-    phone: "+91 86678 25086",
+    phone: "+91 97911 78349",
     color: "#2E6B8A",
   },
   {
     key: "ooty",
     label: "Ooty – Nilgiris",
     path: "/ooty",
-    sublabel: "2 KM from Ooty Bus Stand",
-    phone: "+91 86678 25086",
+    sublabel: "Fern Hill, Ooty",
+    phone: "+91 91504 86153",
     color: "#3a7d5a",
   },
 ];
@@ -51,7 +51,9 @@ export default function Navbar() {
     }
   }, [currentLocKey, currentLocation, setCurrentLocation]);
 
-  const activeLocKey = currentLocKey || currentLocation || "";
+  // If we are on a common page (no specific location in URL), we show the common links
+  const isCommonPage = !currentLocKey;
+  const activeLocKey = isCommonPage ? "" : currentLocKey;
 
   const getNavLinks = (locKey: string) => {
     const prefix = locKey ? `/${locKey}` : "";
@@ -108,10 +110,9 @@ export default function Navbar() {
 
   return (
     <header
-      style={{ top: '2rem' }} // Push navbar below the sticky TopContactBar (height: 2rem = 32px)
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
-          ? "bg-white/98 backdrop-blur-md shadow-md border-b border-[#2E6B8A]/15 py-2"
-          : "bg-black/10 backdrop-blur-sm py-4"
+      className={`fixed left-0 right-0 z-[100] transition-all duration-300 ${scrolled
+        ? "top-0 bg-white/98 backdrop-blur-md shadow-lg border-b border-[#2E6B8A]/15 py-1.5"
+        : "top-[92px] md:top-9 bg-black/20 backdrop-blur-sm py-3"
         }`}
     >
       <div className="container-luxury flex items-center justify-between">
@@ -121,7 +122,7 @@ export default function Navbar() {
           <img
             src={driLogo}
             alt="DrizzleDrop Inn"
-            className="h-[60px] lg:h-[72px] w-auto object-contain"
+            className="h-[48px] sm:h-[60px] lg:h-[72px] w-auto object-contain"
           />
         </Link>
 
@@ -132,10 +133,10 @@ export default function Navbar() {
             <button
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
-                  ? isTransparent ? "text-[#C5A861]" : "text-[#C5A861]"
-                  : isTransparent
-                    ? "text-white/90 hover:text-white"
-                    : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+                ? isTransparent ? "text-[#C5A861]" : "text-[#C5A861]"
+                : isTransparent
+                  ? "text-white/90 hover:text-white"
+                  : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
                 }`}
             >
               <MapPin className="w-3.5 h-3.5 opacity-70" />
@@ -152,6 +153,25 @@ export default function Navbar() {
                   transition={{ duration: 0.2 }}
                   className="absolute top-full left-0 mt-2 bg-white rounded-xl min-w-[240px] shadow-2xl border border-[#2E6B8A]/15 overflow-hidden"
                 >
+                  <Link
+                    to="/"
+                    onClick={() => { setLocationOpen(false); setMobileLocOpen(false); }}
+                    className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 ${isCommonPage ? "bg-gray-50" : ""}`}
+                  >
+                    <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 bg-gray-400" />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-[#2a2a2a]">All Locations (Main)</span>
+                        {isCommonPage && (
+                          <span className="text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full text-white bg-gray-400">
+                            Current
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-0.5">Explore our brand properties</p>
+                    </div>
+                  </Link>
+
                   {locations.map((loc) => {
                     const isActive = activeLocKey === loc.key;
                     return (
@@ -209,10 +229,10 @@ export default function Navbar() {
                   to={link.path}
                   onClick={handleClick}
                   className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1 rounded-md ${isActive
-                      ? isTransparent ? "text-[#3a7d5a]" : "text-[#2E6B8A]"
-                      : isTransparent
-                        ? "text-white/90 hover:text-white"
-                        : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+                    ? isTransparent ? "text-[#3a7d5a]" : "text-[#2E6B8A]"
+                    : isTransparent
+                      ? "text-white hover:text-white"
+                      : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
                     }`}
                 >
                   {link.label}
@@ -254,10 +274,10 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => openBooking({ location: currentLocObj ? currentLocObj.label : undefined })}
+            onClick={() => openBooking()}
             className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${isTransparent
-                ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
-                : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
+              ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
+              : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
               }`}
           >
             Book Now
@@ -266,8 +286,8 @@ export default function Navbar() {
           <button
             onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
             className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${isTransparent
-                ? "bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
-                : "bg-[#2E6B8A]/10 hover:bg-[#2E6B8A]/20 text-[#2E6B8A]"
+              ? "bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
+              : "bg-[#2E6B8A]/10 hover:bg-[#2E6B8A]/20 text-[#2E6B8A]"
               }`}
             title="Admin Panel"
           >
@@ -315,14 +335,26 @@ export default function Navbar() {
                       exit={{ opacity: 0, height: 0 }}
                       className="pl-3 mb-1 overflow-hidden"
                     >
+                      <Link
+                        to="/"
+                        onClick={() => { setMobileOpen(false); setMobileLocOpen(false); }}
+                        className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${isCommonPage
+                          ? "font-bold text-gray-700 bg-gray-100"
+                          : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                          }`}
+                      >
+                        <div className="font-semibold">All Locations (Main)</div>
+                        <div className="text-xs opacity-60">Explore our brand properties</div>
+                      </Link>
+
                       {locations.map((loc) => (
                         <Link
                           key={loc.path}
                           to={loc.path}
                           onClick={() => handleLocationSelect(loc)}
                           className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${activeLocKey === loc.key
-                              ? "font-bold"
-                              : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                            ? "font-bold"
+                            : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
                             }`}
                           style={activeLocKey === loc.key ? { color: loc.color, background: `${loc.color}10` } : {}}
                         >
@@ -340,8 +372,8 @@ export default function Navbar() {
                   <Link
                     to={link.path}
                     className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${location.pathname === link.path
-                        ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
-                        : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                      ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
+                      : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
                       }`}
                   >
                     {link.label}
@@ -363,7 +395,10 @@ export default function Navbar() {
               ))}
 
               <button
-                onClick={() => { setMobileOpen(false); openBooking(); }}
+                onClick={() => {
+                  setMobileOpen(false);
+                  openBooking();
+                }}
                 className="mt-3 mx-2 text-center px-6 py-3 bg-[#3a7d5a] text-white text-sm font-bold tracking-widest uppercase rounded-md hover:bg-[#3a7d5a] transition-colors"
               >
                 Book Now

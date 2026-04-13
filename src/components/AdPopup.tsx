@@ -12,7 +12,11 @@ interface Ad {
   isActive: boolean;
 }
 
-const BACKEND_BASE = "https://drizzle-background-5.onrender.com";
+const IS_LOCAL = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) || 
+                 window.location.hostname.startsWith("192.168.") || 
+                 window.location.hostname.startsWith("10.") || 
+                 window.location.hostname.startsWith("172.");
+const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzledropj-1.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 export default function AdPopup() {
@@ -31,8 +35,13 @@ export default function AdPopup() {
           const data = await res.json();
           if (data.length > 0) {
             setAds(data);
+            try {
+              localStorage.setItem("drizzledrop_ads_persistent", JSON.stringify(data));
+            } catch (e) {
+              console.warn("Ads storage quota exceeded");
+            }
             // Show popup after a short delay for better UX
-            setTimeout(() => setIsVisible(true), 2000);
+            if (!isVisible) setTimeout(() => setIsVisible(true), 1500);
           }
         }
       } catch (error) {
@@ -103,12 +112,24 @@ export default function AdPopup() {
             </button>
 
             {/* Display a single full-width image occupying the container */}
-            <div className="w-full">
+            <div className="w-full relative min-h-[200px] flex items-center justify-center bg-gray-100/10">
               <img
-                src={`${BACKEND_BASE}${currentAd.images[currentImageIndex]}`}
+                src={(() => {
+                  const imgPath = currentAd.images[currentImageIndex];
+                  if (!imgPath) return "";
+                  // If it's a Base64 string from DB or a direct preview, use it as is
+                  if (imgPath.startsWith("data:") || imgPath.startsWith("blob:")) return imgPath;
+
+                  // Otherwise, construct the URL with the backend base (for old/legacy items)
+                  const base = imgPath.startsWith("http") ? "" : BACKEND_BASE;
+                  return `${base}${imgPath}${imgPath.includes("?") ? "&" : "?"}t=${Date.now()}`;
+                })()}
                 alt={currentAd.title || "Ad"}
-                className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg"
-                style={{ display: "block" }}
+                className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error("Ad image load failed:", e.currentTarget.src);
+                  setIsVisible(false); // Hide the whole popup if image is broken
+                }}
               />
             </div>
 
@@ -119,9 +140,8 @@ export default function AdPopup() {
                   <button
                     key={i}
                     onClick={() => setCurrentImageIndex(i)}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      i === currentImageIndex ? "bg-[#C5A861] w-6" : "bg-gray-300 hover:bg-gray-400"
-                    }`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentImageIndex ? "bg-[#C5A861] w-6" : "bg-gray-300 hover:bg-gray-400"
+                      }`}
                     aria-label={`Go to image ${i + 1}`}
                   />
                 ))}

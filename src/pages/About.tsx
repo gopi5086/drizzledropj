@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
-import { 
-  Navigation, 
-  BedDouble, 
-  Utensils, 
-  Flame, 
-  Car, 
-  Wifi, 
-  Stethoscope, 
-  Baby, 
-  Leaf, 
+import {
+  Navigation,
+  BedDouble,
+  Utensils,
+  Flame,
+  Car,
+  Wifi,
+  Stethoscope,
+  Baby,
+  Leaf,
   ShieldCheck,
   Building2,
   Coffee,
@@ -39,18 +39,15 @@ const OotyAbout = () => (
     {/* 1. Hero / Intro Section */}
     <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
       <img src={ootyHero} alt="Ooty Hills" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a2f23]/60 via-[#1a2f23]/30 to-[#f8faf9]" />
-      
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a2f23]/80 via-[#1a2f23]/50 to-black/30" />
+
       <div className="absolute inset-0 flex items-center justify-center pt-24">
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={STAGGER_CONTAINER}
           className="text-center text-white px-4 max-w-4xl"
         >
-          <motion.div variants={FADE_IN} className="mb-4 inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-sm font-semibold tracking-wider uppercase shadow-xl">
-            Discover Nilgiris
-          </motion.div>
           <motion.h1 variants={FADE_IN} className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight drop-shadow-2xl text-white mb-6">
             Ooty – Queen of Hill Stations
           </motion.h1>
@@ -66,7 +63,7 @@ const OotyAbout = () => (
 
     <div className="container-luxury py-16 md:py-24 space-y-24">
       {/* 2. About DrizzleDrop Inn */}
-      <motion.section 
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -81,7 +78,7 @@ const OotyAbout = () => (
 
       {/* 3. Highlights / Features */}
       <section>
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
@@ -117,7 +114,7 @@ const OotyAbout = () => (
         <div className="absolute -left-20 -top-20 w-64 h-64 bg-[#3a7d5a]/5 rounded-full blur-3xl" />
         <div className="relative z-10">
           <SectionHeading label="Amenities" title="Facilities & Services" subtitle="Everything you need for a comfortable stay" />
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -147,7 +144,7 @@ const OotyAbout = () => (
 
       {/* 5 & 6. Nature & Safety */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -168,7 +165,7 @@ const OotyAbout = () => (
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -198,10 +195,10 @@ const ChennaiAbout = () => (
     {/* 1. Hero / Intro Section */}
     <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
       <img src={chennaiHero} alt="Chennai Cityscape" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a232f]/80 via-[#1a232f]/40 to-[#f8faf9]" />
-      
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a232f]/90 via-[#1a232f]/55 to-black/30" />
+
       <div className="absolute inset-0 flex items-center justify-center pt-24">
-        <motion.div 
+        <motion.div
           initial="hidden"
           animate="visible"
           variants={STAGGER_CONTAINER}
@@ -225,7 +222,7 @@ const ChennaiAbout = () => (
 
     <div className="container-luxury py-16 md:py-24 space-y-24">
       {/* 2. About DrizzleDrop Inn */}
-      <motion.section 
+      <motion.section
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -240,7 +237,7 @@ const ChennaiAbout = () => (
 
       {/* 3. Highlights / Features */}
       <section>
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
@@ -276,7 +273,7 @@ const ChennaiAbout = () => (
         <div className="absolute -left-20 -top-20 w-64 h-64 bg-[#2E6B8A]/5 rounded-full blur-3xl" />
         <div className="relative z-10">
           <SectionHeading label="Amenities" title="Facilities & Services" subtitle="Premium offerings for an unforgettable stay" />
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -306,7 +303,7 @@ const ChennaiAbout = () => (
 
       {/* 5 & 6. Nature & Safety -> replaced with Ideal for Business & Leisure */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -327,7 +324,7 @@ const ChennaiAbout = () => (
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -343,7 +340,7 @@ const ChennaiAbout = () => (
             </div>
             <h3 className="text-3xl font-bold mb-6 font-display">Modern Comforts</h3>
             <p className="text-white/90 leading-relaxed text-lg md:text-xl font-medium">
-               Experience the art of hospitality at DrizzleDrop Inn, Chennai — where modern comfort meets traditional warmth. From state of the art networking to luxurious rooms, elevate your stay.
+              Experience the art of hospitality at DrizzleDrop Inn, Chennai — where modern comfort meets traditional warmth. From state of the art networking to luxurious rooms, elevate your stay.
             </p>
           </div>
         </motion.div>
@@ -364,7 +361,15 @@ export default function About() {
     }
   }, [loc, navigate]);
 
-  if (!loc) return null;
+  if (!loc) {
+    return (
+      <div className="flex flex-col">
+        <ChennaiAbout />
+        <div className="w-full h-px bg-gray-200" />
+        <OotyAbout />
+      </div>
+    );
+  }
 
   return loc === "ooty" ? <OotyAbout /> : <ChennaiAbout />;
 }

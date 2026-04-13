@@ -5,12 +5,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { CalendarIcon, MapPin, Users, Minus, Plus, Crown } from "lucide-react";
-import BookingModal, { BookingData } from "./BookingModal";
+import NavbarBookingModal from "./NavbarBookingModal";
 import { cn } from "@/lib/utils";
+import { useLocationContext } from "@/context/LocationContext";
 
 // Brand colours from DrizzleDrop logo
 const TEAL = "#2E6B8A";
 const GREEN = "#4A7C3F";
+
+export interface BookingData {
+    location: string;
+    checkIn: Date | undefined;
+    checkOut: Date | undefined;
+    adults: number;
+    children: number;
+    rooms: number;
+    roomType?: string;
+}
 
 export default function BookingBar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +34,12 @@ export default function BookingBar() {
     const [children, setChildren] = useState(0);
     const [rooms, setRooms] = useState(1);
     const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 1024 : false);
+    const { currentLocation } = useLocationContext();
+
+    useEffect(() => {
+        if (currentLocation === "ooty") setLocation("DrizzleDrop Inn, Ooty");
+        else if (currentLocation === "chennai") setLocation("DrizzleDrop Inn, Chennai");
+    }, [currentLocation]);
 
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -239,7 +256,7 @@ export default function BookingBar() {
                 </div>
             </div>
 
-            <BookingModal
+            <NavbarBookingModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 bookingData={bookingData}

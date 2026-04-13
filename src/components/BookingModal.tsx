@@ -37,30 +37,38 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         const data = Object.fromEntries(formData.entries());
 
         try {
-            const response = await fetch("/api/bookings", {
+            // Web3Forms API for frictionless zero-server deployments (works on Localhost + Hostinger + Vercel)
+            const templateParams = {
+                access_key: "868bd7f9-4108-4342-bf38-75a5dd580e00", 
+                subject: `New Booking Request from ${data.name}`,
+                from_name: "DrizzleDrop Booking System",
+                Name: data.name,
+                Phone: data.phone,
+                Email: data.email,
+                Location: bookingData.location,
+                Room: data.roomType,
+                Guests: `${bookingData.adults} Adults, ${bookingData.children} Children (${bookingData.rooms} Rooms)`,
+                Dates: `${bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set"} to ${bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set"}`,
+            };
+
+            const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify({
-                    ...data,
-                    location: bookingData.location,
-                    checkIn: bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set",
-                    checkOut: bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set",
-                    rooms: bookingData.rooms,
-                }),
+                body: JSON.stringify(templateParams)
             });
 
-            if (response.ok) {
+            const result = await response.json();
+            if (response.ok && result.success) {
                 setSuccess(true);
             } else {
-                const errorData = await response.json().catch(() => ({}));
-                const errorMessage = errorData?.errors?.join(", ") || errorData?.message || "Something went wrong. Please try again.";
-                setError(errorMessage);
+                throw new Error(result.message || "Submission failed");
             }
-        } catch (err) {
-            setError(`Failed to submit request. Please check your connection. Error: ${err instanceof Error ? err.message : String(err)}`);
+        } catch (err: any) {
+            console.error("Booking Error:", err);
+            setError(err?.message || `Failed to submit request. Please check your connection.`);
         } finally {
             setLoading(false);
         }

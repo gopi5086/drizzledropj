@@ -14,12 +14,20 @@ import {
   Upload,
   ChevronLeft,
   ChevronRight,
-  
+  MessageCircle,
+  ClipboardList,
+  Eye,
+  Tag,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import driLogo from "@/assets/drilogo.png";
 
-const BACKEND_BASE = "https://drizzle-background-5.onrender.com";
+const IS_LOCAL = window.location.hostname === "localhost" || 
+                 window.location.hostname === "127.0.0.1" || 
+                 window.location.hostname.startsWith("192.168.") ||
+                 window.location.hostname.startsWith("10.") ||
+                 window.location.hostname === "[::1]";
+const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzledropj-1.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 interface Ad {
@@ -32,16 +40,71 @@ interface Ad {
   createdAt: string;
 }
 
-type SidebarItem = "dashboard" | "manage-ads" | "settings";
+type SidebarItem = "dashboard" | "manage-ads" | "manage-deals" | "settings";
+
+interface Deal {
+  _id: string;
+  title: string;
+  description: string;
+  dealType: string;
+  location: string;
+  discountPercentage: number;
+  customPrice: string;
+  image: string;
+  validFrom: string;
+  validTo: string;
+  isActive: boolean;
+  priority: number;
+  isPopup: boolean;
+}
+
+interface ChatMessage {
+  sender: "user" | "bot";
+  text: string;
+  timestamp: string;
+}
+
+interface ChatSession {
+  _id: string;
+  sessionId: string;
+  messages: ChatMessage[];
+  metadata: {
+    location?: string;
+    name?: string;
+    phone?: string;
+  };
+  status: string;
+  updatedAt: string;
+}
+
+interface Booking {
+  _id: string;
+  name: string;
+  phone: string;
+  email: string;
+  location: string;
+  roomType: string;
+  adults: number;
+  children: number;
+  status: string;
+  createdAt: string;
+}
+
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { admin, token, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<SidebarItem>("manage-ads");
   const [ads, setAds] = useState<Ad[]>([]);
+  const [chats, setChats] = useState<ChatSession[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedChat, setSelectedChat] = useState<ChatSession | null>(null);
   const [editingAd, setEditingAd] = useState<Ad | null>(null);
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [editingDeal, setEditingDeal] = useState<Deal | null>(null);
+  const [isDealModalOpen, setIsDealModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Form state (image-only ad)
@@ -69,8 +132,54 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchChats = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/chat`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setChats(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch chats:", error);
+    }
+  };
+
+  const fetchBookings = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/bookings`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBookings(data.bookings || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error);
+    }
+  };
+
+  const fetchDeals = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/deals`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setDeals(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch deals:", error);
+    }
+  };
+
+
   useEffect(() => {
     fetchAds();
+    fetchChats();
+    fetchBookings();
+    fetchDeals();
   }, [token]);
 
   // Filter ads
@@ -113,10 +222,44 @@ export default function AdminDashboard() {
 
   // Reset form
   const resetForm = () => {
-  setFormImages(null);
-  setFormImagePreviews([]);
-  setFormTitle("");
-  setEditingAd(null);
+    setFormImages(null);
+    setFormImagePreviews([]);
+    setFormTitle("");
+    setEditingAd(null);
+  };
+
+  const [dealForm, setDealForm] = useState({
+    title: "",
+    description: "",
+    dealType: "DealsOfDay",
+    location: "Both",
+    discountPercentage: 0,
+    customPrice: "",
+    validFrom: new Date().toISOString().split("T")[0],
+    validTo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+    priority: 0,
+    isPopup: false,
+    isActive: true
+  });
+
+
+  const resetDealForm = () => {
+    setDealForm({
+      title: "",
+      description: "",
+      dealType: "DealsOfDay",
+      location: "Both",
+      discountPercentage: 0,
+      customPrice: "",
+      validFrom: new Date().toISOString().split("T")[0],
+      validTo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
+      priority: 0,
+      isPopup: false,
+      isActive: true
+    });
+    setFormImages(null);
+    setFormImagePreviews([]);
+    setEditingDeal(null);
   };
 
   // Open edit modal
@@ -202,7 +345,91 @@ export default function AdminDashboard() {
     }
   };
 
-  // Handle logout
+  // Handle Deal Submission
+
+  const handleDealSubmit = async () => {
+    if (!formImages && !editingDeal) {
+      alert("Please upload an image for the deal");
+      return;
+    }
+
+    setIsLoading(true);
+    const formData = new FormData();
+    if (formImages) formData.append("images", formImages);
+    Object.entries(dealForm).forEach(([key, value]) => {
+      formData.append(key, String(value));
+    });
+
+    try {
+      const url = editingDeal ? `${API_BASE}/deals/${editingDeal._id}` : `${API_BASE}/deals`;
+      const method = editingDeal ? "PUT" : "POST";
+      const res = await fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      if (res.ok) {
+        await fetchDeals();
+        setIsDealModalOpen(false);
+        resetDealForm();
+      } else {
+        const data = await res.json();
+        alert(data.message || "Failed to save deal");
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteDeal = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this deal?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/deals/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) fetchDeals();
+    } catch (error) {
+      alert("Failed to delete deal");
+    }
+  };
+
+  const handleToggleDeal = async (id: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/deals/${id}/toggle`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) fetchDeals();
+    } catch (error) {
+      alert("Failed to toggle deal status");
+    }
+  };
+
+  const openEditDealModal = (deal: Deal) => {
+    setEditingDeal(deal);
+    setDealForm({
+      title: deal.title,
+      description: deal.description,
+      dealType: deal.dealType,
+      location: deal.location,
+      discountPercentage: deal.discountPercentage,
+      customPrice: deal.customPrice,
+      validFrom: deal.validFrom.split("T")[0],
+      validTo: deal.validTo.split("T")[0],
+      priority: deal.priority,
+      isPopup: deal.isPopup,
+      isActive: deal.isActive
+    });
+    setFormImages(null);
+    setFormImagePreviews([deal.image]);
+    setIsDealModalOpen(true);
+  };
+
+
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -211,11 +438,19 @@ export default function AdminDashboard() {
   const sidebarItems: { id: SidebarItem; label: string; icon: React.ElementType }[] = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "manage-ads", label: "Manage Ads", icon: ImageIcon },
+    { id: "manage-deals", label: "Manage Deals", icon: Tag },
     { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-[#f5f6fa]" style={{ fontFamily: "var(--font-sans)" }}>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageSelect}
+        className="hidden"
+      />
       {/* Sidebar - matching reference green theme */}
       <aside className="w-full md:w-60 bg-gradient-to-r md:bg-gradient-to-b from-[#3a7d5a] to-[#2d6647] text-white flex flex-row md:flex-col shadow-lg md:shadow-xl md:fixed md:h-full md:z-40">
         {/* Logo */}
@@ -262,6 +497,7 @@ export default function AdminDashboard() {
           <h1 className="text-xl sm:text-2xl font-bold text-[#2d6647]" style={{ fontFamily: "var(--font-serif)" }}>
             {activeTab === "dashboard" && "Dashboard"}
             {activeTab === "manage-ads" && "Manage Ads"}
+            {activeTab === "manage-deals" && "Manage Deals"}
             {activeTab === "settings" && "Settings"}
           </h1>
 
@@ -279,6 +515,20 @@ export default function AdminDashboard() {
                 <Plus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add New Ad</span>
                 <span className="sm:hidden">Add</span>
+              </motion.button>
+            )}
+            {activeTab === "manage-deals" && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  resetDealForm();
+                  setIsDealModalOpen(true);
+                }}
+                className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 bg-[#3e4a5d] hover:bg-[#2c3748] text-white text-xs sm:text-sm font-bold rounded-lg sm:rounded-xl transition-colors shadow-md whitespace-nowrap"
+              >
+                <Plus className="w-4 h-4" />
+                <span>New Deal</span>
               </motion.button>
             )}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
@@ -426,7 +676,13 @@ export default function AdminDashboard() {
                               {ad.images.slice(0, 3).map((img, i) => (
                                 <img
                                   key={i}
-                                  src={`${BACKEND_BASE}${img}`}
+                                  src={(() => {
+                                    if (!img) return "";
+                                    // Handle both preview data and DB Base64 strings
+                                    if (img.startsWith("data:") || img.startsWith("blob:")) return img;
+                                    const base = img.startsWith("http") ? "" : BACKEND_BASE;
+                                    return `${base}${img}${img.includes("?") ? "&" : "?"}t=${Date.now()}`;
+                                  })()}
                                   alt=""
                                   className="w-10 sm:w-12 h-10 sm:h-12 object-cover rounded-lg border border-gray-200"
                                 />
@@ -440,20 +696,20 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-3 sm:px-6 py-3 sm:py-4 text-center">
                             <button
-                              onClick={() => handleToggle(ad._id)}
+                              onClick={() => handleToggle(ad?._id)}
                               className={`inline-flex items-center gap-1 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold transition-colors ${
-                                ad.isActive
+                                ad?.isActive
                                   ? "bg-green-50 text-green-600 hover:bg-green-100"
                                   : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                               }`}
                             >
                               <div
                                 className={`w-1.5 h-1.5 rounded-full ${
-                                  ad.isActive ? "bg-green-500" : "bg-gray-400"
+                                  ad?.isActive ? "bg-green-500" : "bg-gray-400"
                                 }`}
                               />
-                              <span className="hidden sm:inline">{ad.isActive ? "Active" : "Inactive"}</span>
-                              <span className="sm:hidden">{ad.isActive ? "On" : "Off"}</span>
+                              <span className="hidden sm:inline">{ad?.isActive ? "Active" : "Inactive"}</span>
+                              <span className="sm:hidden">{ad?.isActive ? "On" : "Off"}</span>
                             </button>
                           </td>
                           <td className="px-3 sm:px-6 py-3 sm:py-4 text-right">
@@ -466,7 +722,7 @@ export default function AdminDashboard() {
                                 <Edit className="w-4 h-4" />
                               </button>
                               <button
-                                onClick={() => handleDelete(ad._id)}
+                                onClick={() => handleDelete(ad?._id)}
                                 className="p-1.5 sm:p-2 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
                                 title="Delete"
                               >
@@ -510,6 +766,53 @@ export default function AdminDashboard() {
 
           {/* manage-rooms removed per request */}
 
+          {activeTab === "manage-deals" && (
+            <div className="bg-white rounded-lg sm:rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+              <table className="w-full text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 italic">
+                    <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Offer</th>
+                    <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Type & Location</th>
+                    <th className="text-center px-6 py-4 font-bold text-gray-500 uppercase">Discount</th>
+                    <th className="text-right px-6 py-4 font-bold text-gray-500 uppercase">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {deals?.map(deal => (
+                    <tr key={deal?._id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img src={deal?.image} className="w-12 h-12 object-cover rounded-md border" />
+                          <div>
+                            <div className="font-bold text-gray-800">{deal?.title}</div>
+                            <div className="text-[10px] text-gray-400">Valid to: {new Date(deal?.validTo)?.toLocaleDateString()}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-xs font-semibold text-primary uppercase">{deal?.dealType}</div>
+                        <div className="text-[10px] text-gray-500">{deal?.location}</div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className="bg-red-50 text-red-600 px-2 py-1 rounded-full font-bold">
+                          {deal?.discountPercentage}%
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <div className="flex justify-end gap-2">
+                            <button onClick={() => openEditDealModal(deal)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"><Edit className="w-4 h-4" /></button>
+                            <button onClick={() => handleDeleteDeal(deal._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                         </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+
+
           {activeTab === "settings" && (
             <div className="bg-white rounded-lg sm:rounded-2xl p-6 sm:p-12 text-center shadow-sm border border-gray-100">
               <Settings className="w-8 sm:w-12 h-8 sm:h-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
@@ -519,9 +822,48 @@ export default function AdminDashboard() {
               <p className="text-xs sm:text-sm text-gray-400 mt-2">Coming soon — manage your admin profile and preferences</p>
             </div>
           )}
+
         </div>
       </main>
 
+      {/* Chat Details Modal */}
+      <AnimatePresence>
+        {selectedChat && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          >
+            <motion.div
+               initial={{ scale: 0.95 }}
+               animate={{ scale: 1 }}
+               className="bg-white w-full max-w-2xl h-[80vh] rounded-2xl flex flex-col overflow-hidden"
+            >
+               <div className="p-4 bg-gray-50 border-b flex justify-between items-center">
+                  <h3 className="font-bold">Chat Transcript: {selectedChat.sessionId}</h3>
+                  <button onClick={() => setSelectedChat(null)} className="p-2 hover:bg-gray-200 rounded-full">
+                    <X className="w-5 h-5" />
+                  </button>
+               </div>
+               <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50">
+                  {selectedChat.messages.map((m, i) => (
+                    <div key={i} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
+                      <div className={`p-3 rounded-xl max-w-[80%] text-sm ${
+                        m.sender === "user" ? "bg-blue-600 text-white" : "bg-white border text-gray-800"
+                      }`}>
+                        {m.text}
+                        <div className="text-[10px] mt-1 opacity-60">
+                          {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Create / Edit Ad Modal */}
       <AnimatePresence>
         {isCreateModalOpen && (
@@ -613,13 +955,6 @@ export default function AdminDashboard() {
                         </div>
                       )}
                     </div>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.webp,image/*"
-                      onChange={handleImageSelect}
-                      className="hidden"
-                    />
                   </div>
 
                 {/* ...existing code — single image upload block above is used; removed duplicate multi-image UI */}
@@ -649,6 +984,109 @@ export default function AdminDashboard() {
                   {editingAd ? "Update Ad" : "Create Ad"}
                 </motion.button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Deal Create / Edit Modal */}
+      <AnimatePresence>
+        {isDealModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto"
+            onClick={resetDealForm}
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              className="bg-white rounded-2xl w-full max-w-2xl my-8"
+              onClick={e => e.stopPropagation()}
+            >
+               <div className="p-6 border-b flex justify-between items-center">
+                  <h2 className="text-xl font-bold">{editingDeal ? "Edit Deal" : "Create New Deal"}</h2>
+                  <button onClick={() => { setIsDealModalOpen(false); resetDealForm(); }} className="hover:bg-gray-100 p-2 rounded-full"><X className="w-5 h-5" /></button>
+               </div>
+               <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto">
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold mb-1 uppercase">Deal Title</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={dealForm.title} onChange={e => setDealForm({...dealForm, title: e.target.value})} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold mb-1 uppercase">Description</label>
+                    <textarea className="w-full border p-2 rounded-lg" rows={3} value={dealForm.description} onChange={e => setDealForm({...dealForm, description: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Type</label>
+                    <select className="w-full border p-2 rounded-lg" value={dealForm.dealType} onChange={e => setDealForm({...dealForm, dealType: e.target.value})}>
+                      <option value="DealsOfDay">Deal of Day</option>
+                      <option value="LastMinute">Last Minute</option>
+                      <option value="LOS">Extended Stay</option>
+                      <option value="Family">Family</option>
+                      <option value="Corporate">Corporate</option>
+                      <option value="Group">Group</option>
+                      <option value="DayUse">Day Use</option>
+                      <option value="AdvanceBooking">Advance Booking</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Location</label>
+                    <select className="w-full border p-2 rounded-lg" value={dealForm.location} onChange={e => setDealForm({...dealForm, location: e.target.value})}>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Ooty">Ooty</option>
+                      <option value="Both">Both</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Discount %</label>
+                    <input type="number" className="w-full border p-2 rounded-lg" value={dealForm.discountPercentage} onChange={e => setDealForm({...dealForm, discountPercentage: Number(e.target.value)})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Custom Price</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={dealForm.customPrice} onChange={e => setDealForm({...dealForm, customPrice: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Valid From</label>
+                    <input type="date" className="w-full border p-2 rounded-lg" value={dealForm.validFrom} onChange={e => setDealForm({...dealForm, validFrom: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Valid To</label>
+                    <input type="date" className="w-full border p-2 rounded-lg" value={dealForm.validTo} onChange={e => setDealForm({...dealForm, validTo: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Priority</label>
+                    <input type="number" className="w-full border p-2 rounded-lg" value={dealForm.priority} onChange={e => setDealForm({...dealForm, priority: Number(e.target.value)})} />
+                  </div>
+                  <div className="flex items-center gap-4 pt-6">
+                    <label className="flex items-center gap-2 text-sm font-bold">
+                      <input type="checkbox" checked={dealForm.isPopup} onChange={e => setDealForm({...dealForm, isPopup: e.target.checked})} />
+                      Highlight as Popup
+                    </label>
+                  </div>
+
+                  <div className="md:col-span-2 pt-4">
+                     <label className="block text-xs font-bold mb-1 uppercase">Deal Image</label>
+                     <div 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="border-2 border-dashed p-8 rounded-xl text-center cursor-pointer hover:bg-gray-50 bg-gray-50/30"
+                     >
+                        {formImagePreviews.length > 0 ? (
+                           <img src={formImagePreviews[0]} className="h-32 mx-auto rounded-lg shadow-sm" />
+                        ) : (
+                           <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                        )}
+                        <p className="text-xs text-gray-500 mt-2">Click to upload deal banner</p>
+                     </div>
+                  </div>
+               </div>
+               <div className="p-6 border-t flex justify-end gap-3">
+                  <button onClick={() => { setIsDealModalOpen(false); resetDealForm(); }} className="px-6 py-2 border rounded-xl hover:bg-gray-50">Cancel</button>
+                  <button onClick={handleDealSubmit} className="px-8 py-2 bg-primary text-white font-bold rounded-xl hover:shadow-lg transition-all">
+                    {isLoading ? "Saving..." : "Save Deal"}
+                  </button>
+               </div>
             </motion.div>
           </motion.div>
         )}

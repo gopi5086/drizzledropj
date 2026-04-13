@@ -42,6 +42,15 @@ const chennaiRooms: Room[] = [
     amenities: ["WiFi", "Google TV", "Mini Bar", "Laundry"] 
   },
   { 
+    name: "Triple Room", 
+    type: "Group Stay", 
+    desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.", 
+    epPrice: "₹3,200", 
+    cpPrice: "₹3,500",
+    image: roomTriple, 
+    amenities: ["WiFi", "Google TV", "Extra Bed", "Toiletries"] 
+  },
+  { 
     name: "Family Room", 
     type: "Spacious Retreat", 
     desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.", 
