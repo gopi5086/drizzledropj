@@ -13,8 +13,7 @@ interface Message {
   type?: "text" | "options" | "booking-form";
 }
 
-const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-const API_BASE = IS_LOCAL ? "http://localhost:5000/api" : "https://drizzledropj-1.onrender.com/api";
+const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
 const WEB3FORMS_KEY = "868bd7f9-4108-4342-bf38-75a5dd580e00";
 
 export default function Chatbot() {
@@ -67,7 +66,7 @@ export default function Chatbot() {
 
   const saveToBackend = async (msg: Message) => {
     try {
-      await fetch(`${API_BASE}/chat/message`, {
+      await fetch(`${BACKEND_BASE}/api/chat/message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -140,7 +139,7 @@ export default function Chatbot() {
         addBotMessage(`Thank you, ${bookingData.name}! Your request has been sent. Our team will contact you at ${bookingData.phone} shortly to confirm.`);
         
         // Also save to internal bookings
-        await fetch(`${API_BASE}/bookings`, {
+        await fetch(`${BACKEND_BASE}/api/bookings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

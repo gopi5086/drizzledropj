@@ -19,12 +19,7 @@ interface Deal {
   priority: number;
 }
 
-const IS_LOCAL = window.location.hostname === "localhost" || 
-                 window.location.hostname === "127.0.0.1" || 
-                 window.location.hostname.startsWith("192.168.") ||
-                 window.location.hostname.startsWith("10.") ||
-                 window.location.hostname === "[::1]";
-const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
 
 export default function DealsSection({ location }: { location: "Chennai" | "Ooty" }) {
   const [deals, setDeals] = useState<Deal[]>([]);

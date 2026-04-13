@@ -17,12 +17,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const IS_LOCAL = window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1" ||
-  window.location.hostname.startsWith("192.168.") ||
-  window.location.hostname.startsWith("10.") ||
-  window.location.hostname === "[::1]";
-const API_BASE = IS_LOCAL ? "http://localhost:5000/api" : "https://drizzledropj-1.onrender.com/api";
+const API_BASE = "https://drizzledropj-1.onrender.com/api";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [admin, setAdmin] = useState<AdminData | null>(null);

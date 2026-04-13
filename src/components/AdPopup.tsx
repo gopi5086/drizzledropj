@@ -12,11 +12,7 @@ interface Ad {
   isActive: boolean;
 }
 
-const IS_LOCAL = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname) || 
-                 window.location.hostname.startsWith("192.168.") || 
-                 window.location.hostname.startsWith("10.") || 
-                 window.location.hostname.startsWith("172.");
-const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 export default function AdPopup() {
