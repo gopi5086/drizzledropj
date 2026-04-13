@@ -124,16 +124,16 @@ export default function Footer() {
                 <li className="flex items-start gap-3">
                   <MapPin className="w-4 sm:w-5 h-4 sm:h-5 mt-0.5 text-[#C5A861] shrink-0" />
                   <span className="leading-relaxed">
-                    2 KM from Ooty Bus Stand<br />&amp; Railway Station, Nilgiris – 643001
+                    215 H, Dispensary Road,<br />Fern Hill, Ooty, Tamil Nadu – 643004
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="tel:+918667825086" className="hover:text-[#C5A861] transition-colors">+91 86678 25086</a>
+                  <a href="tel:+919150486153" className="hover:text-[#C5A861] transition-colors">+91 91504 86153</a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
-                  <a href="mailto:ooty@drizzledrop.com" className="hover:text-[#C5A861] transition-colors">ooty@drizzledrop.com</a>
+                  <a href="mailto:stay@drizzledropinn.com" className="hover:text-[#C5A861] transition-colors">stay@drizzledropinn.com</a>
                 </li>
               </ul>
               <Link

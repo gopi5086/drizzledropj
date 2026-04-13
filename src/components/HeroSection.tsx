@@ -172,7 +172,7 @@ export default function HeroSection() {
             Welcome to
             <br />
             <span className="italic bg-gradient-to-r from-[#C5A861] via-[#EBD5A3] to-[#C5A861] bg-clip-text text-transparent filter drop-shadow-[0_2px_15px_rgba(197,168,97,0.3)]">
-              DrizzleDrop Hotels
+              DrizzleDrop Inn
             </span>
           </motion.h1>
         </div>

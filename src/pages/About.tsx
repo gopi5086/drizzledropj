@@ -39,7 +39,7 @@ const OotyAbout = () => (
     {/* 1. Hero / Intro Section */}
     <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
       <img src={ootyHero} alt="Ooty Hills" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a2f23]/60 via-[#1a2f23]/30 to-[#f8faf9]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a2f23]/80 via-[#1a2f23]/50 to-black/30" />
       
       <div className="absolute inset-0 flex items-center justify-center pt-24">
         <motion.div 
@@ -48,9 +48,6 @@ const OotyAbout = () => (
           variants={STAGGER_CONTAINER}
           className="text-center text-white px-4 max-w-4xl"
         >
-          <motion.div variants={FADE_IN} className="mb-4 inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-sm font-semibold tracking-wider uppercase shadow-xl">
-            Discover Nilgiris
-          </motion.div>
           <motion.h1 variants={FADE_IN} className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight drop-shadow-2xl text-white mb-6">
             Ooty – Queen of Hill Stations
           </motion.h1>
@@ -198,7 +195,7 @@ const ChennaiAbout = () => (
     {/* 1. Hero / Intro Section */}
     <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
       <img src={chennaiHero} alt="Chennai Cityscape" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a232f]/80 via-[#1a232f]/40 to-[#f8faf9]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1a232f]/90 via-[#1a232f]/55 to-black/30" />
       
       <div className="absolute inset-0 flex items-center justify-center pt-24">
         <motion.div 
@@ -364,7 +361,15 @@ export default function About() {
     }
   }, [loc, navigate]);
 
-  if (!loc) return null;
+  if (!loc) {
+    return (
+      <div className="flex flex-col">
+        <ChennaiAbout />
+        <div className="w-full h-px bg-gray-200" />
+        <OotyAbout />
+      </div>
+    );
+  }
 
   return loc === "ooty" ? <OotyAbout /> : <ChennaiAbout />;
 }

@@ -12,7 +12,20 @@ const createAd = async (req, res) => {
       return res.status(400).json({ message: "At least one image is required." });
     }
 
-    const images = req.files.map((file) => `/uploads/${file.filename}`);
+    // Convert images to Base64 and store in DB for absolute persistence on Render/Restart
+    const images = req.files.map((file) => {
+      const filePath = file.path;
+      const fileBuffer = fs.readFileSync(filePath);
+      const base64Image = fileBuffer.toString("base64");
+      const mimeType = file.mimetype;
+      
+      // Cleanup: delete the file from the uploads folder to save space
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      
+      return `data:${mimeType};base64,${base64Image}`;
+    });
 
     const ad = await Ad.create({
       title: title || "",
@@ -22,7 +35,7 @@ const createAd = async (req, res) => {
       isActive: true,
     });
 
-    res.status(201).json({ message: "Ad created successfully", ad });
+    res.status(201).json({ message: "Ad created successfully (stored persistently)", ad });
   } catch (error) {
     console.error("Create ad error:", error);
     res.status(500).json({ message: "Failed to create ad." });
@@ -46,6 +59,12 @@ const getAds = async (req, res) => {
 const getActiveAds = async (req, res) => {
   try {
     const ads = await Ad.find({ isActive: true }).sort({ createdAt: -1 });
+    
+    // Add cache-control to prevent CDNs and browsers from serving stale/deleted image paths
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    
     res.json(ads);
   } catch (error) {
     console.error("Get active ads error:", error);
@@ -71,16 +90,21 @@ const updateAd = async (req, res) => {
     if (redirectLink !== undefined) ad.redirectLink = redirectLink;
     if (isActive !== undefined) ad.isActive = isActive === "true" || isActive === true;
 
-    // If new images uploaded, replace old ones
+    // If new images uploaded, replace old ones with persistent Base64
     if (req.files && req.files.length > 0) {
-      // Delete old images from disk
-      ad.images.forEach((img) => {
-        const fullPath = path.join(__dirname, "..", img);
-        if (fs.existsSync(fullPath)) {
-          fs.unlinkSync(fullPath);
+      ad.images = req.files.map((file) => {
+        const filePath = file.path;
+        const fileBuffer = fs.readFileSync(filePath);
+        const base64Image = fileBuffer.toString("base64");
+        const mimeType = file.mimetype;
+        
+        // Cleanup: delete the temporary file
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
         }
+        
+        return `data:${mimeType};base64,${base64Image}`;
       });
-      ad.images = req.files.map((file) => `/uploads/${file.filename}`);
     }
 
     await ad.save();
@@ -102,13 +126,8 @@ const deleteAd = async (req, res) => {
       return res.status(404).json({ message: "Ad not found." });
     }
 
-    // Delete images from disk
-    ad.images.forEach((img) => {
-      const fullPath = path.join(__dirname, "..", img);
-      if (fs.existsSync(fullPath)) {
-        fs.unlinkSync(fullPath);
-      }
-    });
+    // No need to delete from disk as images are stored as Base64 strings in DB
+    // and cleanup happens during creation/update
 
     await Ad.findByIdAndDelete(id);
     res.json({ message: "Ad deleted successfully" });

@@ -12,7 +12,8 @@ interface Ad {
   isActive: boolean;
 }
 
-const BACKEND_BASE = "https://drizzle-background-5.onrender.com";
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const BACKEND_BASE = IS_LOCAL ? "http://localhost:5000" : "https://drizzle-background-5.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 export default function AdPopup() {
@@ -103,12 +104,24 @@ export default function AdPopup() {
             </button>
 
             {/* Display a single full-width image occupying the container */}
-            <div className="w-full">
+            <div className="w-full relative min-h-[200px] flex items-center justify-center bg-gray-100/10">
               <img
-                src={`${BACKEND_BASE}${currentAd.images[currentImageIndex]}`}
+                src={(() => {
+                  const imgPath = currentAd.images[currentImageIndex];
+                  if (!imgPath) return "";
+                  // If it's a Base64 string from DB or a direct preview, use it as is
+                  if (imgPath.startsWith("data:") || imgPath.startsWith("blob:")) return imgPath;
+                  
+                  // Otherwise, construct the URL with the backend base (for old/legacy items)
+                  const base = imgPath.startsWith("http") ? "" : BACKEND_BASE;
+                  return `${base}${imgPath}${imgPath.includes("?") ? "&" : "?"}t=${Date.now()}`;
+                })()}
                 alt={currentAd.title || "Ad"}
-                className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg"
-                style={{ display: "block" }}
+                className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg shadow-lg"
+                onError={(e) => {
+                  console.error("Ad image load failed:", e.currentTarget.src);
+                  // If the image fails to load, we could hide the popup, but for now we log it
+                }}
               />
             </div>
 

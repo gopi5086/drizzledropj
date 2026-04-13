@@ -45,7 +45,11 @@ export default function Facilities() {
               Our <span className="italic text-[#C5A861]">Facilities</span>
             </h1>
             <p className="text-white/70 max-w-2xl mx-auto text-xs sm:text-base md:text-lg leading-relaxed px-2">
-              From business efficiency in Chennai to nature's serenity in Ooty, we provide everything you need for a seamless stay.
+              {isChennai
+                ? "Designed for the modern business traveller — high-speed connectivity, prime OMR location, and premium comforts that keep you at your productive best."
+                : isOoty
+                ? "Nestled in the Nilgiri hills, every facility is crafted to immerse you in nature's calm — breathe in the mist, unwind, and reconnect with serenity."
+                : "From business efficiency in Chennai to nature's serenity in Ooty, we provide everything you need for a seamless stay."}
             </p>
           </Reveal>
         </div>
