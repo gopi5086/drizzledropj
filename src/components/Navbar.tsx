@@ -151,7 +151,9 @@ export default function Navbar() {
     <header
       className={`fixed left-0 right-0 z-[100] transition-all duration-300 ${scrolled
         ? "top-0 bg-white/98 backdrop-blur-md shadow-lg border-b border-[#2E6B8A]/15 py-1.5"
-        : "top-[92px] md:top-9 bg-black/20 backdrop-blur-sm py-3"
+        : isCommonPage
+          ? "top-0 bg-black/20 backdrop-blur-sm py-3"
+          : "top-[92px] md:top-9 bg-black/20 backdrop-blur-sm py-3"
         }`}
     >
       <div className="container-luxury flex items-center justify-between">

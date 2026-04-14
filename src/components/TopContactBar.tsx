@@ -24,13 +24,16 @@ const CONTACTS = {
 function getLocationFromPath(pathname: string) {
   if (/chennai/i.test(pathname)) return "chennai";
   if (/ooty/i.test(pathname)) return "ooty";
-  return "chennai"; // Default to Chennai for home/overview (arbitrary, can be changed)
+  return null;
 }
 
 export default function TopContactBar() {
   const routerLocation = useLocation();
   const locKey = getLocationFromPath(routerLocation.pathname);
-  const contact = CONTACTS[locKey];
+  
+  if (!locKey) return null;
+
+  const contact = CONTACTS[locKey as keyof typeof CONTACTS];
 
   return (
     <div className="flex w-full bg-[#0a0f18] text-gray-300 border-b border-white/5 py-2 md:py-1.5 px-4 z-[30] transition-all duration-300">
