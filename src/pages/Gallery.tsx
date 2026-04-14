@@ -1,129 +1,100 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import SectionHeading from "@/components/SectionHeading";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn, Search, RefreshCw } from "lucide-react";
 
-// ── ALL 71 images from asset_images ──────────────────────────────────────────
-import img00 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM.jpeg";
-import img01 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (1).jpeg";
-import img02 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (2).jpeg";
-import img03 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (3).jpeg";
-import img04 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (4).jpeg";
-import img05 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (5).jpeg";
-import img06 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (6).jpeg";
-import img07 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
-import img08 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (8).jpeg";
-import img09 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (9).jpeg";
-import img10 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (10).jpeg";
-import img11 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (11).jpeg";
-import img12 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (12).jpeg";
-import img13 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (13).jpeg";
-import img14 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (14).jpeg";
-import img15 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (15).jpeg";
-import img16 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (16).jpeg";
-import img17 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (17).jpeg";
-import img18 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (18).jpeg";
-import img19 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (19).jpeg";
-import img20 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (20).jpeg";
-import img21 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (21).jpeg";
-import img22 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (22).jpeg";
-import img23 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).jpeg";
-import img24 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (24).jpeg";
-import img25 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (25).jpeg";
-import img26 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (26).jpeg";
-import img27 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (27).jpeg";
-import img28 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (28).jpeg";
-import img29 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (29).jpeg";
-import img30 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (30).jpeg";
-import img31 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (31).jpeg";
-import img32 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (32).jpeg";
-import img33 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (33).jpeg";
-import img34 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (34).jpeg";
-import img35 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (35).jpeg";
-import img36 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (36).jpeg";
-import img37 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (37).jpeg";
-import img38 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (38).jpeg";
-import img39 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (39).jpeg";
-import img40 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (40).jpeg";
-import img41 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (41).jpeg";
-import img42 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (42).jpeg";
-import img43 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (43).jpeg";
-import img44 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (44).jpeg";
-import img45 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (45).jpeg";
-import img46 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).jpeg";
-import img47 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (47).jpeg";
-import img48 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (48).jpeg";
-import img49 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (49).jpeg";
-import img50 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (50).jpeg";
-import img51 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (51).jpeg";
-import img52 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (52).jpeg";
-import img53 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (53).jpeg";
-import img54 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (54).jpeg";
-import img55 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (55).jpeg";
-import img56 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (56).jpeg";
-import img57 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (57).jpeg";
-import img58 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (58).jpeg";
-import img59 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (59).jpeg";
-import img60 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (60).jpeg";
-import img61 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (61).jpeg";
-import img62 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (62).jpeg";
-import img63 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (63).jpeg";
-import img64 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (64).jpeg";
-import img65 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).jpeg";
-import img66 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (66).jpeg";
-import img67 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (67).jpeg";
-import img68 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (68).jpeg";
-import img69 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (69).jpeg";
-import img70 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).jpeg";
+// Load all images dynamically from the Gallery assets
+const imageModules = import.meta.glob<{ default: string }>(
+  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+  { eager: true, query: "?url" }
+);
 
-const allImages = [
-  img00, img01, img02, img03, img04, img05, img06, img07, img08, img09,
-  img10, img11, img12, img13, img14, img15, img16, img17, img18, img19,
-  img20, img21, img22, img23, img24, img25, img26, img27, img28, img29,
-  img30, img31, img32, img33, img34, img35, img36, img37, img38, img39,
-  img40, img41, img42, img43, img44, img45, img46, img47, img48, img49,
-  img50, img51, img52, img53, img54, img55, img56, img57, img58, img59,
-  img60, img61, img62, img63, img64, img65, img66, img67, img68, img69,
-  img70,
-];
+interface GalleryItem {
+  id: string;
+  src: string;
+  location: "ooty" | "chennai";
+  category: string;
+}
 
-const chennaiImages = [
-  img00, img01, img02, img03, img04, img05, img06, img07, img08, img09,
-  img10, img11, img12, img13, img14, img15, img16, img17, img18, img19,
-  img20, img21, img22, img23, img24, img25, img26, img27, img28, img29,
-  img30, img31, img32, img33, img34,
-];
-
-const ootyImages = [
-  img35, img36, img37, img38, img39, img40, img41, img42, img43, img44,
-  img45, img46, img47, img48, img49, img50, img51, img52, img53, img54,
-  img55, img56, img57, img58, img59, img60, img61, img62, img63, img64,
-  img65, img66, img67, img68, img69, img70,
-];
+const ALL_GALLERY_IMAGES: GalleryItem[] = Object.values(
+  Object.entries(imageModules).reduce((acc, [path, module]) => {
+    const parts = path.split("/");
+    const locRaw = parts[4].toLowerCase();
+    const location = locRaw.includes("ooty") ? "ooty" : ("chennai" as "ooty" | "chennai");
+    const categoryName = (parts.length > 6 ? parts[5] : "General").replace(/-/g, " ");
+    
+    // Deduplication key: location + category + lowercase filename
+    // This prevents showing the same file twice (e.g. image.jpg vs IMAGE.JPG) 
+    // or duplicates accidentally added to the same folder.
+    const filename = path.split("/").pop()?.toLowerCase() || "";
+    const key = `${location}-${categoryName}-${filename}`;
+    
+    if (!acc[key]) {
+      acc[key] = {
+        id: path,
+        src: module.default,
+        location,
+        category: categoryName,
+      };
+    }
+    return acc;
+  }, {} as Record<string, GalleryItem>)
+);
 
 type TabKey = "all" | "chennai" | "ooty";
-
-const tabImages: Record<TabKey, string[]> = {
-  all: allImages,
-  chennai: chennaiImages,
-  ooty: ootyImages,
-};
-
-import { useParams } from "react-router-dom";
 
 export default function Gallery() {
   const { locationId } = useParams();
   const [searchParams] = useSearchParams();
   
-  // Set initial tab based on params (URL path or query string)
   const initialTabFromPath = locationId?.toLowerCase() === "ooty" ? "ooty" : locationId?.toLowerCase() === "chennai" ? "chennai" : null;
   const initialTabFromSearch = searchParams.get("location") === "ooty" ? "ooty" : searchParams.get("location") === "chennai" ? "chennai" : "all";
   
   const [tab, setTab] = useState<TabKey>((initialTabFromPath || initialTabFromSearch) as TabKey);
+  const [category, setCategory] = useState<string>("All");
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [randomImages, setRandomImages] = useState<GalleryItem[]>([]);
 
-  const images = tabImages[tab];
+  // Function to get 25 random images
+  const shuffleAndSelect = () => {
+    const shuffled = [...ALL_GALLERY_IMAGES].sort(() => 0.5 - Math.random());
+    setRandomImages(shuffled.slice(0, 25));
+  };
+
+  // Initialize random images for "All Photos"
+  useEffect(() => {
+    shuffleAndSelect();
+  }, []);
+
+  const handleTabChange = (newTab: TabKey) => {
+    setTab(newTab);
+    setCategory("All");
+    if (newTab === "all") {
+      shuffleAndSelect();
+    }
+  };
+
+  // Get categories for current location
+  const categories = useMemo(() => {
+    if (tab === "all") return ["All"];
+    const locImages = ALL_GALLERY_IMAGES.filter(img => img.location === tab);
+    const uniqueCats = Array.from(new Set(locImages.map(img => img.category)));
+    return ["All", ...uniqueCats.sort()];
+  }, [tab]);
+
+  // Filtered images
+  const displayImages = useMemo(() => {
+    if (tab === "all") return randomImages;
+    
+    let filtered = ALL_GALLERY_IMAGES.filter(img => img.location === tab);
+    if (category !== "All") {
+      filtered = filtered.filter(img => img.category === category);
+    }
+    return filtered;
+  }, [tab, category, randomImages]);
+
+  const images = displayImages;
 
   return (
     <div className="pt-24">
@@ -136,45 +107,71 @@ export default function Gallery() {
           />
 
           {/* Tabs */}
-          <div className="flex justify-center gap-4 mb-12">
+          <div className="flex justify-center gap-4 mb-8">
             {(["all", "chennai", "ooty"] as const).map((loc) => (
               <button
                 key={loc}
-                onClick={() => setTab(loc)}
-                className={`px-6 py-2.5 text-sm font-medium transition-all duration-300 ${tab === loc
-                    ? "bg-primary text-primary-foreground"
+                onClick={() => handleTabChange(loc)}
+                className={`flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-all duration-300 ${tab === loc
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                     : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                   }`}
               >
+                {loc === "all" && <RefreshCw className={`w-3.5 h-3.5 ${tab === "all" ? "animate-spin-slow" : ""}`} />}
                 {loc === "all" ? "All Photos" : loc === "chennai" ? "Chennai" : "Ooty"}
               </button>
             ))}
           </div>
 
+          {/* Sub-categories/Folders Filter */}
+          <AnimatePresence mode="wait">
+            {tab !== "all" && categories.length > 1 && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="flex flex-wrap justify-center gap-2 mb-12"
+              >
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setCategory(cat)}
+                    className={`px-4 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-full border transition-all duration-300 ${category === cat
+                      ? "bg-primary/10 border-primary text-primary"
+                      : "bg-transparent border-transparent text-muted-foreground hover:text-foreground"
+                      }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Masonry Grid */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={tab}
+              key={`${tab}-${category}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
               className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 sm:gap-3 space-y-2 sm:space-y-3"
             >
-              {images.map((src, i) => (
+              {images.map((img, i) => (
                 <motion.div
-                  key={`${tab}-${i}`}
+                  key={img.id + i}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ delay: Math.min(i * 0.04, 0.5), duration: 0.4 }}
-                  className="break-inside-avoid group relative overflow-hidden cursor-pointer mb-2 sm:mb-3 rounded"
-                  onClick={() => setLightbox(src)}
+                  transition={{ delay: Math.min(i * 0.02, 0.4), duration: 0.4 }}
+                  className="break-inside-avoid group relative overflow-hidden cursor-pointer mb-2 sm:mb-3 rounded-lg"
+                  onClick={() => setLightbox(img.src)}
                 >
                   <img
-                    src={src}
-                    alt={`DrizzleDrop Hotels photo ${i + 1}`}
-                    className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${
+                    src={img.src}
+                    alt={`${img.location} - ${img.category} photo`}
+                    className={`w-full object-cover group-hover:scale-110 transition-transform duration-1000 ${
                       i % 4 === 0 ? "h-48 sm:h-64 md:h-72 lg:h-80" : 
                       i % 4 === 1 ? "h-40 sm:h-48 md:h-56" : 
                       i % 4 === 2 ? "h-48 sm:h-56 md:h-64 lg:h-72" : 
@@ -182,8 +179,15 @@ export default function Gallery() {
                     }`}
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                    <ZoomIn className="w-5 sm:w-6 lg:w-7 h-5 sm:h-6 lg:h-7 text-white opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 flex flex-col items-center justify-end pb-6">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-center px-4">
+                      {tab !== 'all' && img.category !== 'General' && (
+                        <span className="text-[10px] text-primary font-bold tracking-widest uppercase mb-1 block opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                          {img.category}
+                        </span>
+                      )}
+                      <ZoomIn className="w-6 h-6 text-white mx-auto opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100" />
+                    </div>
                   </div>
                 </motion.div>
               ))}

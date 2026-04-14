@@ -83,67 +83,67 @@ const NavigateToCanonical = () => {
 
 const App = () => (
   <HelmetProvider>
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AuthProvider>
-        <BookingProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <LocationProvider>
-            <Routes>
-              {/* Admin routes – prioritized at top */}
-              <Route path="/admin" element={<AdminLogin />} />
-              <Route
-                path="/admin/dashboard"
-                element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                }
-              />
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AuthProvider>
+          <BookingProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <LocationProvider>
+                <Routes>
+                  {/* Admin routes – prioritized at top */}
+                  <Route path="/admin" element={<AdminLogin />} />
+                  <Route
+                    path="/admin/dashboard"
+                    element={
+                      <AdminRoute>
+                        <AdminDashboard />
+                      </AdminRoute>
+                    }
+                  />
 
-              {/* ... existing routes ... */}
+                  {/* ... existing routes ... */}
 
-              {/* Main routes */}
-              <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
-              <Route path="/ooty"    element={<Layout><Ooty /></Layout>} />
+                  {/* Main routes */}
+                  <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
+                  <Route path="/ooty" element={<Layout><Ooty /></Layout>} />
 
-              {/* Dynamic Location Routes */}
-              <Route path="/:locationId"            element={<Layout><LocationHomeBridge /></Layout>} />
-              <Route path="/:locationId/home"       element={<NavigateToCanonical />} />
-              <Route path="/:locationId/rooms"      element={<Layout><Rooms /></Layout>} />
-              <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
-              <Route path="/:locationId/about"     element={<Layout><About /></Layout>} />
-              <Route path="/:locationId/deals"      element={<Layout><Deals /></Layout>} />
-              <Route path="/:locationId/gallery"    element={<Layout><Gallery /></Layout>} />
-              <Route path="/:locationId/dining"     element={<Layout><Dining /></Layout>} />
-              <Route path="/:locationId/contact"    element={<Layout><Contact /></Layout>} />
+                  {/* Dynamic Location Routes */}
+                  <Route path="/:locationId" element={<Layout><LocationHomeBridge /></Layout>} />
+                  <Route path="/:locationId/home" element={<NavigateToCanonical />} />
+                  <Route path="/:locationId/rooms" element={<Layout><Rooms /></Layout>} />
+                  <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
+                  <Route path="/:locationId/about" element={<Layout><About /></Layout>} />
+                  <Route path="/:locationId/deals" element={<Layout><Deals /></Layout>} />
+                  <Route path="/:locationId/gallery" element={<Layout><Gallery /></Layout>} />
+                  <Route path="/:locationId/dining" element={<Layout><Dining /></Layout>} />
+                  <Route path="/:locationId/contact" element={<Layout><Contact /></Layout>} />
 
-              {/* Shared pages */}
-              <Route path="/"           element={<Layout><Home /></Layout>} />
-              <Route path="/about"      element={<Layout><About /></Layout>} />
-              <Route path="/contact"    element={<Layout><Contact /></Layout>} />
-              <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
-              <Route path="/rooms"      element={<Layout><Rooms /></Layout>} />
-              <Route path="/gallery"    element={<Layout><Gallery /></Layout>} />
-              <Route path="/dining"     element={<Layout><Dining /></Layout>} />
-              <Route path="/deals"      element={<Layout><Deals /></Layout>} />
-              <Route path="/overview"   element={<Layout><Overview /></Layout>} />
-              <Route path="*"           element={<Layout><NotFound /></Layout>} />
-            </Routes>
-            <SocialFloatingIcons />
-            <NoupeChatbot />
-            <AdPopup />
-            <DealPopup />
-            <GlobalBookingModal />
-            </LocationProvider>
-          </BrowserRouter>
-        </BookingProvider>
-      </AuthProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+                  {/* Shared pages */}
+                  <Route path="/" element={<Layout><Home /></Layout>} />
+                  <Route path="/about" element={<Layout><About /></Layout>} />
+                  <Route path="/contact" element={<Layout><Contact /></Layout>} />
+                  <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
+                  <Route path="/rooms" element={<Layout><Rooms /></Layout>} />
+                  <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+                  <Route path="/dining" element={<Layout><Dining /></Layout>} />
+                  <Route path="/deals" element={<Layout><Deals /></Layout>} />
+                  <Route path="/overview" element={<Layout><Overview /></Layout>} />
+                  <Route path="*" element={<Layout><NotFound /></Layout>} />
+                </Routes>
+                <SocialFloatingIcons />
+                <NoupeChatbot />
+                <AdPopup />
+                <DealPopup />
+                <GlobalBookingModal />
+              </LocationProvider>
+            </BrowserRouter>
+          </BookingProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
   </HelmetProvider>
 );
 

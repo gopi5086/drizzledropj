@@ -4,7 +4,9 @@ import Reveal from "@/components/Reveal";
 import { Utensils, Sprout, Heart, Sparkles, Map, Mountain, LucideIcon } from "lucide-react";
 
 // Original images from asset_images
-import heroDining from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (6).jpeg";
+import heroDining from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.JPG";
+import chennaiDiningHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0027.JPG";
+import ootyDiningHero from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.JPG";
 import chennaiDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).jpeg";
 import ootyDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (54).jpeg";
 import rooftopView from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).jpeg";
@@ -29,6 +31,8 @@ import { useParams } from "react-router-dom";
 export default function Dining() {
   const { locationId } = useParams();
 
+  const isOoty = locationId?.toLowerCase() === "ooty";
+  const isChennai = locationId?.toLowerCase() === "chennai";
   const showChennai = !locationId || locationId.toLowerCase() === "chennai";
   const showOoty = !locationId || locationId.toLowerCase() === "ooty";
 
@@ -43,7 +47,7 @@ export default function Dining() {
           className="absolute inset-0"
         >
           <img
-            src={heroDining}
+            src={isOoty ? ootyDiningHero : isChennai ? chennaiDiningHero : heroDining}
             alt="Dining Hero"
             className="w-full h-full object-cover brightness-75 contrast-110"
           />

@@ -2,11 +2,11 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BookingBar from "./BookingBar";
 
-// Hero slide images from asset_images
-import hero1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
-import hero2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (57).jpeg";
-import hero3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (51).jpeg";
-import hero4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (52).jpeg";
+// Hero slide images from professional gallery
+import hero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.JPG";
+import hero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.JPG";
+import hero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.jpg";
+import hero4 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.jpg";
 
 interface HeroSlide {
   image: string;

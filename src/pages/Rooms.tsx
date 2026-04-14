@@ -5,11 +5,19 @@ import Reveal from "@/components/Reveal";
 import { useBooking } from "@/context/BookingContext";
 
 // ── Rooms Images ──────────────────────────────────────────────────────────
-import roomStandard from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (1).jpeg";
-import roomTriple from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (2).jpeg";
-import roomFamily from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (44).jpeg";
-import roomDeluxe from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).jpeg";
-import heroImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (52).jpeg";
+// Chennai
+import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.jpg";
+import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.jpg";
+import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.jpg";
+import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.jpg";
+// Ooty
+import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.JPG";
+import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.JPG";
+import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.JPG";
+import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.JPG";
+import heroImg from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.JPG";
+import ootyRoomsHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6956.JPG";
+import chennaiRoomsHero from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.JPG";
 
 interface Room {
   name: string;
@@ -29,7 +37,7 @@ const chennaiRooms: Room[] = [
     desc: "Well-furnished room ideal for business travelers, featuring smart Google TV and ergonomic work space.", 
     epPrice: "₹2,450", 
     cpPrice: "₹2,650",
-    image: roomStandard, 
+    image: chennaiStdRoom, 
     amenities: ["WiFi", "Google TV", "Work Desk", "Toiletries"] 
   },
   { 
@@ -38,7 +46,7 @@ const chennaiRooms: Room[] = [
     desc: "Sophisticated accommodation with upscale furnishings and premium hospitality.", 
     epPrice: "₹2,800", 
     cpPrice: "₹3,000",
-    image: roomDeluxe, 
+    image: chennaiDeluxeRoom, 
     amenities: ["WiFi", "Google TV", "Mini Bar", "Laundry"] 
   },
   { 
@@ -47,7 +55,7 @@ const chennaiRooms: Room[] = [
     desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.", 
     epPrice: "₹3,200", 
     cpPrice: "₹3,500",
-    image: roomTriple, 
+    image: chennaiTripleRoom, 
     amenities: ["WiFi", "Google TV", "Extra Bed", "Toiletries"] 
   },
   { 
@@ -56,7 +64,7 @@ const chennaiRooms: Room[] = [
     desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.", 
     epPrice: "₹3,700", 
     cpPrice: "₹4,100",
-    image: roomFamily, 
+    image: chennaiFamilyRoom, 
     amenities: ["WiFi", "Google TV", "Spacious", "24h Hot Water"] 
   },
 ];
@@ -68,7 +76,7 @@ const ootyRooms: Room[] = [
     desc: "Individual apartment-type room with private balcony offering excellent panoramic hill views.", 
     epPrice: "₹2,450", 
     cpPrice: "₹2,650", 
-    image: roomStandard, 
+    image: ootyStdRoom, 
     amenities: ["Balcony", "WiFi", "Google TV", "Scenic View"] 
   },
   { 
@@ -77,7 +85,7 @@ const ootyRooms: Room[] = [
     desc: "Enchanting hill-view room with premium furnishings and a private balcony to enjoy the Nilgiris.", 
     epPrice: "₹2,800", 
     cpPrice: "₹3,000", 
-    image: roomDeluxe, 
+    image: ootyDeluxeRoom, 
     amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"] 
   },
   { 
@@ -86,8 +94,17 @@ const ootyRooms: Room[] = [
     desc: "Large hill-station getaway for the whole family, featuring multiple beds and breathtaking views.", 
     epPrice: "₹3,700", 
     cpPrice: "₹4,100", 
-    image: roomFamily, 
+    image: ootyFamilyRoom, 
     amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"] 
+  },
+  { 
+    name: "Triple Room", 
+    type: "Cozy Trio", 
+    desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.", 
+    epPrice: "₹3,200", 
+    cpPrice: "₹3,500", 
+    image: ootyTripleRoom, 
+    amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"] 
   },
 ];
 
@@ -136,7 +153,7 @@ function RoomCard({ room }: { room: Room }) {
             )}
             
             {(room.epPrice || room.cpPrice) && (
-              <div className="px-5 py-3 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1.5 min-w-[200px]">
+              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 min-w-[160px] scale-90 origin-top-right">
                 {room.epPrice && (
                   <div className="flex items-center justify-between gap-4">
                     <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">EP <span className="font-medium opacity-70">(Room Only)</span></span>
@@ -158,8 +175,8 @@ function RoomCard({ room }: { room: Room }) {
           </div>
         </div>
 
-        <div className="p-8 lg:p-10 flex-1 flex flex-col">
-          <h3 className="text-2xl md:text-3xl font-medium mb-4 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
+        <div className="p-6 lg:p-7 flex-1 flex flex-col">
+          <h3 className="text-2xl font-medium mb-3 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
           <p className="body-text text-sm mb-8 leading-relaxed text-muted-foreground/90">{room.desc}</p>
 
           <div className="grid grid-cols-2 gap-4 mb-10 mt-auto">
@@ -192,6 +209,8 @@ import { useParams } from "react-router-dom";
 export default function Rooms() {
   const { locationId } = useParams();
 
+  const isOoty = locationId?.toLowerCase() === "ooty";
+  const isChennai = locationId?.toLowerCase() === "chennai";
   const showChennai = !locationId || locationId.toLowerCase() === "chennai";
   const showOoty = !locationId || locationId.toLowerCase() === "ooty";
 
@@ -205,7 +224,7 @@ export default function Rooms() {
           transition={{ duration: 15, ease: "linear" }}
           className="absolute inset-0"
         >
-          <img src={heroImg} alt="Luxury Accommodations" className="w-full h-full object-cover brightness-[0.85]" />
+          <img src={isOoty ? ootyRoomsHero : isChennai ? chennaiRoomsHero : heroImg} alt="Luxury Accommodations" className="w-full h-full object-cover brightness-[0.85]" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/20" />
         </motion.div>
 
@@ -213,7 +232,7 @@ export default function Rooms() {
           <Reveal>
             <p className="label-caps !text-[#C5A861] mb-4 sm:mb-6 tracking-[0.4em] font-bold">The Art of Living</p>
             <h1 className="text-4xl sm:text-5xl md:text-7xl text-white font-bold leading-tight mb-4 sm:mb-8 font-display drop-shadow-xl">
-              Rooms <span className="italic text-[#C5A861] font-serif">&</span> Tariff {locationId ? `- ${locationId.charAt(0).toUpperCase() + locationId.slice(1)}` : ""}
+              Rooms <span className="italic text-[#C5A861] font-serif">&</span> Suites {locationId ? `- ${locationId.charAt(0).toUpperCase() + locationId.slice(1)}` : ""}
             </h1>
             <div className="flex items-center gap-3 text-white/80 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-8 sm:mb-10 bg-black/20 px-6 py-2 rounded-full backdrop-blur-sm border border-white/10">
               {locationId ? (locationId.toUpperCase()) : "Chennai & Ooty"}
@@ -242,7 +261,7 @@ export default function Rooms() {
               </Reveal>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
               {chennaiRooms.map((room) => (
                 <RoomCard key={room.name + "chennai"} room={room} />
               ))}
@@ -271,7 +290,7 @@ export default function Rooms() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
               {ootyRooms.map((room) => (
                 <RoomCard key={room.name + "ooty"} room={room} />
               ))}

@@ -101,6 +101,7 @@ export default {
         "fade-in-slow": "fade-in-slow 1s ease-out forwards",
         "slide-up": "slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         shimmer: "shimmer 3s ease-in-out infinite",
+        "spin-slow": "spin 3s linear infinite",
       },
     },
   },

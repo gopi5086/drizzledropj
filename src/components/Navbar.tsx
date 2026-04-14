@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail } from "lucide-react";
+import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail, Wifi, Tv, Car, Utensils, Mountain, ShieldCheck, Shirt, Bell, BedDouble, Users, Flame, Coffee } from "lucide-react";
 import driLogo from "../assets/drilogo.png";
 import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
@@ -35,6 +35,9 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
+  const [facilitiesOpen, setFacilitiesOpen] = useState(false);
+  const [roomsOpen, setRoomsOpen] = useState(false);
+  const [diningOpen, setDiningOpen] = useState(false);
   const [mobileLocOpen, setMobileLocOpen] = useState(false);
   const locationDropRef = useRef<HTMLDivElement>(null);
 
@@ -59,12 +62,21 @@ export default function Navbar() {
     const prefix = locKey ? `/${locKey}` : "";
     return [
       { label: "Home", path: locKey ? `${prefix}` : "/" },
-      { label: "Rooms & Tariff", path: `${prefix}/rooms` },
-      { label: "Dining", path: `${prefix}/dining` },
-      // Special case: Chennai Facilities should go to /chennai/facilities
-      { label: "Facilities", path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities` },
-      { label: locKey === "chennai" ? "About" : "About", path: `${prefix}/about` },
-      { label: "Deals", path: `${prefix}/deals` },
+      { 
+        label: "Rooms & Suites", 
+        path: `${prefix}/rooms`,
+        isRooms: true
+      },
+      { 
+        label: "Dining", 
+        path: `${prefix}/dining`,
+        isDining: true
+      },
+      { 
+        label: "Facilities", 
+        path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities`,
+        isFacilities: true 
+      },
       {
         label: "Gallery",
         path: `${prefix}/gallery`,
@@ -73,9 +85,36 @@ export default function Navbar() {
           { label: "Ooty Gallery", path: "/ooty/gallery" },
         ],
       },
+      { label: "Offers", path: `${prefix}/deals` },
+      { label: "About Us", path: `${prefix}/about` },
       { label: "Contact", path: `${prefix}/contact` },
     ];
   };
+
+  const facilitiesList = [
+    { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
+    { name: "Smart Google TV", icon: Tv },
+    { name: "Secure Parking", icon: Car },
+    { name: "Premium Dining", icon: Utensils },
+    { name: "Hill & Valley Views", icon: Mountain },
+    { name: "24/7 Security", icon: ShieldCheck },
+    { name: "Laundry Service", icon: Shirt },
+    { name: "Room Service", icon: Bell },
+  ];
+
+  const roomsList = [
+    { name: "Standard Room", icon: BedDouble },
+    { name: "Deluxe Room", icon: Tv },
+    { name: "Triple Room", icon: Users },
+    { name: "Family Room", icon: Mountain },
+  ];
+
+  const diningList = [
+    { name: "Rooftop Dining", icon: Utensils },
+    { name: "Multi-Cuisine", icon: Mountain },
+    { name: "24/7 Room Service", icon: Bell },
+    { name: "Barbeque & Campfire", icon: Flame },
+  ];
 
   const navLinks = getNavLinks(activeLocKey);
 
@@ -222,8 +261,18 @@ export default function Navbar() {
               <div
                 key={link.path}
                 className="relative"
-                onMouseEnter={() => link.dropdown && setGalleryOpen(true)}
-                onMouseLeave={() => link.dropdown && setGalleryOpen(false)}
+                onMouseEnter={() => {
+                  if (link.dropdown) setGalleryOpen(true);
+                  if (link.isFacilities) setFacilitiesOpen(true);
+                  if (link.isRooms) setRoomsOpen(true);
+                  if (link.isDining) setDiningOpen(true);
+                }}
+                onMouseLeave={() => {
+                  if (link.dropdown) setGalleryOpen(false);
+                  if (link.isFacilities) setFacilitiesOpen(false);
+                  if (link.isRooms) setRoomsOpen(false);
+                  if (link.isDining) setDiningOpen(false);
+                }}
               >
                 <Link
                   to={link.path}
@@ -236,7 +285,7 @@ export default function Navbar() {
                     }`}
                 >
                   {link.label}
-                  {link.dropdown && <ChevronDown className="w-3 h-3 opacity-70" />}
+                  {(link.dropdown || link.isFacilities || link.isRooms || link.isDining) && <ChevronDown className="w-3 h-3 opacity-70" />}
                   <span
                     className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
                       }`}
@@ -262,6 +311,120 @@ export default function Navbar() {
                             {item.label}
                           </Link>
                         ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
+
+                {link.isRooms && (
+                  <AnimatePresence>
+                    {roomsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                      >
+                        {roomsList.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                              <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
+                                {item.name}
+                              </span>
+                            </div>
+                          );
+                        })}
+                        
+                        <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
+                           <Link 
+                             to={link.path}
+                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                           >
+                             View All Rooms
+                             <ChevronDown className="-rotate-90 w-3 h-3" />
+                           </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
+
+                {link.isDining && (
+                  <AnimatePresence>
+                    {diningOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                      >
+                        {diningList.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                              <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
+                                {item.name}
+                              </span>
+                            </div>
+                          );
+                        })}
+                        
+                        <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
+                           <Link 
+                             to={link.path}
+                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                           >
+                             Explore Dining Experience
+                             <ChevronDown className="-rotate-90 w-3 h-3" />
+                           </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                )}
+
+                {link.isFacilities && (
+                  <AnimatePresence>
+                    {facilitiesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 8 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-[-150px] mt-2 bg-white rounded-2xl p-6 min-w-[500px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                      >
+                        {facilitiesList.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                              <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
+                                {item.name}
+                              </span>
+                            </div>
+                          );
+                        })}
+                        
+                        <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
+                           <Link 
+                             to={link.path}
+                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                           >
+                             Explore All Facilities
+                             <ChevronDown className="-rotate-90 w-3 h-3" />
+                           </Link>
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>

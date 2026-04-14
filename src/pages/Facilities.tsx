@@ -2,7 +2,9 @@ import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { CheckCircle } from "lucide-react";
-import facilityHero from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (3).jpeg";
+import facilityHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.JPG";
+import chennaiFacilitiesHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0024.JPG";
+import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.JPG";
 import receptionImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).jpeg";
 import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).jpeg";
 import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
@@ -31,7 +33,7 @@ export default function Facilities() {
           className="absolute inset-0"
         >
           <img
-            src={facilityHero}
+            src={isOoty ? ootyHero : isChennai ? chennaiFacilitiesHero : facilityHero}
             alt="Facilities Hero"
             className="w-full h-full object-cover"
           />

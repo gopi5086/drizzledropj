@@ -1,22 +1,28 @@
 // ── Central config for all location-specific content ──────────────────────
 
-// Chennai hero images (indices 0–6 are clearly hotel/lobby shots)
-import chennaiHero1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
-import chennaiHero2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (6).jpeg";
-import chennaiHero3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (51).jpeg";
-import chennaiHero4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (52).jpeg";
+// Chennai hero images (Using high-quality gallery images from Chennai-images/RECEPTION)
+import chennaiHero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.JPG";
+import chennaiHero2 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0030.JPG";
+import chennaiHero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.jpg";
+import chennaiHero4 from "@/assets/Gallery/Chennai-images/RECEPTION/Corridor_5.jpg";
 
-// Ooty hero images (indices 57+ are clearly nature/hill shots)
-import ootyHero1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (57).jpeg";
-import ootyHero2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).jpeg";
-import ootyHero3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (60).jpeg";
-import ootyHero4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).jpeg";
+// Ooty hero images (Using high-quality gallery images from Ooty-Images)
+import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.JPG";
+import ootyHero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.JPG";
+import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.jpg";
+import ootyHero4 from "@/assets/Gallery/Ooty-Images/VILLA/Villa_with_Lawn.JPG";
 
-// Shared room images
-import roomStandard from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (1).jpeg";
-import roomTriple from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (2).jpeg";
-import roomFamily from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (44).jpeg";
-import roomDeluxe from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).jpeg";
+// Chennai specific room interior images
+import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.jpg";
+import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.jpg";
+import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.jpg";
+import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.jpg";
+
+// Ooty specific room interior images
+import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.JPG";
+import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.JPG";
+import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.JPG";
+import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.JPG";
 
 // Chennai gallery subset (imgs 0–34)
 import cg0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM.jpeg";
@@ -95,6 +101,7 @@ export interface LocationConfig {
   };
   schema: object;
   nearbyAttractions?: { name: string; dist: string }[];
+  faqs: { q: string; a: string }[];
 }
 
 export const chennaiData: LocationConfig = {
@@ -116,8 +123,7 @@ export const chennaiData: LocationConfig = {
     features: [
       { title: "Strategic Location", desc: "Located on OMR, just 30 minutes from Chennai Airport and minutes from major IT hubs, Dakshina Chitra, and ECR." },
       { title: "Refined Comfort", desc: "35 elegantly appointed rooms and suites featuring panoramic terrace views and modern amenities like smart Google TVs." },
-      { title: "Premium Facilities", desc: "Signature rooftop dining, high-speed Wi-Fi, 24-hour room service, and secure parking with 100% power backup." },
-      { title: "Seamless Experience", desc: "Tailored for business and leisure with dedicated car rentals, laundry services, and focus on guest-centric hospitality." },
+      { title: "Signature Experience", desc: "Signature rooftop dining, high-speed Wi-Fi, and guest-centric services with 100% power backup and secure parking." },
     ],
   },
   rooms: [
@@ -127,7 +133,7 @@ export const chennaiData: LocationConfig = {
       desc: "Well-furnished room ideal for business travelers, featuring smart Google TV and ergonomic workspace.",
       epPrice: "₹2,450",
       cpPrice: "₹2,650",
-      image: roomStandard,
+      image: chennaiStdRoom,
       amenities: ["WiFi", "Google TV", "Work Desk", "Toiletries"]
     },
     {
@@ -136,7 +142,7 @@ export const chennaiData: LocationConfig = {
       desc: "Sophisticated accommodation with upscale furnishings and premium hospitality services.",
       epPrice: "₹2,800",
       cpPrice: "₹3,000",
-      image: roomDeluxe,
+      image: chennaiDeluxeRoom,
       amenities: ["WiFi", "Google TV", "Mini Bar", "Laundry"]
     },
     {
@@ -145,7 +151,7 @@ export const chennaiData: LocationConfig = {
       desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.",
       epPrice: "₹3,200",
       cpPrice: "₹3,500",
-      image: roomTriple,
+      image: chennaiTripleRoom,
       amenities: ["WiFi", "Google TV", "Extra Bed", "Toiletries"]
     },
     {
@@ -154,7 +160,7 @@ export const chennaiData: LocationConfig = {
       desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.",
       epPrice: "₹3,700",
       cpPrice: "₹4,100",
-      image: roomFamily,
+      image: chennaiFamilyRoom,
       amenities: ["WiFi", "Google TV", "Spacious", "24h Hot Water"]
     },
   ],
@@ -212,6 +218,12 @@ export const chennaiData: LocationConfig = {
     "starRating": { "@type": "Rating", "ratingValue": "3" },
     "priceRange": "₹₹"
   },
+  faqs: [
+    { q: "What are the check-in and check-out timings for Chennai?", a: "Standard check-in is at 12:00 PM and check-out is at 11:00 AM." },
+    { q: "Is DrizzleDrop Inn Chennai close to the IT corridor?", a: "Yes, we are located right on the OMR IT Corridor in Thoraipakkam, within 10-15 minutes of major tech parks like ASV Suntech and Prince InfoCity." },
+    { q: "Does the Chennai hotel have a restaurant?", a: "Yes, we have a signature rooftop restaurant specializing in Multi-Cuisine and Asian delicacies." },
+    { q: "Is there parking available in Chennai?", a: "Yes, we provide secure covered car parking for our guests." }
+  ],
 };
 
 export const ootyData: LocationConfig = {
@@ -220,10 +232,10 @@ export const ootyData: LocationConfig = {
   fullName: "DrizzleDrop Inn, Ooty",
   tagline: "Unwind with Panoramic Hill Views and the Magic of the Nilgiris.",
   heroSlides: [
-    { image: ootyHero1, location: "Ooty", tagline: "Enchanting Nature Escapes" },
-    { image: ootyHero2, location: "Nilgiris", tagline: "Where Mist Meets Mountain" },
-    { image: ootyHero3, location: "Ooty", tagline: "Private Balcony Hill Views" },
-    { image: ootyHero4, location: "DrizzleDrop", tagline: "Serenity in Every Breath" },
+    { image: ootyHero1, location: "Ooty", tagline: "Breathtaking Hill Views" },
+    { image: ootyHero3, location: "Nilgiris", tagline: "Where Mist Meets Mountain" },
+    { image: ootyHero2, location: "Ooty", tagline: "Serene Valley Panoramas" },
+    { image: ootyHero4, location: "DrizzleDrop", tagline: "Your Mountain Sanctuary" },
   ],
   about: {
     label: "Alpine Serenity",
@@ -232,8 +244,8 @@ export const ootyData: LocationConfig = {
       "DrizzleDrop Inn Ooty is an enchanting hill-station getaway featuring 8 individual apartment-type rooms with private balconies overlooking the Nilgiris. Experience panoramic valley views, the historical toy train, and the whisper of the hills.",
     features: [
       { title: "Panoramic Hill Views", desc: "Each room has a private balcony with breathtaking views of the Nilgiri hills and misty valleys." },
-      { title: "Toy Train Route", desc: "Located just 2 km from the UNESCO-listed Nilgiri Mountain Railway station." },
-      { title: "Nature Proximity", desc: "2 km from Ooty bus stand and railway station. Tea estates, Rose Garden, and lakes nearby." },
+      { title: "Lawn & Barbeque", desc: "Enjoy a relaxing outdoor experience with our spacious lawn, perfect for barbeque evenings and cozy campfire gatherings." },
+      { title: "Prime Proximity", desc: "Located 2 km from the botanical gardens, railway station, and the UNESCO-listed Nilgiri Mountain Railway." },
     ],
   },
   rooms: [
@@ -243,7 +255,7 @@ export const ootyData: LocationConfig = {
       desc: "Individual apartment-type room with private balcony offering excellent panoramic Nilgiri hill views.",
       epPrice: "₹2,450",
       cpPrice: "₹2,650",
-      image: roomStandard,
+      image: ootyStdRoom,
       amenities: ["Balcony", "WiFi", "Google TV", "Scenic View"]
     },
     {
@@ -252,7 +264,7 @@ export const ootyData: LocationConfig = {
       desc: "Enchanting hill-view room with premium furnishings and a private balcony to enjoy the Nilgiris.",
       epPrice: "₹2,800",
       cpPrice: "₹3,000",
-      image: roomDeluxe,
+      image: ootyDeluxeRoom,
       amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"]
     },
     {
@@ -261,7 +273,7 @@ export const ootyData: LocationConfig = {
       desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.",
       epPrice: "₹3,200",
       cpPrice: "₹3,500",
-      image: roomTriple,
+      image: ootyTripleRoom,
       amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"]
     },
     {
@@ -270,7 +282,7 @@ export const ootyData: LocationConfig = {
       desc: "Large hill-station getaway for the whole family with multiple beds and breathtaking valley views.",
       epPrice: "₹3,700",
       cpPrice: "₹4,100",
-      image: roomFamily,
+      image: ootyFamilyRoom,
       amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"]
     },
   ],
@@ -329,29 +341,35 @@ export const ootyData: LocationConfig = {
     "priceRange": "₹₹"
   },
   nearbyAttractions: [
-    { name: "Nilgiri mountain Railway", dist: "2.8 KM" },
-    { name: "Ooty lake", dist: "3.3 KM" },
-    { name: "Ooty Bus stand", dist: "2.3 KM" },
-    { name: "Charing cross", dist: "4.0 KM" },
-    { name: "Cairn hill", dist: "2.1 KM" },
+    { name: "Nilgiri Mountain Railway", dist: "2.8 KM" },
+    { name: "Ooty Lake", dist: "3.3 KM" },
+    { name: "Ooty Bus Stand", dist: "2.3 KM" },
+    { name: "Charing Cross", dist: "4.0 KM" },
+    { name: "Cairn Hill", dist: "2.1 KM" },
     { name: "Arboretum", dist: "1.5 KM" },
     { name: "Deer Park", dist: "2.0 KM" },
-    { name: "Botanical garden", dist: "4.9 KM" },
-    { name: "Rose garden", dist: "4.0 KM" },
+    { name: "Botanical Garden", dist: "4.9 KM" },
+    { name: "Rose Garden", dist: "4.0 KM" },
     { name: "Pykara Lake", dist: "25 KM" },
-    { name: "Tea factory", dist: "7.4 KM" },
-    { name: "Dodabetta view point", dist: "11 KM" },
+    { name: "Tea Factory", dist: "7.4 KM" },
+    { name: "Doddabetta View Point", dist: "11 KM" },
     { name: "Coonoor", dist: "21 KM" },
     { name: "Kotagiri", dist: "31 KM" },
     { name: "Avalanche", dist: "22 KM" },
-    { name: "Emarald", dist: "19 KM" },
+    { name: "Emerald", dist: "19 KM" },
     { name: "Murugan Temple", dist: "4.5 KM" },
     { name: "Upper Bhavani", dist: "39 KM" },
     { name: "Gudalur", dist: "52 KM" },
-    { name: "Mudhumalai", dist: "48 KM" },
+    { name: "Mudumalai", dist: "48 KM" },
     { name: "Pine Forest", dist: "10 KM" },
-    { name: "Wax mesuem", dist: "5.2 KM" },
+    { name: "Wax Museum", dist: "5.2 KM" },
     { name: "Snow Park", dist: "2.7 KM" },
+  ],
+  faqs: [
+    { q: "What is the best time to visit Ooty?", a: "Ooty is beautiful year-round, but peak season is from March to June for pleasant weather and September to November for the post-monsoon greenery." },
+    { q: "Do the rooms in Ooty have balconies?", a: "Yes, all our rooms in Ooty are individual apartment-style units with private balconies offering panoramic hill views." },
+    { q: "How far is the Ooty property from the railway station?", a: "DrizzleDrop Inn Ooty is conveniently located just 2 KM (approx. 10 minutes) from the Ooty railway station and bus stand." },
+    { q: "Does the Ooty property offer bonfire and barbeque?", a: "Yes! We can arrange for a cozy bonfire and a delicious barbeque experience on request." }
   ],
 };
 

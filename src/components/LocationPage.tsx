@@ -21,16 +21,37 @@ import {
 } from "@/components/ui/accordion";
 import DealsSection from "./DealsSection";
 import SEO from "@/components/SEO";
+import { useMemo } from "react";
+
+// Load all images dynamically from the Gallery assets using project-root absolute mapping
+const imageModules = import.meta.glob<{ default: string }>(
+  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+  { eager: true, query: "?url" }
+);
+
+interface GalleryItem {
+    id: string;
+    src: string;
+    location: "ooty" | "chennai";
+    category: string;
+}
+
+const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(imageModules).map(([path, module]) => {
+    const parts = path.split("/");
+    const locRaw = parts[4].toLowerCase();
+    const location = locRaw.includes("ooty") ? "ooty" : "chennai";
+    const folderName = parts[parts.length - 2];
+    const category = (folderName === "Ooty-Images" || folderName === "Chennai-images") ? "GENERAL" : folderName.replace(/-/g, " ").toUpperCase();
+    
+    return {
+        id: path,
+        src: module.default,
+        location,
+        category
+    };
+});
 
 const featureIcons = [Wifi, Shield, Car, Mountain, Building2];
-
-const faqs = [
-  { q: "What time is check-in and check-out?", a: "Check-in is at 12:00 PM and check-out is at 11:00 AM. Early check-in and late check-out are available upon request and subject to availability." },
-  { q: "Is parking available?", a: "Yes, we offer complimentary secure parking at both our Chennai and Ooty properties." },
-  { q: "Are pets allowed?", a: "Yes! DrizzleDrop Inn is pet friendly. Please inform us during booking so we can prepare your room." },
-  { q: "What payment methods do you accept?", a: "We accept all major credit/debit cards, GPay, PhonePe, Paytm, and WhatsApp Pay." },
-];
-
 
 interface Props {
   location: LocationConfig;
@@ -107,6 +128,32 @@ function RoomCard({ room }: { room: LocationConfig["rooms"][0] }) {
 export default function LocationPage({ location }: Props) {
   const { openBooking } = useBooking();
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [galleryCategory, setGalleryCategory] = useState("ALL");
+
+  const locationImages = useMemo(() => {
+    return ALL_GALLERY_IMAGES.filter(img => img.location === location.key);
+  }, [location.key]);
+
+  const categories = useMemo(() => {
+    const uniqueCats = Array.from(new Set(locationImages.map(img => img.category)));
+    return ["ALL", ...uniqueCats.sort()];
+  }, [locationImages]);
+
+  const filteredGallery = useMemo(() => {
+    if (galleryCategory === "ALL") {
+        // STRICT PRIORITIZATION: Show VIEW and VILLA first to ensure "Correct Pictures" are at top
+        const priority = ["VIEW", "VILLA", "DELUXE ROOMS", "FAMILY ROOMS", "GENERAL"];
+        return [...locationImages].sort((a,b) => {
+            const idxA = priority.indexOf(a.category);
+            const idxB = priority.indexOf(b.category);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            return a.category.localeCompare(b.category);
+        }).slice(0, 16);
+    }
+    return locationImages.filter(img => img.category === galleryCategory).slice(0, 24);
+  }, [locationImages, galleryCategory]);
 
   useEffect(() => {
     // JSON-LD structured data is safely handled here
@@ -220,7 +267,7 @@ export default function LocationPage({ location }: Props) {
               subtitle={`Choose from our carefully curated range of rooms at DrizzleDrop Inn ${location.name}`}
             />
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
             {location.rooms.map((room) => (
               <RoomCard key={room.name} room={room} />
             ))}
@@ -228,58 +275,80 @@ export default function LocationPage({ location }: Props) {
         </div>
       </section>
 
-      {/* Gallery Strip */}
-      <section
-        id="gallery"
-        className="section-padding overflow-hidden"
-        style={{
-          background: isChennai
-            ? "linear-gradient(135deg, #F8F9FA 0%, #F4F1EC 100%)"
-            : "linear-gradient(135deg, #F5F7F6 0%, #E6F0EA 100%)"
-        }}
-      >
+      {/* Photo Gallery - Categorized & Dynamic */}
+      <section id="gallery" className="section-padding bg-secondary/5">
         <div className="container-luxury">
           <Reveal width="100%">
-            <SectionHeading
-              label="Photo Gallery"
-              title={`${location.name} in Pictures`}
-              subtitle={`A visual tour of DrizzleDrop Inn ${location.name}`}
+            <SectionHeading 
+              label="Photo Gallery" 
+              title={`${location.name} in Pictures`} 
+              subtitle={`A visual tour of DrizzleDrop Inn ${location.name}`} 
             />
           </Reveal>
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-6 space-y-4 sm:space-y-6 mt-10">
-            {location.gallery.slice(0, 12).map((img, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ delay: Math.min(i * 0.05, 0.4), duration: 0.4 }}
-                className="break-inside-avoid group relative overflow-hidden cursor-pointer mb-4 sm:mb-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500"
-                onClick={() => setLightbox(img.src)}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className={`w-full object-cover group-hover:scale-110 transition-transform duration-700 ${i % 4 === 0 ? "h-56 sm:h-72" : i % 4 === 1 ? "h-48 sm:h-64" : i % 4 === 2 ? "h-56 sm:h-64" : "h-48 sm:h-60"
+
+          {/* Categories Filter */}
+          <Reveal delay={0.3} width="100%">
+            <div className="flex flex-wrap justify-center gap-2 mb-12 mt-8">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setGalleryCategory(cat)}
+                  className={`px-4 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-full border transition-all duration-300 ${galleryCategory === cat
+                    ? "bg-primary/10 border-primary text-primary"
+                    : "bg-white border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
                     }`}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <ZoomIn className="w-8 h-8 text-white drop-shadow-md opacity-0 group-hover:opacity-100 transition-all duration-500 scale-75 group-hover:scale-100" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link
-              to={`/gallery?location=${location.key}`}
-              className="inline-flex items-center gap-3 px-8 py-3.5 border border-[#C5A861]/40 text-[#C5A861] text-[10px] font-bold uppercase tracking-[0.25em] rounded-full hover:bg-[#C5A861] hover:text-white transition-all duration-500 shadow-md hover:shadow-lg"
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+          
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={galleryCategory}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
             >
-              View Full Gallery
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+              {filteredGallery.map((image, i) => (
+                <Reveal key={image.id} delay={i * 0.05}>
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-border/40"
+                    onClick={() => setLightbox(image.src)}
+                  >
+                    <img 
+                      src={image.src} 
+                      alt={`${location.name} ${image.category}`} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                      <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />
+                    </div>
+                    <div className="absolute bottom-3 left-3">
+                       <span className="text-[8px] uppercase tracking-widest font-bold bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-black shadow-sm">
+                          {image.category === "GENERAL" ? location.name : image.category}
+                       </span>
+                    </div>
+                  </motion.div>
+                </Reveal>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          <Reveal delay={0.5} width="100%">
+            <div className="mt-12 text-center">
+              <Link 
+                to={`/gallery?location=${location.key}`} 
+                className="inline-flex items-center gap-3 px-10 py-4 bg-[#C5A861] hover:bg-[#B49750] text-white font-bold rounded-full transition-all duration-300 shadow-xl shadow-primary/20 group"
+              >
+                Browse All {location.name} Photos
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -393,7 +462,7 @@ export default function LocationPage({ location }: Props) {
           </Reveal>
           <Reveal delay={0.3} width="100%">
             <Accordion type="single" collapsible className="space-y-2">
-              {faqs.map((faq, i) => (
+              {location.faqs.map((faq, i) => (
                 <AccordionItem key={i} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
                   <AccordionTrigger className="text-left text-lg hover:text-primary transition-colors">
                     {faq.q}

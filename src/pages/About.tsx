@@ -18,8 +18,8 @@ import {
   Zap,
   Briefcase
 } from "lucide-react";
-import ootyHero from "@/assets/ooty-valley.jpg";
-import chennaiHero from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
+import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.JPG";
+import chennaiHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0009.JPG";
 
 const FADE_IN = {
   hidden: { opacity: 0, y: 30 },
@@ -36,26 +36,45 @@ const STAGGER_CONTAINER = {
 
 const OotyAbout = () => (
   <div className="bg-[#f8faf9] min-h-screen">
-    {/* 1. Hero / Intro Section */}
-    <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
-      <img src={ootyHero} alt="Ooty Hills" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a2f23]/80 via-[#1a2f23]/50 to-black/30" />
+    <section className="relative h-[85vh] w-full overflow-hidden flex items-start justify-center">
+      <motion.img 
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 10, ease: "easeOut" }}
+        src={ootyHero} 
+        alt="Ooty Hills" 
+        className="absolute inset-0 w-full h-full object-cover" 
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/60" />
 
-      <div className="absolute inset-0 flex items-center justify-center pt-24">
+      <div className="relative z-10 w-full max-w-5xl px-6 text-center pt-44 pb-12">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={STAGGER_CONTAINER}
-          className="text-center text-white px-4 max-w-4xl"
+          className="space-y-6"
         >
-          <motion.h1 variants={FADE_IN} className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight drop-shadow-2xl text-white mb-6">
-            Ooty – Queen of Hill Stations
+          <motion.h1 
+            variants={FADE_IN} 
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white font-display leading-[1.1]"
+          >
+            Ooty – <span className="text-[#C5A861] italic font-serif">Queen</span> of <br />Hill Stations
           </motion.h1>
-          <motion.p variants={FADE_IN} className="text-lg md:text-2xl font-medium tracking-wide drop-shadow-md text-white/95 mb-8">
-            A short, elegant escape into a canvas of emerald slopes
-          </motion.p>
-          <motion.div variants={FADE_IN} className="text-sm md:text-lg opacity-95 text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium bg-black/20 p-6 rounded-2xl backdrop-blur-sm border border-white/10">
-            Ooty, fondly known as the “Queen of Hill Stations” and the “Paradise on Earth,” is celebrated for its breathtaking landscapes and serene charm. Also known as Udhagamandalam, it is nestled in the Nilgiris district at an altitude of 2,240 meters above sea level. The Nilgiris, meaning “Blue Mountains,” offer picturesque views and have long been a favored retreat since the colonial era.
+          
+          <motion.div variants={FADE_IN} className="flex items-center justify-center gap-4 text-white/90 text-sm md:text-base font-bold uppercase tracking-[0.3em] mb-12">
+             <div className="h-px w-8 bg-[#C5A861]" />
+             A Canvas of Emerald Slopes
+             <div className="h-px w-8 bg-[#C5A861]" />
+          </motion.div>
+
+          <motion.div 
+            variants={FADE_IN} 
+            className="max-w-3xl mx-auto px-6"
+          >
+            
+            <p className="text-sm md:text-lg text-white font-medium leading-relaxed opacity-95">
+              Ooty, fondly known as the “Queen of Hill Stations” and the “Paradise on Earth,” is celebrated for its breathtaking landscapes and serene charm. Nestled in the Nilgiris at 2,240m above sea level, it offers picturesque views and a timeless colonial legacy.
+            </p>
           </motion.div>
         </motion.div>
       </div>
@@ -192,29 +211,45 @@ const OotyAbout = () => (
 
 const ChennaiAbout = () => (
   <div className="bg-[#f8faf9] min-h-screen">
-    {/* 1. Hero / Intro Section */}
-    <section className="relative h-[65vh] md:h-[75vh] w-full overflow-hidden">
-      <img src={chennaiHero} alt="Chennai Cityscape" className="w-full h-full object-cover scale-105 transform transition-transform duration-[10s] hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a232f]/90 via-[#1a232f]/55 to-black/30" />
+    <section className="relative h-[85vh] w-full overflow-hidden flex items-start justify-center">
+      <motion.img 
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 10, ease: "easeOut" }}
+        src={chennaiHero} 
+        alt="Chennai Property" 
+        className="absolute inset-0 w-full h-full object-cover" 
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/60" />
 
-      <div className="absolute inset-0 flex items-center justify-center pt-24">
+      <div className="relative z-10 w-full max-w-5xl px-6 text-center pt-44 pb-12">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={STAGGER_CONTAINER}
-          className="text-center text-white px-4 max-w-4xl"
+          className="space-y-6"
         >
-          <motion.div variants={FADE_IN} className="mb-4 inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-sm font-semibold tracking-wider uppercase shadow-xl">
-            A Premier 3-Star Business Hotel
-          </motion.div>
-          <motion.h1 variants={FADE_IN} className="text-4xl md:text-6xl lg:text-7xl font-display font-extrabold tracking-tight drop-shadow-2xl text-white mb-6">
-            DrizzleDrop Inn, Chennai
+          <motion.h1 
+            variants={FADE_IN} 
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white font-display leading-[1.1]"
+          >
+            DrizzleDrop <br /><span className="text-[#C5A861] italic font-serif">Chennai</span>
           </motion.h1>
-          <motion.p variants={FADE_IN} className="text-lg md:text-2xl font-medium tracking-wide drop-shadow-md text-white/95 mb-8">
-            Modern Comfort Meets Traditional Warmth
-          </motion.p>
-          <motion.div variants={FADE_IN} className="text-sm md:text-lg opacity-95 text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-lg font-medium bg-black/30 p-6 rounded-2xl backdrop-blur-sm border border-white/10">
-            Discover hassle-free accommodation in the heart of Chennai at DrizzleDrop Inn, a modern 3-star property ideal for both business travelers and vacationers. Perfectly situated in the city center at Thoriaipakkam, the hotel places you at the core of Chennai’s vibrant business and shopping districts.
+          
+          <motion.div variants={FADE_IN} className="flex items-center justify-center gap-4 text-white/90 text-sm md:text-base font-bold uppercase tracking-[0.3em] mb-12">
+             <div className="h-px w-8 bg-[#C5A861]" />
+             Modern Luxury & Business Comfort
+             <div className="h-px w-8 bg-[#C5A861]" />
+          </motion.div>
+
+          <motion.div 
+            variants={FADE_IN} 
+            className="max-w-3xl mx-auto px-6 text-center"
+          >
+            
+            <p className="text-sm md:text-lg text-white font-medium leading-relaxed opacity-95 text-center">
+              Experience hassle-free accommodation in the heart of Chennai. Situated at Thoraipakkam, our 3-star property puts you at the core of the city's vibrant OMR business district and premium shopping destinations.
+            </p>
           </motion.div>
         </motion.div>
       </div>

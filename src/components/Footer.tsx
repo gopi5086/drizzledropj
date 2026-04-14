@@ -11,12 +11,12 @@ const socialLinks = [
 
 const quickLinks = [
   { label: "Home", path: "/" },
-  { label: "Rooms & Tariff", path: "/rooms" },
+  { label: "Rooms & Suites", path: "/rooms" },
   { label: "Dining", path: "/dining" },
   { label: "Facilities", path: "/facilities" },
-  { label: "About", path: "/about" },
-  { label: "Deals", path: "/deals" },
   { label: "Gallery", path: "/gallery" },
+  { label: "Offers", path: "/deals" },
+  { label: "About Us", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
 
@@ -70,9 +70,10 @@ export default function Footer() {
               {(currentLocKey ? [
                 { label: "Home", path: `/${currentLocKey}/home` },
                 { label: "Facilities", path: `/${currentLocKey}/facilities` },
-                { label: "Rooms / Tariff", path: `/${currentLocKey}/rooms` },
+                { label: "Rooms & Suites", path: `/${currentLocKey}/rooms` },
                 { label: "Gallery", path: `/${currentLocKey}/gallery` },
                 { label: "Dining", path: `/${currentLocKey}/dining` },
+                { label: "About Us", path: `/${currentLocKey}/about` },
                 { label: "Policies & Terms", path: "/overview" },
               ] : quickLinks).map((link) => (
                 <li key={link.path}>

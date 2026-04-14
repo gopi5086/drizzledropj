@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Star, MapPin, Wifi, Car, Shield, MessageCircle, Phone, Mail } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, MapPin, Wifi, Car, Shield, MessageCircle, Phone, Mail, ArrowRight, ZoomIn } from "lucide-react";
 import AdPopup from "@/components/AdPopup";
 import chennaiImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
 import ootyImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).jpeg";
@@ -15,6 +15,53 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import SEO from "@/components/SEO";
+
+// Load all property images dynamically from assets
+const allPropertyImages = import.meta.glob<{ default: string }>(
+  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+  { eager: true, query: "?url" }
+);
+
+const ALL_HOME_IMAGES = Object.entries(allPropertyImages).map(([path, module]) => {
+  const parts = path.split("/");
+  const isOoty = path.toLowerCase().includes("ooty");
+  const folderName = parts[parts.length - 2];
+  const category = (folderName === "Ooty-Images" || folderName === "Chennai-images") 
+    ? (isOoty ? "OOTY" : "CHENNAI") 
+    : folderName.replace(/-/g, " ").toUpperCase();
+  
+  return {
+    id: path,
+    src: module.default,
+    category,
+    location: isOoty ? "OOTY" : "CHENNAI"
+  };
+});
+
+// Curated "All" selection prioritized for home page impact: mix of Ooty views and Chennai deluxe
+const curatedHomeAll = (() => {
+  const ootyViews = ALL_HOME_IMAGES.filter(img => img.location === "OOTY" && img.category === "VIEW");
+  const chennaiRooms = ALL_HOME_IMAGES.filter(img => img.location === "CHENNAI" && img.category.includes("ROOMS"));
+  const ootyVilla = ALL_HOME_IMAGES.filter(img => img.location === "OOTY" && img.category === "VILLA");
+  const chennaiReception = ALL_HOME_IMAGES.filter(img => img.location === "CHENNAI" && img.category === "RECEPTION");
+
+  const result: typeof ALL_HOME_IMAGES = [];
+  // Balanced mix
+  result.push(...ootyViews.slice(0, 4));
+  result.push(...chennaiRooms.slice(0, 4));
+  result.push(...ootyVilla.slice(0, 4));
+  result.push(...chennaiReception.slice(0, 4));
+
+  // Fill if needed
+  if (result.length < 16) {
+    const remaining = ALL_HOME_IMAGES.filter(img => !result.includes(img));
+    result.push(...remaining.slice(0, 16 - result.length));
+  }
+
+  return result.slice(0, 16);
+})();
+
+const HOME_GALLERY_CATEGORIES = ["ALL", "OOTY", "CHENNAI"];
 
 const reviews = [
   { name: "Ananya S.", text: "Beautiful stay experience with amazing hospitality. The rooftop dining was unforgettable.", rating: 5 },
@@ -40,6 +87,14 @@ const blogPosts = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const [galleryCategory, setGalleryCategory] = useState("ALL");
+
+  const filteredHomeGallery = useMemo(() => {
+    if (galleryCategory === "ALL") return curatedHomeAll;
+    if (galleryCategory === "OOTY") return ALL_HOME_IMAGES.filter(img => img.location === "OOTY").slice(0, 16);
+    if (galleryCategory === "CHENNAI") return ALL_HOME_IMAGES.filter(img => img.location === "CHENNAI").slice(0, 16);
+    return ALL_HOME_IMAGES.filter(img => img.category === galleryCategory).slice(0, 16);
+  }, [galleryCategory]);
 
   return (
     <>
@@ -95,7 +150,7 @@ export default function Home() {
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
-                onClick={() => navigate('/rooms')}
+                onClick={() => navigate('/chennai')}
               >
                 <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
                   <img src={chennaiImg} alt="DrizzleDrop Chennai" className="w-full h-full object-cover" />
@@ -117,7 +172,7 @@ export default function Home() {
                   </p>
                   <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["IT Hubs", "OMR Corridor", "Rooftop Dining", "Fast WiFi"].map((tag) => (
-                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
+                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-[#2E6B8A]/5 text-[#2E6B8A] rounded-full border border-[#2E6B8A]/20 shadow-sm">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center gap-3 text-[#C5A861] font-bold text-xs uppercase tracking-widest group/btn">
@@ -134,10 +189,7 @@ export default function Home() {
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
-                onClick={() => {
-                  const el = document.getElementById('location');
-                  el?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => navigate('/ooty')}
               >
                 <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
                   <img src={ootyImg} alt="DrizzleDrop Ooty" className="w-full h-full object-cover" />
@@ -161,7 +213,7 @@ export default function Home() {
                   </p>
                   <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["Hill Views", "Toy Train Route", "Private Balcony", "Quiet Luxury"].map((tag) => (
-                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-secondary/30 text-secondary-foreground rounded-full border border-border/50">{tag}</span>
+                      <span key={tag} className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold px-3 sm:px-4 py-1.5 sm:py-2 bg-[#3a7d5a]/5 text-[#3a7d5a] rounded-full border border-[#3a7d5a]/20 shadow-sm">{tag}</span>
                     ))}
                   </div>
                   <div className="flex items-center gap-3 text-[#C5A861] font-bold text-xs uppercase tracking-widest group/btn">
@@ -172,6 +224,86 @@ export default function Home() {
               </motion.div>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      {/* Photo Gallery - All Properties */}
+      <section id="gallery" className="section-padding bg-secondary/5">
+        <div className="container-luxury">
+          <Reveal width="100%">
+            <SectionHeading 
+              label="Photo Gallery" 
+              title="Experience DrizzleDrop" 
+              subtitle="A visual journey through our Chennai and Ooty properties" 
+            />
+          </Reveal>
+
+          {/* Categories Filter */}
+          <Reveal delay={0.3} width="100%">
+            <div className="flex flex-wrap justify-center gap-2 mb-12 mt-8">
+              {HOME_GALLERY_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setGalleryCategory(cat)}
+                  className={`px-4 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-full border transition-all duration-300 ${galleryCategory === cat
+                    ? "bg-primary/10 border-primary text-primary"
+                    : "bg-white border-border/50 text-muted-foreground hover:border-primary/50 hover:text-primary"
+                    }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </Reveal>
+          
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={galleryCategory}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+            >
+              {filteredHomeGallery.map((image, i) => (
+                <Reveal key={image.id} delay={i * 0.05}>
+                  <motion.div 
+                    whileHover={{ scale: 1.02 }}
+                    className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-border/40"
+                    onClick={() => navigate(`/gallery?location=${image.location.toLowerCase()}`)}
+                  >
+                    <img 
+                      src={image.src} 
+                      alt={`${image.location} ${image.category}`} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                      <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />
+                    </div>
+                    <div className="absolute bottom-3 left-3 flex flex-col gap-1">
+                       <span className="text-[7px] uppercase tracking-wider font-bold bg-[#C5A861] px-2 py-0.5 rounded text-white shadow-sm w-fit">
+                          {image.location}
+                       </span>
+                       <span className="text-[8px] uppercase tracking-widest font-bold bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-black shadow-sm">
+                          {image.category === "GENERAL" ? image.location : image.category}
+                       </span>
+                    </div>
+                  </motion.div>
+                </Reveal>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          <Reveal delay={0.5} width="100%">
+            <div className="mt-12 text-center">
+              <Link 
+                to="/gallery" 
+                className="inline-flex items-center gap-3 px-10 py-4 bg-[#C5A861] hover:bg-[#B49750] text-white font-bold rounded-full transition-all duration-300 shadow-xl shadow-primary/20 group"
+              >
+                Browse Full Gallery
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 

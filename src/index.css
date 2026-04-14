@@ -165,24 +165,9 @@
   }
 }
 
-/* Chatbot size optimization (Match IG/FB standard ~52px) */
-#noupe-chat-launcher, 
-.noupe-launcher-button,
-[id^="noupe-chat"],
-iframe[src*="noupe.com"] {
-  width: 52px !important;
-  height: 52px !important;
-  max-width: 52px !important;
-  max-height: 52px !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  border-radius: 50% !important;
-  overflow: hidden !important;
-}
-
-/* Ensure the iframe itself is round if possible */
-iframe[src*="noupe.com"] {
-  border-radius: 50% !important;
+/* Custom Chatbot adjustments */
+.fixed.bottom-6.right-6 {
+  z-index: 1000 !important;
 }
 
 /* Ensure Logo in Footer fits properly without squashing */
