@@ -481,7 +481,7 @@ export default function LocationPage({ location }: Props) {
           <Reveal width="100%">
             <SectionHeading label="Get in Touch" title={`Contact ${location.name} Property`} />
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-12 px-4">
+          <div className="flex flex-col items-center gap-6 md:grid md:grid-cols-3 md:gap-8 max-w-5xl mx-auto mt-12 w-full px-4 sm:px-6">
             {[
               {
                 icon: MessageCircle,
@@ -508,12 +508,12 @@ export default function LocationPage({ location }: Props) {
                 color: "#2E6B8A"
               },
             ].map(({ icon: Icon, label, value, href, description, color }, i) => (
-              <Reveal key={label} delay={0.2 + i * 0.1}>
+              <Reveal key={label} delay={0.2 + i * 0.1} width="100%">
                 <a
                   href={href}
-                  className="group relative block h-full w-full mx-auto max-w-sm md:max-w-none"
+                  className="group relative block h-full w-full max-w-sm mx-auto md:max-w-none"
                 >
-                  <div className="glass-card p-10 flex flex-col items-center text-center h-full transition-all duration-500 border border-[#C5A861]/10 group-hover:border-[#C19E5F]/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden">
+                  <div className="glass-card p-8 sm:p-10 flex flex-col items-center justify-center text-center h-full transition-all duration-500 border border-[#C5A861]/10 group-hover:border-[#C19E5F]/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden rounded-2xl">
                     <div
                       className="w-16 h-16 rounded-[1.25rem] flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 shadow-lg"
                       style={{ background: `${color}10` }}
@@ -522,7 +522,7 @@ export default function LocationPage({ location }: Props) {
                     </div>
                     <h4 className="text-xl font-bold mb-2 text-gray-900 tracking-tight font-display">{label}</h4>
                     <p className="text-[#C5A861] font-bold text-base mb-3 tracking-wide">{value}</p>
-                    <p className="text-muted-foreground text-xs leading-relaxed max-w-[200px]">{description}</p>
+                    <p className="text-muted-foreground text-xs leading-relaxed max-w-[220px]">{description}</p>
 
                     <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500" />
                   </div>

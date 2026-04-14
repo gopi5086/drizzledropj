@@ -478,7 +478,7 @@ export default function Home() {
         <div className="container-luxury">
           <Reveal width="100%">
             <SectionHeading label="Get in Touch" title="Contact Us" />
-          </Reveal>          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          </Reveal>          <div className="flex flex-col items-center gap-6 md:grid md:grid-cols-3 md:gap-8 max-w-4xl mx-auto w-full px-2 sm:px-0">
             {[
               {
                 icon: MessageCircle,
@@ -505,21 +505,21 @@ export default function Home() {
                 color: "#2E6B8A"
               },
             ].map(({ icon: Icon, label, value, href, description, color }, i) => (
-              <Reveal key={label} delay={0.2 + i * 0.1}>
+              <Reveal key={label} delay={0.2 + i * 0.1} width="100%">
                 <a
                   href={href}
-                  className="group relative block h-full"
+                  className="group relative block h-full w-full max-w-sm mx-auto md:max-w-none"
                 >
-                  <div className="glass-card p-8 text-center h-full transition-all duration-500 border border-white/10 group-hover:border-primary/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden">
+                  <div className="glass-card p-8 sm:p-10 flex flex-col items-center justify-center text-center h-full transition-all duration-500 border border-white/10 group-hover:border-primary/40 group-hover:translate-y-[-8px] hover-gold-glow overflow-hidden rounded-2xl">
                     <div
-                      className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 shadow-lg"
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 shadow-lg"
                       style={{ background: `${color}15` }}
                     >
                       <Icon className="w-7 h-7" style={{ color: color }} />
                     </div>
                     <h4 className="text-xl font-bold mb-2 text-gray-800 tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>{label}</h4>
                     <p className="text-[#C5A861] font-bold text-sm mb-3 tracking-wide">{value}</p>
-                    <p className="text-gray-500 text-xs leading-relaxed">{description}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed max-w-[220px]">{description}</p>
 
                     {/* Decorative background element */}
                     <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500" />
