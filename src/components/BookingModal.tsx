@@ -39,7 +39,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         try {
             // Web3Forms API for frictionless zero-server deployments (works on Localhost + Hostinger + Vercel)
             const templateParams = {
-                access_key: "868bd7f9-4108-4342-bf38-75a5dd580e00", 
+                access_key: "903a684b-20e7-4510-965f-488f15a31512", 
                 subject: `New Booking Request from ${data.name}`,
                 from_name: "DrizzleDrop Booking System",
                 Name: data.name,
@@ -161,7 +161,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
                             {error && <div className="text-red-500 text-sm">{error}</div>}
 
                             <Button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover-gold-glow py-6 text-base shadow-sm">
-                                {loading ? "Submitting..." : "Submit Booking Request"}
+                                {loading ? "Checking..." : "Check Availability & Book"}
                             </Button>
                         </form>
                     </>

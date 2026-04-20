@@ -2,17 +2,30 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Facebook, Instagram, MessageCircle, Plus, X } from "lucide-react";
+import { chennaiData, ootyData } from "@/data/locationData";
 
 /**
  * Professional Social Media Floating Menu
  * Mobile-responsive: Collapses into a single bubble to save space.
- * Dynamic: Adapts WhatsApp link based on current location (Chennai/Ooty).
+ * Dynamic: Adapts WhatsApp, Instagram & Facebook links based on current location (Chennai/Ooty).
  */
 
 const WHATSAPP_NUMS = {
   chennai: "919791178349",
   ooty: "919150486153",
   default: "919150486153",
+};
+
+const INSTAGRAM_LINKS = {
+  chennai: chennaiData.contact.instagram,
+  ooty: ootyData.contact.instagram,
+  default: chennaiData.contact.instagram,
+};
+
+const FACEBOOK_LINKS = {
+  chennai: chennaiData.contact.facebook,
+  ooty: ootyData.contact.facebook,
+  default: ootyData.contact.facebook,
 };
 
 export default function SocialFloatingIcons() {
@@ -35,14 +48,14 @@ export default function SocialFloatingIcons() {
       name: "Facebook",
       icon: <Facebook className="w-5 h-5 md:w-6 md:h-6" />,
       color: "bg-[#1877F2]",
-      href: "https://facebook.com/drizzledrop",
+      href: FACEBOOK_LINKS[locKey],
       label: "Follow on Facebook",
     },
     {
       name: "Instagram",
       icon: <Instagram className="w-5 h-5 md:w-6 md:h-6" />,
       color: "bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]",
-      href: "https://instagram.com/drizzledrop",
+      href: INSTAGRAM_LINKS[locKey],
       label: "Follow on Instagram",
     },
   ];

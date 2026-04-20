@@ -251,7 +251,7 @@ export default function BookingBar() {
                     >
                         {/* Hover shimmer */}
                         <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
-                        <span className="relative">BOOK NOW</span>
+                        <span className="relative">CHECK AVAILABILITY</span>
                     </button>
                 </div>
             </div>

@@ -80,9 +80,9 @@ const faqs = [
 
 
 const blogPosts = [
-  { title: "5 Hidden Gems in Ooty You Must Visit", date: "Oct 12, 2023", category: "Travel" },
-  { title: "Effective Business Stays in Chennai's IT Corridor", date: "Sep 28, 2023", category: "Business" },
-  { title: "The Secret to Our Authentic Nilgiri Tea", date: "Aug 15, 2023", category: "Dining" },
+  { title: "The Ultimate Guide: Best Places to Stay in Ooty for Couples and Families", date: "Nov 15, 2024", category: "Travel", link: "/blog/best-places-to-stay-in-ooty" },
+  { title: "The Ultimate Ooty Itinerary: 2 Nights & 3 Days Travel Plan", date: "Nov 02, 2024", category: "Guide", link: "#" },
+  { title: "Top 10 Hidden Places to Visit in Ooty (2024 Guide)", date: "Oct 20, 2024", category: "Explore", link: "#" },
 ];
 
 export default function Home() {
@@ -99,8 +99,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="DrizzleDrop Inn | Luxury & Modern Hotels in Chennai & Ooty"
-        description="Experience unparalleled hospitality with DrizzleDrop Inn. Perfect for business stays in Chennai IT corridor or scenic valley vacations in Ooty Nilgiris."
+        title="Best Hotel in Ooty & Chennai | DrizzleDropinn"
+        description="Looking for the best hotel in Ooty? DrizzleDropinn offers stunning valley views, family-friendly budget stays, and luxury rooms. Book direct for the best rates!"
       />
       <HeroSection />
 
@@ -435,13 +435,13 @@ export default function Home() {
                     <span className="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary font-bold mb-3 sm:mb-4 block">
                       {post.category} • {post.date}
                     </span>
-                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 group-hover:text-primary transition-colors">
+                    <Link to={post.link} className="block text-base sm:text-lg md:text-xl font-bold mb-3 sm:mb-4 group-hover:text-primary transition-colors">
                       {post.title}
-                    </h3>
-                    <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                    </Link>
+                    <Link to={post.link} className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                       Read More
                       <div className="h-0.5 w-4 bg-primary group-hover:w-8 transition-all duration-300" />
-                    </span>
+                    </Link>
                   </div>
                 </div>
               </Reveal>

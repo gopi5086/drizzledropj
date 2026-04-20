@@ -1,13 +1,7 @@
-import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { Facebook, Instagram, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
 import logoImage from "@/assets/drilogo.png";
-
-const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: MessageCircle, href: "https://wa.me/918667825086", label: "WhatsApp" },
-];
+import { chennaiData, ootyData } from "@/data/locationData";
 
 const quickLinks = [
   { label: "Home", path: "/" },
@@ -27,14 +21,24 @@ const locationLinks = [
   { label: "Ooty Gallery", path: "/gallery?location=ooty" },
 ];
 
-import { useParams } from "react-router-dom";
-
 export default function Footer() {
   const { locationId } = useParams();
-  const currentLocKey = locationId?.toLowerCase();
+  const currentLocKey = locationId?.toLowerCase() as "chennai" | "ooty" | undefined;
 
   const showChennai = !currentLocKey || currentLocKey === "chennai";
   const showOoty = !currentLocKey || currentLocKey === "ooty";
+
+  // Dynamic social links based on current location
+  const locData = currentLocKey === "chennai" ? chennaiData : currentLocKey === "ooty" ? ootyData : null;
+  const instagramHref = locData?.contact.instagram ?? "https://www.instagram.com/drizzledropinn_chennai?utm_source=qr&igsh=ZXFsNnM1emR5aGdn";
+  const facebookHref = locData?.contact.facebook ?? "https://www.facebook.com/share/14emw7wGXXd/";
+  const whatsappHref = currentLocKey === "ooty" ? "https://wa.me/919150486153" : "https://wa.me/919791178349";
+
+  const socialLinks = [
+    { icon: Facebook, href: facebookHref, label: "Facebook" },
+    { icon: Instagram, href: instagramHref, label: "Instagram" },
+    { icon: MessageCircle, href: whatsappHref, label: "WhatsApp" },
+  ];
 
   return (
     <footer className="bg-[#F2EAE0] text-black/90 border-t border-white/10">

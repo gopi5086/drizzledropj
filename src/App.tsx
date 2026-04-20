@@ -16,6 +16,7 @@ import Deals from "@/pages/Deals";
 import About from "@/pages/About";
 import Overview from "@/pages/Overview";
 import Contact from "@/pages/Contact";
+import BlogPost from "@/pages/BlogPost";
 import LocationPage from "@/components/LocationPage";
 import NotFound from "@/pages/NotFound";
 import AdminLogin from "@/pages/AdminLogin";
@@ -131,6 +132,7 @@ const App = () => (
                   <Route path="/dining" element={<Layout><Dining /></Layout>} />
                   <Route path="/deals" element={<Layout><Deals /></Layout>} />
                   <Route path="/overview" element={<Layout><Overview /></Layout>} />
+                  <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
                   <Route path="*" element={<Layout><NotFound /></Layout>} />
                 </Routes>
                 <SocialFloatingIcons />

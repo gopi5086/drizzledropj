@@ -90,7 +90,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
 
         try {
             const templateParams = {
-                access_key: "868bd7f9-4108-4342-bf38-75a5dd580e00", 
+                access_key: "903a684b-20e7-4510-965f-488f15a31512", 
                 subject: `Navbar Booking Request from ${guestDetails.name}`,
                 from_name: "DrizzleDrop Booking System",
                 Name: guestDetails.name,
@@ -326,7 +326,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                            disabled={loading} 
                                            className="flex-1 bg-primary py-6 text-lg font-bold hover-gold-glow"
                                         >
-                                            {loading ? "Submitting..." : "Submit Request"}
+                                            {loading ? "Checking..." : "Check Availability & Book"}
                                         </Button>
                                     </div>
                                 </form>

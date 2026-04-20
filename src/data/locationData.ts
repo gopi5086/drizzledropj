@@ -91,6 +91,8 @@ export interface LocationConfig {
     whatsapp: string;
     email: string;
     mapEmbed: string;
+    instagram: string;
+    facebook: string;
   };
   seo: {
     title: string;
@@ -191,6 +193,8 @@ export const chennaiData: LocationConfig = {
     whatsapp: "https://wa.me/919791178349",
     email: "stay@drizzledropinn.com",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.5847992975273!2d80.22950347411972!3d12.93438611569501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525d3e8c850455%3A0xad75b35ac6cfc12!2sDrizzleDrop%20Inn%2CCHENNAI!5e0!3m2!1sen!2sus!4v1773836584953!5m2!1sen!2sus",
+    instagram: "https://www.instagram.com/drizzledropinn_chennai?utm_source=qr&igsh=ZXFsNnM1emR5aGdn",
+    facebook: "https://www.facebook.com/share/14emw7wGXXd/",
   },
   seo: {
     title: "Best Hotel in Chennai | Drizzle Drop Inn – OMR IT Corridor",
@@ -313,6 +317,8 @@ export const ootyData: LocationConfig = {
     whatsapp: "https://wa.me/919150486153",
     email: "stay@drizzledropinn.com",
     mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39892631.06442901!2d31.07136452959029!3d52.391215641873124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8962ea346ed07%3A0xf65c4c81e400f184!2sDrizzleDrop%20Inn!5e0!3m2!1sen!2sus!4v1773834594116!5m2!1sen!2sus",
+    instagram: "https://www.instagram.com/drizzledropinn_ooty?utm_source=qr&igsh=MWM3dHdneGJoaG55eQ==",
+    facebook: "https://www.facebook.com/share/14emw7wGXXd/",
   },
   seo: {
     title: "Best Stay in Ooty | Drizzle Drop Inn – Nilgiri Hill Station",
@@ -327,7 +333,7 @@ export const ootyData: LocationConfig = {
     "name": "DrizzleDrop Inn Ooty",
     "description": "An enchanting hill-station getaway in Ooty with 8 individual rooms, private balconies and panoramic Nilgiri views.",
     "url": "https://www.drizzledrop.com/ooty",
-    "telephone": "+918667825086",
+    "telephone": "+919150486153",
     "email": "ooty@drizzledrop.com",
     "address": {
       "@type": "PostalAddress",
