@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import driLogo from "@/assets/drilogo.png";
+import driLogo from "@/assets/drilogo.webp";
 
 export default function AdminLogin() {
   const navigate = useNavigate();

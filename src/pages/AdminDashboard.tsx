@@ -20,7 +20,7 @@ import {
   Tag,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import driLogo from "@/assets/drilogo.png";
+import driLogo from "@/assets/drilogo.webp";
 
 const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;

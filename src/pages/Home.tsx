@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, MapPin, Wifi, Car, Shield, MessageCircle, Phone, Mail, ArrowRight, ZoomIn } from "lucide-react";
 import AdPopup from "@/components/AdPopup";
-import chennaiImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
-import ootyImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).jpeg";
+import chennaiImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).webp";
+import ootyImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).webp";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import HeroSection from "@/components/HeroSection";
@@ -16,13 +16,24 @@ import {
 } from "@/components/ui/accordion";
 import SEO from "@/components/SEO";
 
-// Load all property images dynamically from assets
-const allPropertyImages = import.meta.glob<{ default: string }>(
-  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+// Load all property images dynamically from assets - prioritizing webp for performance
+const allImagesRaw = import.meta.glob<{ default: string }>(
+  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG,webp}",
   { eager: true, query: "?url" }
 );
 
-const ALL_HOME_IMAGES = Object.entries(allPropertyImages).map(([path, module]) => {
+// Group by base path to prioritize webp
+const prioritizedImages: Record<string, string> = {};
+Object.entries(allImagesRaw).forEach(([path, module]) => {
+  const basePath = path.replace(/\.(jpg|jpeg|png|JPG|JPEG|webp)$/i, '');
+  const ext = path.split('.').pop()?.toLowerCase();
+  
+  if (!prioritizedImages[basePath] || ext === 'webp') {
+    prioritizedImages[basePath] = module.default;
+  }
+});
+
+const ALL_HOME_IMAGES = Object.entries(prioritizedImages).map(([path, src]) => {
   const parts = path.split("/");
   const isOoty = path.toLowerCase().includes("ooty");
   const folderName = parts[parts.length - 2];
@@ -32,7 +43,7 @@ const ALL_HOME_IMAGES = Object.entries(allPropertyImages).map(([path, module]) =
   
   return {
     id: path,
-    src: module.default,
+    src: src,
     category,
     location: isOoty ? "OOTY" : "CHENNAI"
   };

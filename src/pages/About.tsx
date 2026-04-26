@@ -18,8 +18,8 @@ import {
   Zap,
   Briefcase
 } from "lucide-react";
-import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.JPG";
-import chennaiHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0009.JPG";
+import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.webp";
+import chennaiHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0009.webp";
 
 const FADE_IN = {
   hidden: { opacity: 0, y: 30 },

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail, Wifi, Tv, Car, Utensils, Mountain, ShieldCheck, Shirt, Bell, BedDouble, Users, Flame, Coffee } from "lucide-react";
-import driLogo from "../assets/drilogo.png";
+import driLogo from "../assets/drilogo.webp";
 import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
 import { useLocationContext } from "@/context/LocationContext";

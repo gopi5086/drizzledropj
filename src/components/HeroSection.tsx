@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import BookingBar from "./BookingBar";
 
 // Hero slide images from professional gallery
-import hero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.JPG";
-import hero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.JPG";
-import hero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.jpg";
-import hero4 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.jpg";
+import hero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
+import hero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
+import hero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.webp";
+import hero4 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.webp";
 
 interface HeroSlide {
   image: string;

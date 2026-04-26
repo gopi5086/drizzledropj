@@ -1,93 +1,203 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Default SEO -->
-    <title>Best Hotel in Ooty | Budget & Luxury Stays | DrizzleDropinn</title>
-    <meta name="description" content="Looking for the best hotel in Ooty? DrizzleDropinn offers stunning valley views, family-friendly budget stays, and luxury rooms. Book direct for the best rates!" />
-    <meta name="keywords" content="Hotels in Ooty, Best hotel in Ooty, Ooty stay, Ooty resorts, Budget stay in Ooty, Luxury hotels in Ooty, DrizzleDrop Inn, hotel in Chennai, best hotel OMR Chennai" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="DrizzleDrop Hotels" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="DrizzleDrop Hotels | Best Hotel in Ooty & Chennai" />
-    <meta property="og:description" content="Premium hospitality at DrizzleDrop Inn – luxury stays in Chennai OMR and Ooty Nilgiris. Book your perfect getaway today." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.drizzledrop.com" />
-    <meta property="og:site_name" content="DrizzleDrop Hotels" />
-    <meta property="og:locale" content="en_IN" />
+  <!-- ✅ Primary SEO -->
+  <title>Best Hotel in Ooty | Valley View Rooms | DrizzleDropinn</title>
+  <meta name="description"
+    content="Stay at DrizzleDropinn — Ooty's top-rated budget & luxury hotel with stunning valley views. Family rooms from ₹2000. Book direct: +91-8667825086." />
+  <meta name="keywords"
+    content="Hotels in Ooty, Best hotel in Ooty, Ooty stay, Ooty resorts, Budget stay in Ooty, Luxury hotels in Ooty, DrizzleDrop Inn, hotel in Chennai OMR, best hotel OMR Chennai" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="DrizzleDropinn Hotels" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="DrizzleDrop Hotels | Best Hotel in Ooty & Chennai" />
-    <meta name="twitter:description" content="Luxury hotel stays in Chennai OMR and Ooty Nilgiris. Book your perfect escape at DrizzleDrop Inn." />
+  <!-- ✅ Geo Meta Tags (Local SEO) -->
+  <meta name="geo.region" content="IN-TN" />
+  <meta name="geo.placename" content="Ooty, Tamil Nadu, India" />
+  <meta name="geo.position" content="11.4102;76.6950" />
+  <meta name="ICBM" content="11.4102, 76.6950" />
 
-    <!-- Canonical -->
-    <link rel="canonical" href="https://www.drizzledropinn.com" />
+  <!-- ✅ Open Graph (fixed og:url + added og:image) -->
+  <meta property="og:title" content="Best Hotel in Ooty | DrizzleDropinn" />
+  <meta property="og:description"
+    content="Stay at DrizzleDropinn — Ooty's top-rated budget & luxury hotel with stunning valley views. Family rooms from ₹2000. Book direct!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.drizzledropinn.com" />
+  <meta property="og:image" content="https://www.drizzledropinn.com/images/hero-ooty.webp" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="DrizzleDropinn" />
+  <meta property="og:locale" content="en_IN" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/src/assets/drilogo.png" />
+  <!-- ✅ Twitter Card (added twitter:image) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Best Hotel in Ooty | DrizzleDropinn" />
+  <meta name="twitter:description"
+    content="Stunning valley view hotel in Ooty & business hotel in Chennai OMR. Book direct at DrizzleDropinn for best rates." />
+  <meta name="twitter:image" content="https://www.drizzledropinn.com/images/hero-ooty.webp" />
 
-    <!-- Preconnect for Google Fonts performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- ✅ Canonical (single, correct domain) -->
+  <link rel="canonical" href="https://www.drizzledropinn.com/" />
 
-    <!-- Organisation & Hotel JSON-LD (site-wide) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Hotel",
-      "name": "DrizzleDropinn",
-      "description": "Premium budget and luxury hotel in Ooty offering stunning valley views and family-friendly rooms. Also featuring a premier business hotel in Chennai OMR.",
-      "url": "https://www.drizzledrop.com",
-      "logo": "https://www.drizzledrop.com/src/assets/drilogo.png",
-      "image": "https://www.drizzledrop.com/src/assets/drilogo.png",
-      "telephone": "+91-8667825086",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Ooty",
-        "addressRegion": "Tamil Nadu",
-        "postalCode": "643001",
-        "addressCountry": "IN"
-      },
-      "priceRange": "₹2000 - ₹5000",
-      "starRating": {
-        "@type": "Rating",
-        "ratingValue": "4"
-      },
-      "contactPoint": [
-        {
+  <!-- ✅ Favicon (moved to /public/) -->
+  <link rel="icon" type="image/png" href="/drilogo.png" />
+  <link rel="apple-touch-icon" href="/drilogo.png" />
+
+  <!-- ✅ Non-render-blocking Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  </noscript>
+
+  <!-- ✅ Google Analytics GA4 — Replace G-XXXXXXXXXX with your Measurement ID -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
+
+  <!-- ✅ Enhanced Hotel Schema (both properties) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Hotel",
+        "@id": "https://www.drizzledropinn.com/#hotel-ooty",
+        "name": "DrizzleDropinn Ooty",
+        "description": "Premium budget and luxury hotel in Ooty with stunning Nilgiris valley views, family rooms, eco stays and bonfire area.",
+        "url": "https://www.drizzledropinn.com/ooty",
+        "telephone": "+91-8667825086",
+        "checkinTime": "12:00",
+        "checkoutTime": "11:00",
+        "priceRange": "₹2000–₹5000",
+        "starRating": { "@type": "Rating", "ratingValue": "4" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Ooty",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "643001",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": "11.4102",
+          "longitude": "76.6950"
+        },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Free Parking", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Restaurant", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Bonfire Area", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Valley View", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Family Rooms", "value": true }
+        ],
+        "image": [
+          "https://www.drizzledropinn.com/images/hero-ooty.webp",
+          "https://www.drizzledropinn.com/images/hero-lobby.webp"
+        ],
+        "logo": "https://www.drizzledropinn.com/images/drilogo.webp",
+        "contactPoint": {
           "@type": "ContactPoint",
           "telephone": "+91-8667825086",
           "contactType": "Reservations",
           "areaServed": "IN",
           "availableLanguage": ["English", "Tamil"]
-        }
-      ],
-      "sameAs": [
-        "https://www.facebook.com/drizzledropinn",
-        "https://www.instagram.com/drizzledropinn"
-      ]
-    }
-    </script>
+        },
+        "sameAs": [
+          "https://www.facebook.com/drizzledropinn",
+          "https://www.instagram.com/drizzledropinn"
+        ]
+      },
+      {
+        "@type": "Hotel",
+        "@id": "https://www.drizzledropinn.com/#hotel-chennai",
+        "name": "DrizzleDropinn Chennai OMR",
+        "description": "Premier business hotel in Chennai OMR with modern rooms, free Wi-Fi and excellent connectivity to IT corridor.",
+        "url": "https://www.drizzledropinn.com/chennai",
+        "telephone": "+91-8667825086",
+        "checkinTime": "12:00",
+        "checkoutTime": "11:00",
+        "priceRange": "₹3000–₹6000",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chennai",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "600119",
+          "addressCountry": "IN"
+        },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Free Parking", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Business Center", "value": true }
+        ],
+        "logo": "https://www.drizzledropinn.com/images/drilogo.webp"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the best hotel in Ooty?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DrizzleDropinn is one of the top-rated hotels in Ooty, offering stunning Nilgiris valley views, budget and luxury stays from ₹2000 per night, family rooms, eco suites, and a bonfire area."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I book a room at DrizzleDropinn Ooty?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can book directly at drizzledropinn.com or call +91-8667825086 for the best rates and direct booking discounts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does DrizzleDropinn have a hotel in Chennai?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, DrizzleDropinn has a premier business hotel in Chennai OMR with modern rooms, free Wi-Fi, and easy access to the IT corridor."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are the check-in and check-out times at DrizzleDropinn?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Check-in is at 12:00 PM and check-out is at 11:00 AM at all DrizzleDropinn properties."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drizzledropinn.com" },
+          { "@type": "ListItem", "position": 2, "name": "Ooty Hotel", "item": "https://www.drizzledropinn.com/ooty" },
+          { "@type": "ListItem", "position": 3, "name": "Chennai Hotel", "item": "https://www.drizzledropinn.com/chennai" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
 
-    <!-- Breadcrumb JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.drizzledrop.com" },
-        { "@type": "ListItem", "position": 2, "name": "Chennai", "item": "https://www.drizzledrop.com/chennai" },
-        { "@type": "ListItem", "position": 3, "name": "Ooty", "item": "https://www.drizzledrop.com/ooty" }
-      ]
-    }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

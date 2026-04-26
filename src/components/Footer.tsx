@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { Facebook, Instagram, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
-import logoImage from "@/assets/drilogo.png";
+import logoImage from "@/assets/drilogo.webp";
 import { chennaiData, ootyData } from "@/data/locationData";
 
 const quickLinks = [

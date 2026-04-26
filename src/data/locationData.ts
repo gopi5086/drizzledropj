@@ -1,58 +1,58 @@
 // ── Central config for all location-specific content ──────────────────────
 
 // Chennai hero images (Using high-quality gallery images from Chennai-images/RECEPTION)
-import chennaiHero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.JPG";
-import chennaiHero2 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0030.JPG";
-import chennaiHero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.jpg";
-import chennaiHero4 from "@/assets/Gallery/Chennai-images/RECEPTION/Corridor_5.jpg";
+import chennaiHero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
+import chennaiHero2 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0030.webp";
+import chennaiHero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.webp";
+import chennaiHero4 from "@/assets/Gallery/Chennai-images/RECEPTION/Corridor_5.webp";
 
 // Ooty hero images (Using high-quality gallery images from Ooty-Images)
-import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.JPG";
-import ootyHero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.JPG";
-import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.jpg";
-import ootyHero4 from "@/assets/Gallery/Ooty-Images/VILLA/Villa_with_Lawn.JPG";
+import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
+import ootyHero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.webp";
+import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.webp";
+import ootyHero4 from "@/assets/Gallery/Ooty-Images/VILLA/Villa_with_Lawn.webp";
 
 // Chennai specific room interior images
-import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.jpg";
-import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.jpg";
-import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.jpg";
-import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.jpg";
+import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
+import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.webp";
+import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.webp";
+import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.webp";
 
 // Ooty specific room interior images
-import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.JPG";
-import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.JPG";
-import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.JPG";
-import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.JPG";
+import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
+import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
+import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
+import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
 
 // Chennai gallery subset (imgs 0–34)
-import cg0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM.jpeg";
-import cg1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (1).jpeg";
-import cg2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (2).jpeg";
-import cg3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (3).jpeg";
-import cg4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (4).jpeg";
-import cg5 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (5).jpeg";
-import cg6 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (6).jpeg";
-import cg7 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).jpeg";
-import cg8 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (8).jpeg";
-import cg9 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (9).jpeg";
-import cg10 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (10).jpeg";
-import cg11 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (11).jpeg";
-import cg12 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (12).jpeg";
+import cg0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM.webp";
+import cg1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (1).webp";
+import cg2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (2).webp";
+import cg3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (3).webp";
+import cg4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (4).webp";
+import cg5 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (5).webp";
+import cg6 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (6).webp";
+import cg7 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7).webp";
+import cg8 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (8).webp";
+import cg9 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (9).webp";
+import cg10 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (10).webp";
+import cg11 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (11).webp";
+import cg12 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (12).webp";
 
 // Ooty gallery subset (imgs 35–70)
-import og0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (57).jpeg";
-import og1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (58).jpeg";
-import og2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (59).jpeg";
-import og3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (60).jpeg";
-import og4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (61).jpeg";
-import og5 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (62).jpeg";
-import og6 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (63).jpeg";
-import og7 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (64).jpeg";
-import og8 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).jpeg";
-import og9 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (66).jpeg";
-import og10 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (67).jpeg";
-import og11 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (68).jpeg";
-import og12 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (69).jpeg";
+import og0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (57).webp";
+import og1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (58).webp";
+import og2 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (59).webp";
+import og3 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (60).webp";
+import og4 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (61).webp";
+import og5 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (62).webp";
+import og6 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (63).webp";
+import og7 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (64).webp";
+import og8 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).webp";
+import og9 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (66).webp";
+import og10 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (67).webp";
+import og11 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (68).webp";
+import og12 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (69).webp";
 
 export interface RoomData {
   name: string;

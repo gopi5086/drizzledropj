@@ -6,18 +6,18 @@ import { useBooking } from "@/context/BookingContext";
 
 // ── Rooms Images ──────────────────────────────────────────────────────────
 // Chennai
-import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.jpg";
-import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.jpg";
-import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.jpg";
-import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.jpg";
+import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
+import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.webp";
+import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.webp";
+import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.webp";
 // Ooty
-import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.JPG";
-import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.JPG";
-import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.JPG";
-import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.JPG";
-import heroImg from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.JPG";
-import ootyRoomsHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6956.JPG";
-import chennaiRoomsHero from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.JPG";
+import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
+import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
+import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
+import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+import heroImg from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.webp";
+import ootyRoomsHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6956.webp";
+import chennaiRoomsHero from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.webp";
 
 interface Room {
   name: string;

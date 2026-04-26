@@ -16,7 +16,7 @@ export default function SEO({
   name = "DrizzleDrop Inn", 
   type = "website",
   url = "https://drizzledropinn.com/",
-  image = "https://drizzledropinn.com/og-image.jpg"
+  image = "https://drizzledropinn.com/og-image.webp"
 }: SEOProps) {
   return (
     <Helmet>

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import SEO from "@/components/SEO";
 import Reveal from "@/components/Reveal";
-import ootyImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).jpeg";
+import ootyImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (23).webp";
 
 export default function BlogPost() {
   const { slug } = useParams();

@@ -4,12 +4,12 @@ import Reveal from "@/components/Reveal";
 import { Utensils, Sprout, Heart, Sparkles, Map, Mountain, LucideIcon } from "lucide-react";
 
 // Original images from asset_images
-import heroDining from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.JPG";
-import chennaiDiningHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0027.JPG";
-import ootyDiningHero from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.JPG";
-import chennaiDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).jpeg";
-import ootyDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (54).jpeg";
-import rooftopView from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).jpeg";
+import heroDining from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.webp";
+import chennaiDiningHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0027.webp";
+import ootyDiningHero from "@/assets/Gallery/Ooty-Images/RESTAURANT/BROL7065.webp";
+import chennaiDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (65).webp";
+import ootyDining1 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (54).webp";
+import rooftopView from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).webp";
 
 interface Highlight {
   icon: LucideIcon;
