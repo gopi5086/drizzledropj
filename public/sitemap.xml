@@ -70,4 +70,21 @@
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://drizzledropinn.com/blog/best-places-to-stay-in-ooty</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://drizzledropinn.com/blog/ooty-itinerary</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://drizzledropinn.com/blog/hidden-places-ooty</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

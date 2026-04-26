@@ -220,7 +220,11 @@ export const chennaiData: LocationConfig = {
       "addressCountry": "IN"
     },
     "starRating": { "@type": "Rating", "ratingValue": "3" },
-    "priceRange": "₹₹"
+    "priceRange": "₹₹",
+    "sameAs": [
+      "https://www.facebook.com/share/14emw7wGXXd/",
+      "https://www.instagram.com/drizzledropinn_chennai?utm_source=qr&igsh=ZXFsNnM1emR5aGdn"
+    ]
   },
   faqs: [
     { q: "What are the check-in and check-out timings for Chennai?", a: "Standard check-in is at 12:00 PM and check-out is at 11:00 AM." },
@@ -344,7 +348,11 @@ export const ootyData: LocationConfig = {
       "addressCountry": "IN"
     },
     "starRating": { "@type": "Rating", "ratingValue": "3" },
-    "priceRange": "₹₹"
+    "priceRange": "₹₹",
+    "sameAs": [
+      "https://www.facebook.com/share/14emw7wGXXd/",
+      "https://www.instagram.com/drizzledropinn_ooty?utm_source=qr&igsh=MWM3dHdneGJoaGdn"
+    ]
   },
   nearbyAttractions: [
     { name: "Nilgiri Mountain Railway", dist: "2.8 KM" },

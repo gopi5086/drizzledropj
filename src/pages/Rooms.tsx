@@ -1,8 +1,10 @@
+import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Wifi, Tv, BedDouble, Car, Coffee, Wind, Droplets, ArrowRight, Star, ShieldAlert, Users, Receipt, Info } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { useBooking } from "@/context/BookingContext";
+import SEO from "@/components/SEO";
 
 // ── Rooms Images ──────────────────────────────────────────────────────────
 // Chennai
@@ -204,8 +206,6 @@ function RoomCard({ room }: { room: Room }) {
   );
 }
 
-import { useParams } from "react-router-dom";
-import SEO from "@/components/SEO";
 
 export default function Rooms() {
   const { locationId } = useParams();

@@ -1,7 +1,9 @@
+import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { CheckCircle } from "lucide-react";
+import SEO from "@/components/SEO";
 import facilityHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
 import chennaiFacilitiesHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0024.webp";
 import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
@@ -9,8 +11,6 @@ import receptionImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM
 import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).webp";
 import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
 
-import { useParams } from "react-router-dom";
-import SEO from "@/components/SEO";
 
 export default function Facilities() {
   const { locationId } = useParams();

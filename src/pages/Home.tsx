@@ -97,8 +97,8 @@ const faqs = [
 
 const blogPosts = [
   { title: "The Ultimate Guide: Best Places to Stay in Ooty for Couples and Families", date: "Nov 15, 2024", category: "Travel", link: "/blog/best-places-to-stay-in-ooty" },
-  { title: "The Ultimate Ooty Itinerary: 2 Nights & 3 Days Travel Plan", date: "Nov 02, 2024", category: "Guide", link: "#" },
-  { title: "Top 10 Hidden Places to Visit in Ooty (2024 Guide)", date: "Oct 20, 2024", category: "Explore", link: "#" },
+  { title: "The Ultimate Ooty Itinerary: 2 Nights & 3 Days Travel Plan", date: "Nov 02, 2024", category: "Guide", link: "/blog/ooty-itinerary" },
+  { title: "Top 10 Hidden Places to Visit in Ooty (2024 Guide)", date: "Oct 20, 2024", category: "Explore", link: "/blog/hidden-places-ooty" },
 ];
 
 export default function Home() {

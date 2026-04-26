@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { Facebook, Instagram, MessageCircle, MapPin, Phone, Mail } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, MapPin, Phone, Mail, Star } from "lucide-react";
 import logoImage from "@/assets/drilogo.webp";
 import { chennaiData, ootyData } from "@/data/locationData";
 
@@ -121,6 +121,16 @@ export default function Footer() {
               >
                 View Chennai Page →
               </Link>
+              <div className="mt-4">
+                <a 
+                  href="https://www.google.com/maps/place/DrizzleDrop+Inn,CHENNAI/@12.9343861,80.2295035,17z/data=!4m8!3m7!1s0x3a525d3e8c850455:0xad75b35ac6cfc12!8m2!3d12.9343861!4d80.2320784!9m1!1b1!16s%2Fg%2F11vrrkb55h?entry=ttu" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#C5A861] hover:underline"
+                >
+                  <Star className="w-3 h-3 fill-[#C5A861]" /> Review on Google
+                </a>
+              </div>
             </div>
           )}
 
@@ -150,6 +160,16 @@ export default function Footer() {
               >
                 View Ooty Page →
               </Link>
+              <div className="mt-4">
+                <a 
+                  href="https://www.google.com/maps/place/DrizzleDrop+Inn/@11.4011885,76.6974751,17z/data=!4m18!1m9!3m8!1s0x3ba8962ea346ed07:0xf65c4c81e400f184!2sDrizzleDrop+Inn!8m2!3d11.4011885!4d76.70005!9m1!1b1!16s%2Fg%2F11b6x_p_v1!3m7!1s0x3ba8962ea346ed07:0xf65c4c81e400f184!8m2!3d11.4011885!4d76.70005!9m1!1b1!16s%2Fg%2F11b6x_p_v1?entry=ttu" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#C5A861] hover:underline"
+                >
+                  <Star className="w-3 h-3 fill-[#C5A861]" /> Review on Google
+                </a>
+              </div>
             </div>
           )}
         </div>

@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
 import SectionHeading from "@/components/SectionHeading";
@@ -27,7 +28,6 @@ const highlights: Highlight[] = [
   { icon: Mountain, title: "Valley Views", desc: "Magnificent views of the Ooty valley from our roof top." },
 ];
 
-import { useParams } from "react-router-dom";
 
 export default function Dining() {
   const { locationId } = useParams();
