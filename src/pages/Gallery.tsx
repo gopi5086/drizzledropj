@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useParams } from "react-router-dom";
 import SectionHeading from "@/components/SectionHeading";
 import { X, ZoomIn, Search, RefreshCw } from "lucide-react";
+import SEO from "@/components/SEO";
 
 // Load all images dynamically from the Gallery assets - prioritizing webp
 const allImagesRaw = import.meta.glob<{ default: string }>(
@@ -104,8 +105,16 @@ export default function Gallery() {
 
   return (
     <div className="pt-24">
+      <SEO 
+        title={tab === "all" ? "Visual Journey - DrizzleDrop Inn Photo Gallery" : `${tab.charAt(0).toUpperCase() + tab.slice(1)} Gallery - DrizzleDrop Inn`}
+        description={`Explore stunning photos of our ${tab === "all" ? "Ooty and Chennai properties" : tab + " property"}, including luxury rooms, valley views, and amenities.`}
+        url={`https://drizzledropinn.com/${locationId ? locationId + '/gallery' : 'gallery'}`}
+      />
       <section className="section-padding">
         <div className="container-luxury">
+          <div className="text-center mb-4">
+            <h1 className="sr-only">DrizzleDrop Inn Photo Gallery - Ooty and Chennai Properties</h1>
+          </div>
           <SectionHeading
             label="Gallery"
             title="Visual Journey"
@@ -176,7 +185,7 @@ export default function Gallery() {
                 >
                   <img
                     src={img.src}
-                    alt={`${img.location} - ${img.category} photo`}
+                    alt={`${img.location} ${img.category} at DrizzleDrop Inn`}
                     className={`w-full object-cover group-hover:scale-110 transition-transform duration-1000 ${
                       i % 4 === 0 ? "h-48 sm:h-64 md:h-72 lg:h-80" : 
                       i % 4 === 1 ? "h-40 sm:h-48 md:h-56" : 

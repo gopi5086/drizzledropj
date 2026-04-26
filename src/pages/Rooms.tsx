@@ -205,6 +205,7 @@ function RoomCard({ room }: { room: Room }) {
 }
 
 import { useParams } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 export default function Rooms() {
   const { locationId } = useParams();
@@ -213,9 +214,17 @@ export default function Rooms() {
   const isChennai = locationId?.toLowerCase() === "chennai";
   const showChennai = !locationId || locationId.toLowerCase() === "chennai";
   const showOoty = !locationId || locationId.toLowerCase() === "ooty";
+  
+  const seoTitle = isOoty ? "Luxury Rooms & Suites in Ooty | DrizzleDrop Inn" : isChennai ? "Executive Business Rooms Chennai OMR | DrizzleDrop Inn" : "Our Rooms & Suites | DrizzleDrop Inn";
+  const seoDesc = isOoty ? "Stay in our alpine suites with private balconies and Nilgiri hill views. Perfect for families and couples." : isChennai ? "Comfortable business rooms in Thoraipakkam, OMR. Smart TVs, high-speed Wi-Fi, and 3-star luxury." : "Explore luxury accommodations at DrizzleDrop Inn. From hill-view suites in Ooty to business rooms in Chennai.";
 
   return (
     <div className="pt-20 bg-[#fdfdfd]">
+      <SEO 
+        title={seoTitle}
+        description={seoDesc}
+        url={`https://drizzledropinn.com/${locationId ? locationId + '/rooms' : 'rooms'}`}
+      />
       {/* ── Cinematic Hero ── */}
       <section className="relative h-[70vh] sm:h-[75vh] min-h-[400px] sm:min-h-[500px] overflow-hidden">
         <motion.div

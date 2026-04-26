@@ -10,12 +10,16 @@ import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (7
 import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
 
 import { useParams } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 export default function Facilities() {
   const { locationId } = useParams();
-
+  
   const isOoty = locationId?.toLowerCase() === "ooty";
   const isChennai = locationId?.toLowerCase() === "chennai";
+  
+  const seoTitle = isOoty ? "Premium Hotel Facilities in Ooty | DrizzleDrop Inn" : isChennai ? "Business Hotel Amenities Chennai OMR | DrizzleDrop Inn" : "Our Hotel Facilities | DrizzleDrop Inn";
+  const seoDesc = isOoty ? "Enjoy valley views, bonfire area, and premium trekking assistance at DrizzleDrop Inn Ooty." : isChennai ? "High-speed Wi-Fi, business center, and prime OMR connectivity for business travelers in Chennai." : "Discover world-class facilities at DrizzleDrop Inn properties in Ooty and Chennai.";
 
   // Facilities to show: Ooty gets all, Chennai gets only common
   const facilitiesToShow = isOoty
@@ -24,6 +28,11 @@ export default function Facilities() {
 
   return (
     <div className="pt-20">
+      <SEO 
+        title={seoTitle}
+        description={seoDesc}
+        url={`https://drizzledropinn.com/${locationId ? locationId + '/facilities' : 'facilities'}`}
+      />
       {/* ── Hero Section ── */}
       <section className="relative h-[60vh] sm:h-[70vh] min-h-[350px] sm:min-h-[450px] overflow-hidden">
         <motion.div

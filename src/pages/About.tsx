@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.webp";
 import chennaiHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0009.webp";
+import SEO from "@/components/SEO";
 
 const FADE_IN = {
   hidden: { opacity: 0, y: 30 },
@@ -396,9 +397,13 @@ export default function About() {
     }
   }, [loc, navigate]);
 
+  const seoTitle = loc === "ooty" ? "About DrizzleDrop Inn Ooty | Our Story & Nilgiri Heritage" : loc === "chennai" ? "About DrizzleDrop Inn Chennai | Business Hospitality in OMR" : "About DrizzleDrop Inn | Our Properties & Hospitality Values";
+  const seoDesc = loc === "ooty" ? "Learn about our heritage property in Ooty, nestled in the Nilgiris with panoramic valley views." : loc === "chennai" ? "Discover our 3-star business hotel in Chennai OMR, perfectly located for corporate and leisure stays." : "DrizzleDrop Inn offers premium hospitality in Ooty and Chennai. Learn about our story and commitment to comfort.";
+
   if (!loc) {
     return (
       <div className="flex flex-col">
+        <SEO title={seoTitle} description={seoDesc} url="https://drizzledropinn.com/about" />
         <ChennaiAbout />
         <div className="w-full h-px bg-gray-200" />
         <OotyAbout />
@@ -406,5 +411,10 @@ export default function About() {
     );
   }
 
-  return loc === "ooty" ? <OotyAbout /> : <ChennaiAbout />;
+  return (
+    <>
+      <SEO title={seoTitle} description={seoDesc} url={`https://drizzledropinn.com/${loc}/about`} />
+      {loc === "ooty" ? <OotyAbout /> : <ChennaiAbout />}
+    </>
+  );
 }

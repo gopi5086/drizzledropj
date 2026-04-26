@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { Utensils, Sprout, Heart, Sparkles, Map, Mountain, LucideIcon } from "lucide-react";
@@ -38,6 +39,12 @@ export default function Dining() {
 
   return (
     <div className="pt-20">
+      <SEO 
+        title={isOoty ? "Valley View Dining in Ooty | DrizzleDrop Inn" : isChennai ? "Rooftop Dining Chennai OMR | DrizzleDrop Inn" : "Our Dining Experience | DrizzleDrop Inn"}
+        description={isOoty ? "Enjoy rooftop dining with panoramic valley views at DrizzleDrop Inn Ooty." : isChennai ? "Multi-cuisine rooftop restaurant at Thoraipakkam, Chennai OMR." : "Experience authentic local and global cuisines at DrizzleDrop Inn properties."}
+        url={`https://drizzledropinn.com/${locationId ? locationId + '/dining' : 'dining'}`}
+      />
+      <h1 className="sr-only">{locationId ? `Dining at DrizzleDrop Inn ${locationId.charAt(0).toUpperCase() + locationId.slice(1)}` : "Dining at DrizzleDrop Inn"}</h1>
       {/* ── Hero Section ── */}
       <section className="relative h-[70vh] sm:h-[75vh] min-h-[400px] sm:min-h-[500px] overflow-hidden bg-[#0d1b2a]">
         <motion.div

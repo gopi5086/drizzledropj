@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import SEO from "@/components/SEO";
 import SectionHeading from "@/components/SectionHeading";
 import { MapPin, Phone, Mail, ZoomIn, MessageCircle, HelpCircle, Building2 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -354,9 +355,14 @@ export default function Contact() {
     }
   }, [loc, navigate]);
 
+  const seoTitle = loc === "ooty" ? "Contact DrizzleDrop Inn Ooty | Book Your Valley View Stay" : loc === "chennai" ? "Contact DrizzleDrop Inn Chennai OMR | Business Hotel Booking" : "Contact Us | DrizzleDrop Inn Ooty & Chennai";
+  const seoDesc = loc === "ooty" ? "Contact our Ooty team for reservations, trekking help, or valley-view suite inquiries." : loc === "chennai" ? "Reach our Chennai OMR hotel for corporate bookings, business stays, and travel assistance." : "Get in touch with DrizzleDrop Inn for bookings in Ooty and Chennai. We are here to assist you 24/7.";
+
   if (!loc) {
     return (
       <div className="flex flex-col">
+        <SEO title={seoTitle} description={seoDesc} url="https://drizzledropinn.com/contact" />
+        <h1 className="sr-only">Contact DrizzleDrop Inn - Ooty & Chennai</h1>
         <ChennaiContact locationData={locationMap["chennai"]} openBooking={openBooking} />
         <OotyContact locationData={locationMap["ooty"]} openBooking={openBooking} />
       </div>
@@ -365,9 +371,15 @@ export default function Contact() {
 
   const isOoty = loc === "ooty";
 
-  if (isOoty && locationData) {
-    return <OotyContact locationData={locationData} openBooking={openBooking} />;
-  }
-  
-  return <ChennaiContact locationData={locationData || locationMap["chennai"]} openBooking={openBooking} />;
+  return (
+    <>
+      <SEO title={seoTitle} description={seoDesc} url={`https://drizzledropinn.com/${loc}/contact`} />
+      <h1 className="sr-only">Contact DrizzleDrop Inn {isOoty ? "Ooty" : "Chennai"}</h1>
+      {isOoty && locationData ? (
+        <OotyContact locationData={locationData} openBooking={openBooking} />
+      ) : (
+        <ChennaiContact locationData={locationData || locationMap["chennai"]} openBooking={openBooking} />
+      )}
+    </>
+  );
 }
