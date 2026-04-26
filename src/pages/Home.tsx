@@ -18,26 +18,31 @@ import SEO from "@/components/SEO";
 
 // Load all property images dynamically from assets - prioritizing webp for performance
 const allImagesRaw = import.meta.glob<{ default: string }>(
-  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG,webp}",
+  "../assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG,webp}",
   { eager: true, query: "?url" }
 );
 
 // Group by base path to prioritize webp
 const prioritizedImages: Record<string, string> = {};
 Object.entries(allImagesRaw).forEach(([path, module]) => {
+  // Remove extension and the leading directory info to get a clean base path
   const basePath = path.replace(/\.(jpg|jpeg|png|JPG|JPEG|webp)$/i, '');
   const ext = path.split('.').pop()?.toLowerCase();
   
+  // If we haven't seen this image yet, or if this is the webp version, use it
   if (!prioritizedImages[basePath] || ext === 'webp') {
     prioritizedImages[basePath] = module.default;
   }
 });
 
 const ALL_HOME_IMAGES = Object.entries(prioritizedImages).map(([path, src]) => {
+  const pathLower = path.toLowerCase();
+  const isOoty = pathLower.includes("ooty");
+  const location = isOoty ? "OOTY" : "CHENNAI";
+  
   const parts = path.split("/");
-  const isOoty = path.toLowerCase().includes("ooty");
   const folderName = parts[parts.length - 2];
-  const category = (folderName === "Ooty-Images" || folderName === "Chennai-images") 
+  const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
     ? (isOoty ? "OOTY" : "CHENNAI") 
     : folderName.replace(/-/g, " ").toUpperCase();
   
@@ -45,7 +50,7 @@ const ALL_HOME_IMAGES = Object.entries(prioritizedImages).map(([path, src]) => {
     id: path,
     src: src,
     category,
-    location: isOoty ? "OOTY" : "CHENNAI"
+    location
   };
 });
 

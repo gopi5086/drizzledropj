@@ -4,11 +4,22 @@ import { useSearchParams, useParams } from "react-router-dom";
 import SectionHeading from "@/components/SectionHeading";
 import { X, ZoomIn, Search, RefreshCw } from "lucide-react";
 
-// Load all images dynamically from the Gallery assets
-const imageModules = import.meta.glob<{ default: string }>(
-  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+// Load all images dynamically from the Gallery assets - prioritizing webp
+const allImagesRaw = import.meta.glob<{ default: string }>(
+  "../assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG,webp}",
   { eager: true, query: "?url" }
 );
+
+// Group by base path to prioritize webp
+const prioritizedImages: Record<string, string> = {};
+Object.entries(allImagesRaw).forEach(([path, module]) => {
+  const basePath = path.replace(/\.(jpg|jpeg|png|JPG|JPEG|webp)$/i, '');
+  const ext = path.split('.').pop()?.toLowerCase();
+  
+  if (!prioritizedImages[basePath] || ext === 'webp') {
+    prioritizedImages[basePath] = module.default;
+  }
+});
 
 interface GalleryItem {
   id: string;
@@ -17,30 +28,25 @@ interface GalleryItem {
   category: string;
 }
 
-const ALL_GALLERY_IMAGES: GalleryItem[] = Object.values(
-  Object.entries(imageModules).reduce((acc, [path, module]) => {
-    const parts = path.split("/");
-    const locRaw = parts[4].toLowerCase();
-    const location = locRaw.includes("ooty") ? "ooty" : ("chennai" as "ooty" | "chennai");
-    const categoryName = (parts.length > 6 ? parts[5] : "General").replace(/-/g, " ");
-    
-    // Deduplication key: location + category + lowercase filename
-    // This prevents showing the same file twice (e.g. image.jpg vs IMAGE.JPG) 
-    // or duplicates accidentally added to the same folder.
-    const filename = path.split("/").pop()?.toLowerCase() || "";
-    const key = `${location}-${categoryName}-${filename}`;
-    
-    if (!acc[key]) {
-      acc[key] = {
-        id: path,
-        src: module.default,
-        location,
-        category: categoryName,
-      };
-    }
-    return acc;
-  }, {} as Record<string, GalleryItem>)
-);
+const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(prioritizedImages).map(([path, src]) => {
+  const pathLower = path.toLowerCase();
+  const isOoty = pathLower.includes("ooty");
+  const location = isOoty ? "ooty" : "chennai";
+  
+  const parts = path.split("/");
+  // Category is usually the folder before the filename, unless it's the location folder itself
+  const folderName = parts[parts.length - 2];
+  const categoryName = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
+    ? "General" 
+    : folderName.replace(/-/g, " ");
+  
+  return {
+    id: path,
+    src: src,
+    location,
+    category: categoryName,
+  };
+});
 
 type TabKey = "all" | "chennai" | "ooty";
 

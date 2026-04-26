@@ -23,11 +23,22 @@ import DealsSection from "./DealsSection";
 import SEO from "@/components/SEO";
 import { useMemo } from "react";
 
-// Load all images dynamically from the Gallery assets using project-root absolute mapping
-const imageModules = import.meta.glob<{ default: string }>(
-  "/src/assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG}",
+// Load all images dynamically from the Gallery assets - prioritizing webp
+const allImagesRaw = import.meta.glob<{ default: string }>(
+  "../assets/Gallery/**/*.{jpg,jpeg,png,JPG,JPEG,webp}",
   { eager: true, query: "?url" }
 );
+
+// Group by base path to prioritize webp
+const prioritizedImages: Record<string, string> = {};
+Object.entries(allImagesRaw).forEach(([path, module]) => {
+  const basePath = path.replace(/\.(jpg|jpeg|png|JPG|JPEG|webp)$/i, '');
+  const ext = path.split('.').pop()?.toLowerCase();
+  
+  if (!prioritizedImages[basePath] || ext === 'webp') {
+    prioritizedImages[basePath] = module.default;
+  }
+});
 
 interface GalleryItem {
     id: string;
@@ -36,16 +47,20 @@ interface GalleryItem {
     category: string;
 }
 
-const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(imageModules).map(([path, module]) => {
+const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(prioritizedImages).map(([path, src]) => {
+    const pathLower = path.toLowerCase();
+    const isOoty = pathLower.includes("ooty");
+    const location = isOoty ? "ooty" : "chennai";
+    
     const parts = path.split("/");
-    const locRaw = parts[4].toLowerCase();
-    const location = locRaw.includes("ooty") ? "ooty" : "chennai";
     const folderName = parts[parts.length - 2];
-    const category = (folderName === "Ooty-Images" || folderName === "Chennai-images") ? "GENERAL" : folderName.replace(/-/g, " ").toUpperCase();
+    const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
+        ? "GENERAL" 
+        : folderName.replace(/-/g, " ").toUpperCase();
     
     return {
         id: path,
-        src: module.default,
+        src: src,
         location,
         category
     };
