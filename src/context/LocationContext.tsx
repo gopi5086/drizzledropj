@@ -5,7 +5,7 @@ type ValidLocation = "chennai" | "ooty";
 
 interface LocationContextType {
   currentLocation: ValidLocation | null;
-  setCurrentLocation: (loc: ValidLocation) => void;
+  setCurrentLocation: (loc: ValidLocation | null) => void;
 }
 
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
@@ -18,9 +18,13 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
     return validLocations.includes(stored) ? stored : null;
   });
 
-  const setCurrentLocation = (loc: ValidLocation) => {
+  const setCurrentLocation = (loc: ValidLocation | null) => {
     setCurrentLocationState(loc);
-    localStorage.setItem("selectedLocation", loc);
+    if (loc) {
+      localStorage.setItem("selectedLocation", loc);
+    } else {
+      localStorage.removeItem("selectedLocation");
+    }
   };
 
   return (

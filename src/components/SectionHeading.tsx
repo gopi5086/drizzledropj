@@ -17,9 +17,18 @@ export default function SectionHeading({ label, title, subtitle, align = "center
       className={`mb-12 md:mb-16 ${align === "center" ? "text-center" : ""}`}
     >
       {label && <p className="label-caps mb-4 text-primary">{label}</p>}
-      <h2 className="heading-section">{title}</h2>
+      <h2 className="heading-section relative inline-block">
+        {title}
+        <motion.span
+          initial={{ width: 0 }}
+          whileInView={{ width: "60%" }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.4, ease: "circOut" }}
+          className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-[2px] bg-[#C5A861]/40"
+        />
+      </h2>
       {subtitle && (
-        <p className="body-text mt-4 max-w-2xl mx-auto">{subtitle}</p>
+        <p className="body-text mt-6 max-w-2xl mx-auto">{subtitle}</p>
       )}
     </motion.div>
   );

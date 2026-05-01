@@ -30,7 +30,7 @@ function getLocationFromPath(pathname: string) {
 export default function TopContactBar() {
   const routerLocation = useLocation();
   const locKey = getLocationFromPath(routerLocation.pathname);
-  
+
   if (!locKey) return null;
 
   const contact = CONTACTS[locKey as keyof typeof CONTACTS];

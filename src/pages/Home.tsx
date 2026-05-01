@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import SEO from "@/components/SEO";
+import GuestReviews from "@/components/GuestReviews";
 
 // Load all property images dynamically from assets - prioritizing webp for performance
 const allImagesRaw = import.meta.glob<{ default: string }>(
@@ -28,7 +29,7 @@ Object.entries(allImagesRaw).forEach(([path, module]) => {
   // Remove extension and the leading directory info to get a clean base path
   const basePath = path.replace(/\.(jpg|jpeg|png|JPG|JPEG|webp)$/i, '');
   const ext = path.split('.').pop()?.toLowerCase();
-  
+
   // If we haven't seen this image yet, or if this is the webp version, use it
   if (!prioritizedImages[basePath] || ext === 'webp') {
     prioritizedImages[basePath] = module.default;
@@ -39,13 +40,13 @@ const ALL_HOME_IMAGES = Object.entries(prioritizedImages).map(([path, src]) => {
   const pathLower = path.toLowerCase();
   const isOoty = pathLower.includes("ooty");
   const location = isOoty ? "OOTY" : "CHENNAI";
-  
+
   const parts = path.split("/");
   const folderName = parts[parts.length - 2];
-  const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
-    ? (isOoty ? "OOTY" : "CHENNAI") 
+  const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai"))
+    ? (isOoty ? "OOTY" : "CHENNAI")
     : folderName.replace(/-/g, " ").toUpperCase();
-  
+
   return {
     id: path,
     src: src,
@@ -120,6 +121,43 @@ export default function Home() {
       />
       <HeroSection />
 
+      {/* ══ ANIMATED INFINITE SCROLLING MARQUEE STRIP (CSS — Zero Lag) ══ */}
+      <div className="relative overflow-hidden bg-[#0a0a0a] py-5 border-y border-white/5">
+        {/* Fade edges */}
+        <div className="absolute left-0 top-0 h-full w-24 z-10 bg-gradient-to-r from-[#0a0a0a] to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 h-full w-24 z-10 bg-gradient-to-l from-[#0a0a0a] to-transparent pointer-events-none" />
+        <div
+          className="flex items-center whitespace-nowrap"
+          style={{
+            animation: "marquee-scroll 20s linear infinite",
+            width: "max-content",
+          }}
+        >
+          {[...Array(4)].map((_, outer) => (
+            <div key={outer} className="flex items-center">
+              {[
+                { num: "35+", label: "Luxury Rooms" },
+                { num: "2", label: "Prime Locations" },
+                { num: "5★", label: "Guest Rating" },
+                { num: "100%", label: "Power Backup" },
+                { num: "24/7", label: "Guest Support" },
+                { num: "1000+", label: "Happy Guests" },
+                { num: "3★", label: "Star Rating" },
+                { num: "8+", label: "Years Hospitality" },
+              ].map((stat, i) => (
+                <div key={`${outer}-${i}`} className="flex items-center">
+                  <div className="flex items-center gap-3 px-10">
+                    <span className="text-2xl font-bold text-[#C5A861]" style={{ fontFamily: 'var(--font-serif)' }}>{stat.num}</span>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-white/40 font-semibold">{stat.label}</span>
+                  </div>
+                  <div className="w-px h-6 bg-white/10 flex-shrink-0" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* About */}
       <section id="about" className="section-padding" style={{ paddingTop: 'clamp(5rem, 10vw, 7rem)' }}>
         <div className="container-luxury text-center">
@@ -165,12 +203,12 @@ export default function Home() {
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl bg-white shadow-sm hover-border-glow h-full flex flex-col"
                 onClick={() => navigate('/chennai')}
               >
-                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
-                  <img src={chennaiImg} alt="DrizzleDrop Chennai" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/30" />
+                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video cinematic-zoom-container rounded-t-2xl md:rounded-t-3xl">
+                  <img src={chennaiImg} alt="DrizzleDrop Chennai" className="cinematic-zoom-image" loading="lazy" decoding="async" />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700" />
 
                   <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
                     <div className="flex items-center gap-2 mb-2 sm:mb-3">
@@ -204,12 +242,12 @@ export default function Home() {
               <motion.div
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-2xl md:rounded-3xl border border-border/40 hover:border-[#C5A861]/30 transition-all duration-500 cursor-pointer bg-white shadow-sm hover:shadow-[0_40px_80px_rgba(0,0,0,0.06)] h-full flex flex-col"
+                className="group relative overflow-hidden rounded-2xl md:rounded-3xl bg-white shadow-sm hover-border-glow h-full flex flex-col"
                 onClick={() => navigate('/ooty')}
               >
-                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video overflow-hidden rounded-t-2xl md:rounded-t-3xl">
-                  <img src={ootyImg} alt="DrizzleDrop Ooty" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-black/30" />
+                <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video cinematic-zoom-container rounded-t-2xl md:rounded-t-3xl">
+                  <img src={ootyImg} alt="DrizzleDrop Ooty" className="cinematic-zoom-image" loading="lazy" decoding="async" />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700" />
 
                   <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
                     <div className="flex items-center gap-2 mb-2 sm:mb-3">
@@ -247,10 +285,10 @@ export default function Home() {
       <section id="gallery" className="section-padding bg-secondary/5">
         <div className="container-luxury">
           <Reveal width="100%">
-            <SectionHeading 
-              label="Photo Gallery" 
-              title="Experience DrizzleDrop" 
-              subtitle="A visual journey through our Chennai and Ooty properties" 
+            <SectionHeading
+              label="Photo Gallery"
+              title="Experience DrizzleDrop"
+              subtitle="A visual journey through our Chennai and Ooty properties"
             />
           </Reveal>
 
@@ -271,9 +309,9 @@ export default function Home() {
               ))}
             </div>
           </Reveal>
-          
+
           <AnimatePresence mode="wait">
-            <motion.div 
+            <motion.div
               key={galleryCategory}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -282,26 +320,28 @@ export default function Home() {
             >
               {filteredHomeGallery.map((image, i) => (
                 <Reveal key={image.id} delay={i * 0.05}>
-                  <motion.div 
-                    whileHover={{ scale: 1.02 }}
-                    className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-border/40"
+                  <motion.div
+                    whileHover={{ y: -5 }}
+                    className="group relative aspect-square cinematic-zoom-container cursor-pointer shadow-sm border border-border/40 hover-border-glow"
                     onClick={() => navigate(`/gallery?location=${image.location.toLowerCase()}`)}
                   >
-                    <img 
-                      src={image.src} 
-                      alt={`${image.location} ${image.category}`} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    <img
+                      src={image.src}
+                      alt={`${image.location} ${image.category}`}
+                      className="cinematic-zoom-image"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                       <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />
                     </div>
                     <div className="absolute bottom-3 left-3 flex flex-col gap-1">
-                       <span className="text-[7px] uppercase tracking-wider font-bold bg-[#C5A861] px-2 py-0.5 rounded text-white shadow-sm w-fit">
-                          {image.location}
-                       </span>
-                       <span className="text-[8px] uppercase tracking-widest font-bold bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-black shadow-sm">
-                          {image.category === "GENERAL" ? image.location : image.category}
-                       </span>
+                      <span className="text-[7px] uppercase tracking-wider font-bold bg-[#C5A861] px-2 py-0.5 rounded text-white shadow-sm w-fit">
+                        {image.location}
+                      </span>
+                      <span className="text-[8px] uppercase tracking-widest font-bold bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-black shadow-sm">
+                        {image.category === "GENERAL" ? image.location : image.category}
+                      </span>
                     </div>
                   </motion.div>
                 </Reveal>
@@ -311,8 +351,8 @@ export default function Home() {
 
           <Reveal delay={0.5} width="100%">
             <div className="mt-12 text-center">
-              <Link 
-                to="/gallery" 
+              <Link
+                to="/gallery"
                 className="inline-flex items-center gap-3 px-10 py-4 bg-[#C5A861] hover:bg-[#B49750] text-white font-bold rounded-full transition-all duration-300 shadow-xl shadow-primary/20 group"
               >
                 Browse Full Gallery
@@ -414,28 +454,7 @@ export default function Home() {
       </section>
 
       {/* Reviews */}
-      <section id="reviews" className="section-padding bg-card/50">
-        <div className="container-luxury">
-          <Reveal width="100%">
-            <SectionHeading label="Testimonials" title="What Our Guests Say" />
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {reviews.map((r, i) => (
-              <Reveal key={i} delay={0.1 * i}>
-                <div className="glass-card p-4 sm:p-6 hover:border-primary/30 transition-all duration-500 h-full">
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-3 sm:w-4 h-3 sm:h-4 ${j < r.rating ? "text-primary fill-primary" : "text-muted"}`} />
-                    ))}
-                  </div>
-                  <p className="text-xs sm:text-sm text-foreground/80 mb-4 italic">"{r.text}"</p>
-                  <p className="label-caps text-[10px] sm:text-xs">{r.name}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <GuestReviews property="ALL" />
 
       {/* Blog Section */}
       <section id="blog" className="section-padding bg-secondary/5">

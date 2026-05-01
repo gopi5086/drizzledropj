@@ -1,8 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── GPU-Accelerated Marquee Scroll ───────────────────────────────────── */
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+[style*="marquee-scroll"] {
+  will-change: transform;
+  transform: translateZ(0);
+}
 
 @layer base {
   :root {
@@ -162,6 +171,48 @@
 
   .heading-accent {
     @apply text-base sm:text-lg md:text-xl font-bold tracking-tight;
+  }
+
+  /* --- Premium Hover Effects --- */
+  
+  /* 1. Magnetic / Lift Button */
+  .btn-luxury {
+    @apply relative overflow-hidden transition-all duration-500 transform hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(46,107,138,0.2)];
+  }
+  
+  /* 2. Sliding Underline for Nav Links */
+  .nav-link-underline {
+    @apply relative overflow-hidden pb-1;
+  }
+  .nav-link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-[#2E6B8A] origin-bottom-right scale-x-0 transition-transform duration-300 ease-out;
+  }
+  .nav-link-underline:hover::after {
+    @apply origin-bottom-left scale-x-100;
+  }
+
+  /* 3. Deep Image Zoom (Cinematic) */
+  .cinematic-zoom-container {
+    @apply overflow-hidden rounded-2xl;
+  }
+  .cinematic-zoom-image {
+    @apply w-full h-full object-cover transition-transform;
+    transition-duration: 1.5s;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .cinematic-zoom-container:hover .cinematic-zoom-image {
+    @apply scale-[1.08];
+  }
+
+  /* 4. Footer Link Slide */
+  .footer-link-slide {
+    @apply flex items-center transition-all duration-300 hover:text-white hover:translate-x-2;
+  }
+
+  /* 5. Gradient Border Glow */
+  .hover-border-glow {
+    @apply transition-all duration-500 border border-transparent hover:border-[#2E6B8A]/30 hover:shadow-[0_0_40px_rgba(46,107,138,0.1)];
   }
 }
 

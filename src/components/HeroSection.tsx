@@ -106,24 +106,49 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, [currentSlide]);
 
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   const slide = heroSlides[currentSlide];
 
   return (
     <section className="relative w-full h-[90vh] sm:h-[95vh] min-h-[500px] sm:min-h-[650px] md:min-h-[750px] overflow-hidden bg-[#0a0a0a]">
-      {/* Background Slides */}
+      {/* Background Slides with Parallax */}
       <AnimatePresence mode="popLayout" custom={direction}>
         <motion.div
           key={currentSlide}
           className="absolute inset-0 w-full h-full"
           initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1.05 }}
+          animate={{
+            opacity: 1,
+            scale: 1.05,
+            x: mousePos.x,
+            y: mousePos.y
+          }}
           exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
+          transition={{
+            opacity: { duration: 2 },
+            scale: { duration: 2 },
+            x: { type: "spring", stiffness: 50, damping: 30 },
+            y: { type: "spring", stiffness: 50, damping: 30 }
+          }}
         >
           <img
             src={slide.image}
             alt={slide.location}
             className="absolute inset-0 w-full h-full object-cover brightness-[0.85] contrast-[1.05]"
+            fetchPriority={currentSlide === 0 ? "high" : "auto"}
+            loading="eager"
           />
         </motion.div>
       </AnimatePresence>

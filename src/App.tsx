@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Route, Routes, useParams, Navigate, useLocation } from "react-router-dom";
@@ -5,23 +6,25 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
-import Home from "@/pages/Home";
-import Chennai from "@/pages/Chennai";
-import Ooty from "@/pages/Ooty";
-import Facilities from "@/pages/Facilities";
-import Rooms from "@/pages/Rooms";
-import Gallery from "@/pages/Gallery";
-import Dining from "@/pages/Dining";
-import Deals from "@/pages/Deals";
-import About from "@/pages/About";
-import Overview from "@/pages/Overview";
-import Contact from "@/pages/Contact";
-import BlogPost from "@/pages/BlogPost";
-import LocationPage from "@/components/LocationPage";
-import NotFound from "@/pages/NotFound";
-import AdminLogin from "@/pages/AdminLogin";
-import AdminDashboard from "@/pages/AdminDashboard";
-import AdminRoute from "@/components/AdminRoute";
+
+// Lazy Loaded Pages
+const Home = lazy(() => import("@/pages/Home"));
+const Chennai = lazy(() => import("@/pages/Chennai"));
+const Ooty = lazy(() => import("@/pages/Ooty"));
+const Facilities = lazy(() => import("@/pages/Facilities"));
+const Rooms = lazy(() => import("@/pages/Rooms"));
+const Gallery = lazy(() => import("@/pages/Gallery"));
+const Dining = lazy(() => import("@/pages/Dining"));
+const Deals = lazy(() => import("@/pages/Deals"));
+const About = lazy(() => import("@/pages/About"));
+const Overview = lazy(() => import("@/pages/Overview"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
+const LocationPage = lazy(() => import("@/components/LocationPage"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
+const AdminRoute = lazy(() => import("@/components/AdminRoute"));
 import SocialFloatingIcons from "@/components/SocialFloatingIcons";
 import { BookingProvider } from "@/context/BookingContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -34,6 +37,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import NoupeChatbot from "@/components/NoupeChatbot";
 import AdPopup from "@/components/AdPopup";
 import DealPopup from "@/components/DealPopup";
+import StickyBookingCTA from "@/components/StickyBookingCTA";
 
 const queryClient = new QueryClient();
 
@@ -93,52 +97,57 @@ const App = () => (
             <BrowserRouter>
               <ScrollToTop />
               <LocationProvider>
-                <Routes>
-                  {/* Admin routes – prioritized at top */}
-                  <Route path="/admin" element={<AdminLogin />} />
-                  <Route
-                    path="/admin/dashboard"
-                    element={
-                      <AdminRoute>
-                        <AdminDashboard />
-                      </AdminRoute>
-                    }
-                  />
+                <Suspense fallback={
+                  <div className="h-screen w-full flex items-center justify-center bg-white">
+                    <div className="w-16 h-16 border-4 border-[#2E6B8A]/10 border-t-[#2E6B8A] rounded-full animate-spin" />
+                  </div>
+                }>
+                  <Routes>
+                    {/* Admin routes – prioritized at top */}
+                    <Route path="/admin" element={<AdminLogin />} />
+                    <Route
+                      path="/admin/dashboard"
+                      element={
+                        <AdminRoute>
+                          <AdminDashboard />
+                        </AdminRoute>
+                      }
+                    />
 
-                  {/* ... existing routes ... */}
+                    {/* Main routes */}
+                    <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
+                    <Route path="/ooty" element={<Layout><Ooty /></Layout>} />
 
-                  {/* Main routes */}
-                  <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
-                  <Route path="/ooty" element={<Layout><Ooty /></Layout>} />
+                    {/* Dynamic Location Routes */}
+                    <Route path="/:locationId" element={<Layout><LocationHomeBridge /></Layout>} />
+                    <Route path="/:locationId/home" element={<NavigateToCanonical />} />
+                    <Route path="/:locationId/rooms" element={<Layout><Rooms /></Layout>} />
+                    <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
+                    <Route path="/:locationId/about" element={<Layout><About /></Layout>} />
+                    <Route path="/:locationId/deals" element={<Layout><Deals /></Layout>} />
+                    <Route path="/:locationId/gallery" element={<Layout><Gallery /></Layout>} />
+                    <Route path="/:locationId/dining" element={<Layout><Dining /></Layout>} />
+                    <Route path="/:locationId/contact" element={<Layout><Contact /></Layout>} />
 
-                  {/* Dynamic Location Routes */}
-                  <Route path="/:locationId" element={<Layout><LocationHomeBridge /></Layout>} />
-                  <Route path="/:locationId/home" element={<NavigateToCanonical />} />
-                  <Route path="/:locationId/rooms" element={<Layout><Rooms /></Layout>} />
-                  <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
-                  <Route path="/:locationId/about" element={<Layout><About /></Layout>} />
-                  <Route path="/:locationId/deals" element={<Layout><Deals /></Layout>} />
-                  <Route path="/:locationId/gallery" element={<Layout><Gallery /></Layout>} />
-                  <Route path="/:locationId/dining" element={<Layout><Dining /></Layout>} />
-                  <Route path="/:locationId/contact" element={<Layout><Contact /></Layout>} />
-
-                  {/* Shared pages */}
-                  <Route path="/" element={<Layout><Home /></Layout>} />
-                  <Route path="/about" element={<Layout><About /></Layout>} />
-                  <Route path="/contact" element={<Layout><Contact /></Layout>} />
-                  <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
-                  <Route path="/rooms" element={<Layout><Rooms /></Layout>} />
-                  <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
-                  <Route path="/dining" element={<Layout><Dining /></Layout>} />
-                  <Route path="/deals" element={<Layout><Deals /></Layout>} />
-                  <Route path="/overview" element={<Layout><Overview /></Layout>} />
-                  <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
-                  <Route path="*" element={<Layout><NotFound /></Layout>} />
-                </Routes>
+                    {/* Shared pages */}
+                    <Route path="/" element={<Layout><Home /></Layout>} />
+                    <Route path="/about" element={<Layout><About /></Layout>} />
+                    <Route path="/contact" element={<Layout><Contact /></Layout>} />
+                    <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
+                    <Route path="/rooms" element={<Layout><Rooms /></Layout>} />
+                    <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+                    <Route path="/dining" element={<Layout><Dining /></Layout>} />
+                    <Route path="/deals" element={<Layout><Deals /></Layout>} />
+                    <Route path="/overview" element={<Layout><Overview /></Layout>} />
+                    <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
+                    <Route path="*" element={<Layout><NotFound /></Layout>} />
+                  </Routes>
+                </Suspense>
                 <SocialFloatingIcons />
                 <NoupeChatbot />
                 <AdPopup />
                 <DealPopup />
+                <StickyBookingCTA />
                 <GlobalBookingModal />
               </LocationProvider>
             </BrowserRouter>

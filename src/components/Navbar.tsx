@@ -6,6 +6,7 @@ import driLogo from "../assets/drilogo.webp";
 import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
 import { useLocationContext } from "@/context/LocationContext";
+import Magnetic from "./Magnetic";
 
 const locations = [
   {
@@ -62,20 +63,20 @@ export default function Navbar() {
     const prefix = locKey ? `/${locKey}` : "";
     return [
       { label: "Home", path: locKey ? `${prefix}` : "/" },
-      { 
-        label: "Rooms & Suites", 
+      {
+        label: "Rooms & Suites",
         path: `${prefix}/rooms`,
         isRooms: true
       },
-      { 
-        label: "Dining", 
+      {
+        label: "Dining",
         path: `${prefix}/dining`,
         isDining: true
       },
-      { 
-        label: "Facilities", 
+      {
+        label: "Facilities",
         path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities`,
-        isFacilities: true 
+        isFacilities: true
       },
       {
         label: "Gallery",
@@ -86,7 +87,6 @@ export default function Navbar() {
         ],
       },
       { label: "Offers", path: `${prefix}/deals` },
-      { label: "About Us", path: `${prefix}/about` },
       { label: "Contact", path: `${prefix}/contact` },
     ];
   };
@@ -119,8 +119,17 @@ export default function Navbar() {
   const navLinks = getNavLinks(activeLocKey);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", onScroll);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -170,7 +179,12 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-0.5">
           {/* Location Switcher */}
-          <div className="relative" ref={locationDropRef}>
+          <div
+            className="relative"
+            ref={locationDropRef}
+            onMouseEnter={() => setLocationOpen(true)}
+            onMouseLeave={() => setLocationOpen(false)}
+          >
             <button
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
@@ -196,7 +210,7 @@ export default function Navbar() {
                 >
                   <Link
                     to="/"
-                    onClick={() => { setLocationOpen(false); setMobileLocOpen(false); }}
+                    onClick={() => { setLocationOpen(false); setMobileLocOpen(false); setCurrentLocation(null); }}
                     className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 ${isCommonPage ? "bg-gray-50" : ""}`}
                   >
                     <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 bg-gray-400" />
@@ -213,15 +227,26 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  {locations.map((loc) => {
-                    const isActive = activeLocKey === loc.key;
+                  {locations.filter(loc => loc.key !== activeLocKey).map((loc) => {
+                    // Intelligent routing: Preserve the current sub-page when switching locations
+                    const pathParts = location.pathname.split("/");
+                    let targetPath = loc.path;
+
+                    // If user is on a specific location page like /chennai/rooms -> go to /ooty/rooms
+                    if (pathParts.length >= 3 && (pathParts[1] === "chennai" || pathParts[1] === "ooty")) {
+                      targetPath = `${loc.path}/${pathParts.slice(2).join("/")}`;
+                    }
+                    // If user is on a shared page like /rooms -> go to /ooty/rooms
+                    else if (pathParts.length === 2 && pathParts[1] && pathParts[1] !== "chennai" && pathParts[1] !== "ooty") {
+                      targetPath = `${loc.path}${location.pathname}`;
+                    }
+
                     return (
                       <Link
-                        key={loc.path}
-                        to={loc.path}
+                        key={loc.key}
+                        to={targetPath}
                         onClick={() => handleLocationSelect(loc)}
-                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${isActive ? "bg-gray-50" : ""
-                          }`}
+                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0`}
                       >
                         <div
                           className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
@@ -230,11 +255,6 @@ export default function Navbar() {
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="text-sm font-bold text-[#2a2a2a]">{loc.label}</span>
-                            {isActive && (
-                              <span className="text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full text-white" style={{ background: loc.color }}>
-                                Current
-                              </span>
-                            )}
                           </div>
                           <p className="text-xs text-gray-500 mt-0.5">{loc.sublabel}</p>
                           <p className="text-xs font-medium mt-0.5" style={{ color: loc.color }}>{loc.phone}</p>
@@ -341,15 +361,15 @@ export default function Navbar() {
                             </div>
                           );
                         })}
-                        
+
                         <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
-                           <Link 
-                             to={link.path}
-                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
-                           >
-                             View All Rooms
-                             <ChevronDown className="-rotate-90 w-3 h-3" />
-                           </Link>
+                          <Link
+                            to={link.path}
+                            className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                          >
+                            View All Rooms
+                            <ChevronDown className="-rotate-90 w-3 h-3" />
+                          </Link>
                         </div>
                       </motion.div>
                     )}
@@ -379,15 +399,15 @@ export default function Navbar() {
                             </div>
                           );
                         })}
-                        
+
                         <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
-                           <Link 
-                             to={link.path}
-                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
-                           >
-                             Explore Dining Experience
-                             <ChevronDown className="-rotate-90 w-3 h-3" />
-                           </Link>
+                          <Link
+                            to={link.path}
+                            className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                          >
+                            Explore Dining Experience
+                            <ChevronDown className="-rotate-90 w-3 h-3" />
+                          </Link>
                         </div>
                       </motion.div>
                     )}
@@ -417,15 +437,15 @@ export default function Navbar() {
                             </div>
                           );
                         })}
-                        
+
                         <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
-                           <Link 
-                             to={link.path}
-                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
-                           >
-                             Explore All Facilities
-                             <ChevronDown className="-rotate-90 w-3 h-3" />
-                           </Link>
+                          <Link
+                            to={link.path}
+                            className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
+                          >
+                            Explore All Facilities
+                            <ChevronDown className="-rotate-90 w-3 h-3" />
+                          </Link>
                         </div>
                       </motion.div>
                     )}
@@ -438,15 +458,17 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => openBooking()}
-            className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${isTransparent
-              ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
-              : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
-              }`}
-          >
-            Book Now
-          </button>
+          <Magnetic strength={0.2}>
+            <button
+              onClick={() => openBooking()}
+              className={`hidden sm:inline-flex items-center px-6 py-2.5 text-sm font-bold tracking-widest uppercase transition-all duration-300 rounded-md hover:scale-105 active:scale-95 ${isTransparent
+                ? "bg-[#3a7d5a] hover:bg-[#3a7d5a] text-white shadow-lg shadow-black/20"
+                : "bg-[#2E6B8A] hover:bg-[#255a75] text-white shadow-md"
+                }`}
+            >
+              Book Now
+            </button>
+          </Magnetic>
 
           <button
             onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
@@ -502,7 +524,7 @@ export default function Navbar() {
                     >
                       <Link
                         to="/"
-                        onClick={() => { setMobileOpen(false); setMobileLocOpen(false); }}
+                        onClick={() => { setMobileLocOpen(false); setMobileOpen(false); setCurrentLocation(null); }}
                         className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${isCommonPage
                           ? "font-bold text-gray-700 bg-gray-100"
                           : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
@@ -512,21 +534,32 @@ export default function Navbar() {
                         <div className="text-xs opacity-60">Explore our brand properties</div>
                       </Link>
 
-                      {locations.map((loc) => (
-                        <Link
-                          key={loc.path}
-                          to={loc.path}
-                          onClick={() => handleLocationSelect(loc)}
-                          className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${activeLocKey === loc.key
-                            ? "font-bold"
-                            : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
-                            }`}
-                          style={activeLocKey === loc.key ? { color: loc.color, background: `${loc.color}10` } : {}}
-                        >
-                          <div className="font-semibold">{loc.label}</div>
-                          <div className="text-xs opacity-60">{loc.sublabel}</div>
-                        </Link>
-                      ))}
+                      {locations.filter(loc => loc.key !== activeLocKey).map((loc) => {
+                        // Intelligent routing: Preserve the current sub-page when switching locations
+                        const pathParts = location.pathname.split("/");
+                        let targetPath = loc.path;
+
+                        // If user is on a specific location page like /chennai/rooms -> go to /ooty/rooms
+                        if (pathParts.length >= 3 && (pathParts[1] === "chennai" || pathParts[1] === "ooty")) {
+                          targetPath = `${loc.path}/${pathParts.slice(2).join("/")}`;
+                        }
+                        // If user is on a shared page like /rooms -> go to /ooty/rooms
+                        else if (pathParts.length === 2 && pathParts[1] && pathParts[1] !== "chennai" && pathParts[1] !== "ooty") {
+                          targetPath = `${loc.path}${location.pathname}`;
+                        }
+
+                        return (
+                          <Link
+                            key={loc.path}
+                            to={targetPath}
+                            onClick={() => handleLocationSelect(loc)}
+                            className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5`}
+                          >
+                            <div className="font-semibold">{loc.label}</div>
+                            <div className="text-xs opacity-60">{loc.sublabel}</div>
+                          </Link>
+                        );
+                      })}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -536,9 +569,9 @@ export default function Navbar() {
                 <div key={link.path}>
                   <Link
                     to={link.path}
-                    className={`block px-4 py-3 text-sm font-semibold rounded-md transition-colors ${location.pathname === link.path
-                      ? "text-[#2E6B8A] bg-[#2E6B8A]/8"
-                      : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
+                    className={`block px-4 py-2 text-sm font-medium transition-colors ${location.pathname === link.path
+                        ? "text-[#2E6B8A]"
+                        : "text-foreground/80 hover:text-[#2E6B8A] nav-link-underline"
                       }`}
                   >
                     {link.label}

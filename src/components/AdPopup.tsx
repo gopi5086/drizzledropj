@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Utensils, Sparkles, Tag, ArrowRight } from "lucide-react";
 import { useBooking } from "@/context/BookingContext";
 
 interface Ad {
@@ -22,7 +22,6 @@ export default function AdPopup() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { openBooking } = useBooking();
 
-  // Fetch active ads
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -31,40 +30,27 @@ export default function AdPopup() {
           const data = await res.json();
           if (data.length > 0) {
             setAds(data);
-            try {
-              localStorage.setItem("drizzledrop_ads_persistent", JSON.stringify(data));
-            } catch (e) {
-              console.warn("Ads storage quota exceeded");
-            }
-            // Show popup after a short delay for better UX
-            if (!isVisible) setTimeout(() => setIsVisible(true), 1500);
+            setTimeout(() => setIsVisible(true), 2500);
           }
         }
       } catch (error) {
-        // Silently fail — don't break homepage if server is down
         console.log("Ad server not available");
       }
     };
-
     fetchAds();
   }, []);
 
-  // Auto-cycle images within current ad
   useEffect(() => {
     if (!isVisible || ads.length === 0) return;
     const currentAd = ads[currentAdIndex];
     if (!currentAd || currentAd.images.length <= 1) return;
-
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % currentAd.images.length);
-    }, 3000);
-
+    }, 4000);
     return () => clearInterval(timer);
   }, [isVisible, currentAdIndex, ads]);
 
-  const handleClose = () => {
-    setIsVisible(false);
-  };
+  const handleClose = () => setIsVisible(false);
 
   const handleBookNow = () => {
     const currentAd = ads[currentAdIndex];
@@ -77,9 +63,21 @@ export default function AdPopup() {
   };
 
   if (ads.length === 0) return null;
-
   const currentAd = ads[currentAdIndex];
   if (!currentAd) return null;
+
+  // Parse custom benefits from description field
+  const benefits = (currentAd.description || "").split("|");
+  const displayBenefits = [
+    benefits[0] || "Enjoy Savings on Room Rates",
+    benefits[1] || "Avail Offers across Restaurants",
+    benefits[2] || "Special Savings on Spas",
+  ];
+
+  const currentImagePath = currentAd.images[currentImageIndex];
+  const imageUrl = currentImagePath?.startsWith("data:") || currentImagePath?.startsWith("blob:")
+    ? currentImagePath
+    : `${currentImagePath?.startsWith("http") ? "" : BACKEND_BASE}${currentImagePath}`;
 
   return (
     <AnimatePresence>
@@ -88,61 +86,90 @@ export default function AdPopup() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-md p-4"
           onClick={handleClose}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ type: "spring", damping: 22 }}
-            className="relative bg-transparent rounded-2xl w-full max-w-4xl overflow-hidden"
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="relative bg-white w-full max-w-4xl flex flex-col md:flex-row overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-black/5"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
+            {/* Close Button - Bold X as per reference */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-white transition-all shadow-md"
+              className="absolute top-4 right-4 z-50 text-black font-bold hover:scale-110 transition-transform"
             >
-              <X className="w-4 h-4" />
+              <X className="w-6 h-6 stroke-[3px]" />
             </button>
 
-            {/* Display a single full-width image occupying the container */}
-            <div className="w-full relative min-h-[200px] flex items-center justify-center bg-gray-100/10">
-              <img
-                src={(() => {
-                  const imgPath = currentAd.images[currentImageIndex];
-                  if (!imgPath) return "";
-                  // If it's a Base64 string from DB or a direct preview, use it as is
-                  if (imgPath.startsWith("data:") || imgPath.startsWith("blob:")) return imgPath;
-
-                  // Otherwise, construct the URL with the backend base (for old/legacy items)
-                  const base = imgPath.startsWith("http") ? "" : BACKEND_BASE;
-                  return `${base}${imgPath}${imgPath.includes("?") ? "&" : "?"}t=${Date.now()}`;
-                })()}
-                alt={currentAd.title || "Ad"}
-                className="w-full h-auto max-h-[80vh] object-cover block mx-auto rounded-lg shadow-lg"
-                onError={(e) => {
-                  console.error("Ad image load failed:", e.currentTarget.src);
-                  setIsVisible(false); // Hide the whole popup if image is broken
-                }}
-              />
+            {/* Left Side: Cinematic Image */}
+            <div className="w-full md:w-1/2 aspect-square md:aspect-auto relative overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 1.5 }}
+                  src={imageUrl}
+                  alt="Exclusive Offer"
+                  className="w-full h-full object-cover"
+                />
+              </AnimatePresence>
             </div>
 
-            {/* Optional: small pager for multiple images */}
-            {currentAd.images.length > 1 && (
-              <div className="flex justify-center gap-2 mt-3 pt-3 z-10">
-                {currentAd.images.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentImageIndex(i)}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentImageIndex ? "bg-[#C5A861] w-6" : "bg-gray-300 hover:bg-gray-400"
-                      }`}
-                    aria-label={`Go to image ${i + 1}`}
-                  />
-                ))}
+            {/* Right Side: Exact Taj Template */}
+            <div className="w-full md:w-1/2 bg-white flex flex-col pt-12 md:pt-16 pb-0 px-6 md:px-10 text-center">
+
+              <div className="mb-8">
+                <span className="text-[10px] md:text-[14px] uppercase tracking-[0.4em] text-black/80 font-medium block mb-3">
+                  Leaving so soon?
+                </span>
+                <h2 className="text-3xl md:text-5xl font-serif italic text-[#C5A861] leading-[1.1] mb-4">
+                  Avail Exclusive <br /> Offers
+                </h2>
+                <div className="w-12 h-[1px] bg-black/20 mx-auto" />
               </div>
-            )}
+
+              {/* Icon Layout - Exact Triple Centered Grid */}
+              <div className="flex-1 flex flex-col justify-center gap-10 py-6">
+                {/* Top Row: Two Icons */}
+                <div className="flex items-start justify-center gap-6">
+                  <div className="flex flex-col items-center gap-3 w-1/2">
+                    <Tag className="w-6 h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                      {displayBenefits[0]}
+                    </span>
+                  </div>
+                  <div className="w-[1px] h-12 bg-black/10 mt-2" />
+                  <div className="flex flex-col items-center gap-3 w-1/2">
+                    <Utensils className="w-6 h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                      {displayBenefits[1]}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Row: One Icon */}
+                <div className="flex flex-col items-center gap-3">
+                  <Sparkles className="w-6 h-6 text-[#C5A861] mb-1" />
+                  <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed max-w-[140px]">
+                    {displayBenefits[2]}
+                  </span>
+                </div>
+              </div>
+
+              {/* CTA Button - Full Width Bottom as per reference */}
+              <button
+                onClick={handleBookNow}
+                className="w-[calc(100%+80px)] -mx-10 mt-10 py-5 bg-[#C5A861] text-white text-[12px] font-bold uppercase tracking-[0.4em] transition-all duration-500 hover:bg-black"
+              >
+                View Offers
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       )}

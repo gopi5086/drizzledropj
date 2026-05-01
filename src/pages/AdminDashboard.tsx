@@ -35,7 +35,7 @@ interface Ad {
   createdAt: string;
 }
 
-type SidebarItem = "dashboard" | "manage-ads" | "manage-deals" | "settings";
+type SidebarItem = "dashboard" | "manage-ads" | "manage-deals";
 
 interface Deal {
   _id: string;
@@ -104,6 +104,9 @@ export default function AdminDashboard() {
 
   // Form state (image-only ad)
   const [formTitle, setFormTitle] = useState("");
+  const [formBenefit1, setFormBenefit1] = useState("Savings on Room Rates");
+  const [formBenefit2, setFormBenefit2] = useState("Dining & Restaurant Perks");
+  const [formBenefit3, setFormBenefit3] = useState("Special Spa & Wellness");
   const [formImages, setFormImages] = useState<File | null>(null);
   const [formImagePreviews, setFormImagePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -220,6 +223,9 @@ export default function AdminDashboard() {
     setFormImages(null);
     setFormImagePreviews([]);
     setFormTitle("");
+    setFormBenefit1("Savings on Room Rates");
+    setFormBenefit2("Dining & Restaurant Perks");
+    setFormBenefit3("Special Spa & Wellness");
     setEditingAd(null);
   };
 
@@ -260,10 +266,13 @@ export default function AdminDashboard() {
   // Open edit modal
   const openEditModal = (ad: Ad) => {
     setEditingAd(ad);
-  // Populate title and image preview when editing
-  setFormTitle(ad.title || "");
-  setFormImages(null);
-  setFormImagePreviews(ad.images.length ? [`${BACKEND_BASE}${ad.images[0]}`] : []);
+    setFormTitle(ad.title || "");
+    const benefits = (ad.description || "").split("|");
+    setFormBenefit1(benefits[0] || "Savings on Room Rates");
+    setFormBenefit2(benefits[1] || "Dining & Restaurant Perks");
+    setFormBenefit3(benefits[2] || "Special Spa & Wellness");
+    setFormImages(null);
+    setFormImagePreviews(ad.images.length ? [`${BACKEND_BASE}${ad.images[0]}`] : []);
     setIsCreateModalOpen(true);
   };
 
@@ -278,8 +287,8 @@ export default function AdminDashboard() {
     const formData = new FormData();
     // Only images are sent for ads now. Backend expects 'images' field(s).
   if (formImages) formData.append("images", formImages);
-  // Title is kept for admin-only metadata and stored on the ad record
   formData.append("title", formTitle || "");
+  formData.append("description", `${formBenefit1}|${formBenefit2}|${formBenefit3}`);
 
     try {
       const url = editingAd
@@ -434,7 +443,6 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "manage-ads", label: "Manage Ads", icon: ImageIcon },
     { id: "manage-deals", label: "Manage Deals", icon: Tag },
-    { id: "settings", label: "Settings", icon: Settings },
   ];
 
   return (
@@ -493,7 +501,6 @@ export default function AdminDashboard() {
             {activeTab === "dashboard" && "Dashboard"}
             {activeTab === "manage-ads" && "Manage Ads"}
             {activeTab === "manage-deals" && "Manage Deals"}
-            {activeTab === "settings" && "Settings"}
           </h1>
 
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
@@ -808,15 +815,7 @@ export default function AdminDashboard() {
 
 
 
-          {activeTab === "settings" && (
-            <div className="bg-white rounded-lg sm:rounded-2xl p-6 sm:p-12 text-center shadow-sm border border-gray-100">
-              <Settings className="w-8 sm:w-12 h-8 sm:h-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
-              <h3 className="text-base sm:text-lg font-bold text-gray-700" style={{ fontFamily: "var(--font-serif)" }}>
-                Settings
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-400 mt-2">Coming soon — manage your admin profile and preferences</p>
-            </div>
-          )}
+
 
         </div>
       </main>
@@ -912,6 +911,32 @@ export default function AdminDashboard() {
                     onChange={(e) => setFormTitle(e.target.value)}
                     placeholder="Enter title for admin reference (optional)"
                     className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#3a7d5a]/20 focus:border-[#3a7d5a] transition-all"
+                  />
+                </div>
+
+                {/* Exclusive Benefits */}
+                <div className="grid grid-cols-1 gap-3">
+                  <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">Exclusive Benefits (for Popup)</label>
+                  <input
+                    type="text"
+                    value={formBenefit1}
+                    onChange={(e) => setFormBenefit1(e.target.value)}
+                    placeholder="Benefit 1 (e.g. Savings on Room Rates)"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs"
+                  />
+                  <input
+                    type="text"
+                    value={formBenefit2}
+                    onChange={(e) => setFormBenefit2(e.target.value)}
+                    placeholder="Benefit 2 (e.g. Dining Perks)"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs"
+                  />
+                  <input
+                    type="text"
+                    value={formBenefit3}
+                    onChange={(e) => setFormBenefit3(e.target.value)}
+                    placeholder="Benefit 3 (e.g. Spa Wellness)"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs"
                   />
                 </div>
 

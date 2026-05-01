@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/accordion";
 import DealsSection from "./DealsSection";
 import SEO from "@/components/SEO";
+import GuestReviews from "@/components/GuestReviews";
 import { useMemo } from "react";
 
 // Load all images dynamically from the Gallery assets - prioritizing webp
@@ -337,7 +338,9 @@ export default function LocationPage({ location }: Props) {
                     <img 
                       src={image.src} 
                       alt={`${location.name} ${image.category}`} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                       <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />
@@ -398,28 +401,7 @@ export default function LocationPage({ location }: Props) {
       </AnimatePresence>
 
       {/* Testimonials */}
-      <section id="reviews" className="section-padding bg-card/50">
-        <div className="container-luxury">
-          <Reveal width="100%">
-            <SectionHeading label="Guest Reviews" title={`Loved by ${location.name} Guests`} />
-          </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
-            {location.testimonials.map((r, i) => (
-              <Reveal key={i} delay={0.1 * i}>
-                <div className="glass-card p-6 hover:border-primary/30 transition-all duration-500 h-full">
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-4 h-4 ${j < r.rating ? "text-[#C5A861] fill-[#C5A861]" : "text-muted"}`} />
-                    ))}
-                  </div>
-                  <p className="text-sm text-foreground/80 mb-4 italic">"{r.text}"</p>
-                  <p className="label-caps text-[10px]">{r.name}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <GuestReviews property={isChennai ? "CHENNAI" : "OOTY"} />
 
       {/* Map + Attractions */}
       <section id="location" className="section-padding">
