@@ -39,7 +39,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         try {
             // Web3Forms API for frictionless zero-server deployments (works on Localhost + Hostinger + Vercel)
             const templateParams = {
-                access_key: "903a684b-20e7-4510-965f-488f15a31512", 
+                access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb", 
                 subject: `New Booking Request from ${data.name}`,
                 from_name: "DrizzleDrop Booking System",
                 Name: data.name,

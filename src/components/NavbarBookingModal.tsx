@@ -56,7 +56,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
         if (isOpen) {
             setSuccess(false);
             setError("");
-            
+
             if (bookingData) {
                 // If we have substantial data (from the rectangle bar), jump to Step 2
                 if (bookingData.location && bookingData.checkIn) {
@@ -64,7 +64,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 } else {
                     setStep(1);
                 }
-                
+
                 // Sync data regardless
                 setLocation(bookingData.location || "DrizzleDrop Inn, Chennai");
                 setDate({
@@ -90,7 +90,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
 
         try {
             const templateParams = {
-                access_key: "903a684b-20e7-4510-965f-488f15a31512", 
+                access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
                 subject: `Navbar Booking Request from ${guestDetails.name}`,
                 from_name: "DrizzleDrop Booking System",
                 Name: guestDetails.name,
@@ -149,10 +149,10 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 ) : (
                     <>
                         <div className="h-1.5 w-full bg-gray-100">
-                           <div 
-                              className="h-full bg-primary transition-all duration-500" 
-                              style={{ width: step === 1 ? '50%' : '100%' }}
-                           />
+                            <div
+                                className="h-full bg-primary transition-all duration-500"
+                                style={{ width: step === 1 ? '50%' : '100%' }}
+                            />
                         </div>
 
                         <DialogHeader className="p-6 pb-2">
@@ -226,29 +226,29 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Adults</Label>
-                                            <Input 
-                                                type="number" 
-                                                min={1} 
-                                                value={adults} 
+                                            <Input
+                                                type="number"
+                                                min={1}
+                                                value={adults}
                                                 onChange={e => setAdults(parseInt(e.target.value) || 1)}
                                                 className="bg-gray-50/50 py-6"
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Rooms</Label>
-                                            <Input 
-                                                type="number" 
-                                                min={1} 
-                                                value={rooms} 
+                                            <Input
+                                                type="number"
+                                                min={1}
+                                                value={rooms}
                                                 onChange={e => setRooms(parseInt(e.target.value) || 1)}
                                                 className="bg-gray-50/50 py-6"
                                             />
                                         </div>
                                     </div>
 
-                                    <Button 
-                                       onClick={() => setStep(2)} 
-                                       className="w-full bg-primary py-6 text-lg font-bold group"
+                                    <Button
+                                        onClick={() => setStep(2)}
+                                        className="w-full bg-primary py-6 text-lg font-bold group"
                                     >
                                         Continue <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
@@ -258,45 +258,45 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <Label htmlFor="nav-modal-name">Full Name *</Label>
-                                            <Input 
-                                               id="nav-modal-name" 
-                                               required 
-                                               placeholder="John Doe" 
-                                               value={guestDetails.name}
-                                               onChange={e => setGuestDetails({...guestDetails, name: e.target.value})}
-                                               className="py-6"
+                                            <Input
+                                                id="nav-modal-name"
+                                                required
+                                                placeholder="John Doe"
+                                                value={guestDetails.name}
+                                                onChange={e => setGuestDetails({ ...guestDetails, name: e.target.value })}
+                                                className="py-6"
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="nav-modal-phone">Phone Number *</Label>
-                                            <Input 
-                                               id="nav-modal-phone" 
-                                               type="tel" 
-                                               required 
-                                               placeholder="+91" 
-                                               value={guestDetails.phone}
-                                               onChange={e => setGuestDetails({...guestDetails, phone: e.target.value})}
-                                               className="py-6"
+                                            <Input
+                                                id="nav-modal-phone"
+                                                type="tel"
+                                                required
+                                                placeholder="+91"
+                                                value={guestDetails.phone}
+                                                onChange={e => setGuestDetails({ ...guestDetails, phone: e.target.value })}
+                                                className="py-6"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="nav-modal-email">Email Address *</Label>
-                                        <Input 
-                                           id="nav-modal-email" 
-                                           type="email" 
-                                           required 
-                                           placeholder="john@example.com" 
-                                           value={guestDetails.email}
-                                           onChange={e => setGuestDetails({...guestDetails, email: e.target.value})}
-                                           className="py-6"
+                                        <Input
+                                            id="nav-modal-email"
+                                            type="email"
+                                            required
+                                            placeholder="john@example.com"
+                                            value={guestDetails.email}
+                                            onChange={e => setGuestDetails({ ...guestDetails, email: e.target.value })}
+                                            className="py-6"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <Label>Room Preference</Label>
-                                        <Select 
-                                           value={guestDetails.roomType} 
-                                           onValueChange={v => setGuestDetails({...guestDetails, roomType: v})}
+                                        <Select
+                                            value={guestDetails.roomType}
+                                            onValueChange={v => setGuestDetails({ ...guestDetails, roomType: v })}
                                         >
                                             <SelectTrigger className="py-6">
                                                 <SelectValue />
@@ -313,18 +313,18 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                     {error && <div className="p-3 bg-red-50 text-red-500 text-sm rounded-lg border border-red-100">{error}</div>}
 
                                     <div className="flex gap-3 pt-2">
-                                        <Button 
-                                           type="button" 
-                                           variant="outline" 
-                                           onClick={() => setStep(1)} 
-                                           className="px-6 py-6"
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => setStep(1)}
+                                            className="px-6 py-6"
                                         >
                                             <ArrowLeft className="w-5 h-5" />
                                         </Button>
-                                        <Button 
-                                           type="submit" 
-                                           disabled={loading} 
-                                           className="flex-1 bg-primary py-6 text-lg font-bold hover-gold-glow"
+                                        <Button
+                                            type="submit"
+                                            disabled={loading}
+                                            className="flex-1 bg-primary py-6 text-lg font-bold hover-gold-glow"
                                         >
                                             {loading ? "Checking..." : "Check Availability & Book"}
                                         </Button>

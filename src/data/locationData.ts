@@ -199,7 +199,7 @@ export const chennaiData: LocationConfig = {
   seo: {
     title: "Best Hotel in Chennai | Drizzle Drop Inn – OMR IT Corridor",
     description: "Stay at DrizzleDrop Inn, the best hotel in Chennai on OMR IT Corridor. Enjoy 35 premium rooms, rooftop dining, free parking & WiFi. Book your stay today!",
-    keywords: "best hotel in Chennai, hotel in OMR Chennai, business hotel Chennai, DrizzleDrop Inn Chennai, hotel near IT park Chennai, Thoriaipakkam hotel",
+    keywords: "best hotel in Chennai, hotel in OMR Chennai, business hotel Chennai, DrizzleDrop Inn Chennai, hotel near IT park Chennai, Thoraipakkam hotel",
     canonical: "https://www.drizzledrop.com/chennai",
     ogImage: chennaiHero1,
   },

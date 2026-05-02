@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, UserCircle, MapPin, Phone, Mail, Wifi, Tv, Car, Utensils, Mountain, ShieldCheck, Shirt, Bell, BedDouble, Users, Flame, Coffee } from "lucide-react";
@@ -13,7 +13,7 @@ const locations = [
     key: "chennai",
     label: "Chennai – OMR",
     path: "/chennai",
-    sublabel: "Thoriaipakkam, Chennai",
+    sublabel: "Thoraipakkam, Chennai",
     phone: "+91 97911 78349",
     color: "#2E6B8A",
   },
@@ -75,7 +75,7 @@ export default function Navbar() {
       },
       {
         label: "Facilities",
-        path: locKey === "chennai" ? "/chennai/facilities" : `${prefix}/facilities`,
+        path: `${prefix}/facilities`,
         isFacilities: true
       },
       {
@@ -91,30 +91,90 @@ export default function Navbar() {
     ];
   };
 
-  const facilitiesList = [
-    { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
-    { name: "Smart Google TV", icon: Tv },
-    { name: "Secure Parking", icon: Car },
-    { name: "Premium Dining", icon: Utensils },
-    { name: "Hill & Valley Views", icon: Mountain },
-    { name: "24/7 Security", icon: ShieldCheck },
-    { name: "Laundry Service", icon: Shirt },
-    { name: "Room Service", icon: Bell },
-  ];
+  const facilitiesList = useMemo(() => {
+    if (activeLocKey === "ooty") {
+      return [
+        { name: "Hill & Valley Views", icon: Mountain },
+        { name: "Private Balcony", icon: Tv },
+        { name: "Bonfire & Barbeque", icon: Flame },
+        { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
+        { name: "Smart Google TV", icon: Tv },
+        { name: "Secure Parking", icon: Car },
+        { name: "Lawn & Nature Walk", icon: Mountain },
+        { name: "24/7 Support", icon: ShieldCheck },
+      ];
+    }
+    if (activeLocKey === "chennai") {
+      return [
+        { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
+        { name: "Smart Google TV", icon: Tv },
+        { name: "Secure Parking", icon: Car },
+        { name: "Rooftop Dining", icon: Utensils },
+        { name: "24/7 Security", icon: ShieldCheck },
+        { name: "Laundry Service", icon: Shirt },
+        { name: "Room Service", icon: Bell },
+        { name: "OMR Proximity", icon: MapPin },
+      ];
+    }
+    return [
+      { name: "Modern Facilities", icon: Wifi },
+      { name: "Secure Parking", icon: Car },
+      { name: "Prime Locations", icon: MapPin },
+      { name: "24/7 Security", icon: ShieldCheck },
+      { name: "Guest Support", icon: Bell },
+      { name: "Smart TVs", icon: Tv },
+    ];
+  }, [activeLocKey]);
 
-  const roomsList = [
-    { name: "Standard Room", icon: BedDouble },
-    { name: "Deluxe Room", icon: Tv },
-    { name: "Triple Room", icon: Users },
-    { name: "Family Room", icon: Mountain },
-  ];
+  const roomsList = useMemo(() => {
+    if (activeLocKey === "ooty") {
+      return [
+        { name: "Alpine Solace (Std)", icon: BedDouble },
+        { name: "Luxury View (Deluxe)", icon: Tv },
+        { name: "Cozy Trio (Triple)", icon: Users },
+        { name: "Grand Vista (Family)", icon: Mountain },
+      ];
+    }
+    if (activeLocKey === "chennai") {
+      return [
+        { name: "Standard Room", icon: BedDouble },
+        { name: "Deluxe Room", icon: Tv },
+        { name: "Triple Room", icon: Users },
+        { name: "Family Room", icon: Users },
+      ];
+    }
+    return [
+      { name: "Standard Rooms", icon: BedDouble },
+      { name: "Deluxe Rooms", icon: Tv },
+      { name: "Triple Rooms", icon: Users },
+      { name: "Family Suites", icon: Users },
+    ];
+  }, [activeLocKey]);
 
-  const diningList = [
-    { name: "Rooftop Dining", icon: Utensils },
-    { name: "Multi-Cuisine", icon: Mountain },
-    { name: "24/7 Room Service", icon: Bell },
-    { name: "Barbeque & Campfire", icon: Flame },
-  ];
+  const diningList = useMemo(() => {
+    if (activeLocKey === "ooty") {
+      return [
+        { name: "In-Room Dining", icon: Bell },
+        { name: "Barbeque Nights", icon: Flame },
+        { name: "Bonfire Experience", icon: Flame },
+        { name: "Scenic Breakfast", icon: Mountain },
+      ];
+    }
+    if (activeLocKey === "chennai") {
+      return [
+        { name: "Rooftop Restaurant", icon: Utensils },
+        { name: "Multi-Cuisine", icon: Utensils },
+        { name: "Asian Delicacies", icon: Utensils },
+        { name: "24/7 Room Service", icon: Bell },
+      ];
+    }
+    return [
+      { name: "Fine Dining", icon: Utensils },
+      { name: "Room Service", icon: Bell },
+      { name: "Local Flavors", icon: MapPin },
+      { name: "Global Cuisine", icon: Utensils },
+    ];
+  }, [activeLocKey]);
 
   const navLinks = getNavLinks(activeLocKey);
 
@@ -188,7 +248,7 @@ export default function Navbar() {
             <button
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
-                ? isTransparent ? "text-[#C5A861]" : "text-[#C5A861]"
+                ? "text-[#C5A861]"
                 : isTransparent
                   ? "text-white/90 hover:text-white"
                   : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
@@ -570,8 +630,8 @@ export default function Navbar() {
                   <Link
                     to={link.path}
                     className={`block px-4 py-2 text-sm font-medium transition-colors ${location.pathname === link.path
-                        ? "text-[#2E6B8A]"
-                        : "text-foreground/80 hover:text-[#2E6B8A] nav-link-underline"
+                      ? "text-[#2E6B8A]"
+                      : "text-foreground/80 hover:text-[#2E6B8A] nav-link-underline"
                       }`}
                   >
                     {link.label}

@@ -215,14 +215,14 @@ export default function Home() {
                       <div className="p-1.5 sm:p-2 bg-[#C5A861] rounded-full">
                         <MapPin className="w-3 sm:w-4 h-3 sm:h-4 text-white" />
                       </div>
-                      <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Thoriaipakkam, Chennai</span>
+                      <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Thoraipakkam, Chennai</span>
                     </div>
                     <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4">DrizzleDrop Inn OMR</h3>
                   </div>
                 </div>
                 <div className="p-6 sm:p-10">
                   <p className="body-text text-xs sm:text-sm md:text-base mb-6 sm:mb-8 leading-relaxed text-muted-foreground">
-                    a sophisticated 3-star business hotel located in Thoriaipakkam.Experience comfort and elegance with our 35 well-furnished rooms and suites, designed to cater to both business travelers and leisure guests. Enjoy breathtaking panoramic views from our spacious terrace, unwind with rooftop dining, and indulge in a variety of multi-cuisine delicacies.
+                    a sophisticated 3-star business hotel located in Thoraipakkam.Experience comfort and elegance with our 35 well-furnished rooms and suites, designed to cater to both business travelers and leisure guests. Enjoy breathtaking panoramic views from our spacious terrace, unwind with rooftop dining, and indulge in a variety of multi-cuisine delicacies.
                   </p>
                   <div className="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8">
                     {["IT Hubs", "OMR Corridor", "Rooftop Dining", "Fast WiFi"].map((tag) => (
@@ -385,7 +385,7 @@ export default function Home() {
                   />
                   <div className="p-4 bg-card border-t border-border/50">
                     <h4 className="text-base sm:text-lg font-medium">DrizzleDrop Inn Chennai</h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground">Rajiv Gandhi Salai, Thoriaipakkam, OMR IT Corridor</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Rajiv Gandhi Salai, Thoraipakkam, OMR IT Corridor</p>
                   </div>
                 </div>
               </Reveal>
