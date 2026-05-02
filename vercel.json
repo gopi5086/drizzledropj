@@ -24,11 +24,15 @@
   ],
   "rewrites": [
     {
-      "source": "/(admin|ooty|chennai|gallery|about|contact|rooms|facilities|deals|dining|overview)",
+      "source": "/admin(.*)",
       "destination": "/"
     },
     {
-      "source": "/((?!assets/|preview-ooty.webp|drilogo.png|sitemap.xml|robots.txt).*)$",
+      "source": "/((?!assets/|.*\\..*).*)",
+      "destination": "/"
+    },
+    {
+      "source": "/(ooty|chennai|gallery|about|contact|rooms|facilities|deals|dining|overview)(.*)",
       "destination": "/"
     }
   ],
