@@ -12,7 +12,7 @@ interface Ad {
   isActive: boolean;
 }
 
-const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 export default function AdPopup() {

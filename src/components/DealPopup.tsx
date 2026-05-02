@@ -13,7 +13,7 @@ interface Deal {
   isPopup: boolean;
 }
 
-const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
 
 export default function DealPopup() {
   const [deal, setDeal] = useState<Deal | null>(null);

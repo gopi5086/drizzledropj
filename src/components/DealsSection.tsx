@@ -19,7 +19,7 @@ interface Deal {
   priority: number;
 }
 
-const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
 
 export default function DealsSection({ location }: { location: "Chennai" | "Ooty" }) {
   const [deals, setDeals] = useState<Deal[]>([]);

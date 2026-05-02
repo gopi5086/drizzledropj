@@ -22,7 +22,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import driLogo from "@/assets/drilogo.webp";
 
-const BACKEND_BASE = "https://drizzledropj-1.onrender.com";
+const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
 const API_BASE = `${BACKEND_BASE}/api`;
 
 interface Ad {

@@ -17,7 +17,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE = "https://drizzledropj-1.onrender.com/api";
+const API_BASE = "https://drizzledropj-2.onrender.com/api";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [admin, setAdmin] = useState<AdminData | null>(null);
