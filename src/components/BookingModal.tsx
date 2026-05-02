@@ -15,6 +15,7 @@ export interface BookingData {
     children: number;
     rooms: number;
     roomType?: string;
+    offerCode?: string;
 }
 
 interface BookingModalProps {

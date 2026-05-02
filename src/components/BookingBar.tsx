@@ -251,13 +251,6 @@ export default function BookingBar() {
                         <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                         <span className="relative">CHECK AVAILABILITY</span>
                     </button>
-                </div>ase text-white transition-all duration-300 flex-shrink-0 group relative overflow-hidden"
-                        style={{ background: `linear-gradient(135deg, ${TEAL} 0%, ${GREEN} 100%)` }}
-                    >
-                        {/* Hover shimmer */}
-                        <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
-                        <span className="relative">CHECK AVAILABILITY</span>
-                    </button>
                 </div>
             </div>
 
