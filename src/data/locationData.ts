@@ -200,7 +200,7 @@ export const chennaiData: LocationConfig = {
     title: "Best Hotel in Chennai | Drizzle Drop Inn – OMR IT Corridor",
     description: "Stay at DrizzleDrop Inn, the best hotel in Chennai on OMR IT Corridor. Enjoy 35 premium rooms, rooftop dining, free parking & WiFi. Book your stay today!",
     keywords: "best hotel in Chennai, hotel in OMR Chennai, business hotel Chennai, DrizzleDrop Inn Chennai, hotel near IT park Chennai, Thoraipakkam hotel",
-    canonical: "https://www.drizzledrop.com/chennai",
+    canonical: "https://www.drizzledropinn.com/chennai",
     ogImage: chennaiHero1,
   },
   schema: {
@@ -208,7 +208,7 @@ export const chennaiData: LocationConfig = {
     "@type": "Hotel",
     "name": "DrizzleDrop Inn Chennai",
     "description": "A sophisticated 3-star business hotel on the OMR IT Corridor in Chennai offering rooftop dining and premium amenities.",
-    "url": "https://www.drizzledrop.com/chennai",
+    "url": "https://www.drizzledropinn.com/chennai",
     "telephone": "+919791178349",
     "email": "stay@drizzledropinn.com",
     "address": {
@@ -328,7 +328,7 @@ export const ootyData: LocationConfig = {
     title: "Best Stay in Ooty | Drizzle Drop Inn – Nilgiri Hill Station",
     description: "Experience the best hotel stay in Ooty at DrizzleDrop Inn. Private balconies with Nilgiri hill views, proximity to toy train & attractions. Book now!",
     keywords: "best hotel in Ooty, Ooty hill station hotel, DrizzleDrop Inn Ooty, Nilgiri hotel, hotel near Ooty railway station, Ooty resort with view",
-    canonical: "https://www.drizzledrop.com/ooty",
+    canonical: "https://www.drizzledropinn.com/ooty",
     ogImage: ootyHero1,
   },
   schema: {
@@ -336,9 +336,9 @@ export const ootyData: LocationConfig = {
     "@type": "Hotel",
     "name": "DrizzleDrop Inn Ooty",
     "description": "An enchanting hill-station getaway in Ooty with 8 individual rooms, private balconies and panoramic Nilgiri views.",
-    "url": "https://www.drizzledrop.com/ooty",
+    "url": "https://www.drizzledropinn.com/ooty",
     "telephone": "+919150486153",
-    "email": "ooty@drizzledrop.com",
+    "email": "stay@drizzledropinn.com",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "2 KM from Ooty Bus Stand & Railway Station",
