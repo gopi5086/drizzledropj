@@ -24,7 +24,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(ooty|chennai|gallery|about|contact|rooms|facilities|deals|dining|overview)",
+      "source": "/(admin|ooty|chennai|gallery|about|contact|rooms|facilities|deals|dining|overview)",
       "destination": "/"
     },
     {

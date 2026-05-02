@@ -104,7 +104,8 @@ const App = () => (
                 }>
                   <Routes>
                     {/* Admin routes – prioritized at top */}
-                    <Route path="/admin" element={<AdminLogin />} />
+                    <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
                     <Route
                       path="/admin/dashboard"
                       element={
