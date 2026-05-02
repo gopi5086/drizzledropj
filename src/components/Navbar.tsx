@@ -225,22 +225,74 @@ export default function Navbar() {
           : "top-[92px] md:top-9 bg-black/20 backdrop-blur-sm py-3"
         }`}
     >
-      <div className="container-luxury flex items-center justify-between">
-
+      <div className="container-luxury flex items-center justify-between relative">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0 z-10">
           <img
             src={driLogo}
             alt="DrizzleDrop Inn"
-            className="h-[48px] sm:h-[60px] lg:h-[72px] w-auto object-contain"
+            className="h-[44px] sm:h-[60px] lg:h-[72px] w-auto object-contain"
           />
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-0.5">
-          {/* Location Switcher */}
+        {/* Mobile-Only Centered Location Switcher */}
+        <div className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
           <div
             className="relative"
+            onMouseEnter={() => setLocationOpen(true)}
+            onMouseLeave={() => setLocationOpen(false)}
+          >
+            <button
+              onClick={() => setLocationOpen(!locationOpen)}
+              className={`px-2 py-1.5 text-[10px] font-bold tracking-wide transition-all duration-300 flex items-center gap-1 rounded-full border border-primary/20 bg-primary/5 ${currentLocObj ? "text-[#C5A861]" : "text-[#2a2a2a]/80"}`}
+            >
+              <MapPin className="w-3 h-3 text-primary" />
+              <span className="max-w-[70px] truncate uppercase tracking-tighter">
+                {currentLocObj ? currentLocObj.label.split(' – ')[0] : "Locations"}
+              </span>
+              <ChevronDown className={`w-2.5 h-2.5 opacity-70 transition-transform duration-300 ${locationOpen ? "rotate-180" : ""}`} />
+            </button>
+            
+            <AnimatePresence>
+              {locationOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white rounded-2xl min-w-[220px] shadow-2xl border border-primary/10 overflow-hidden z-[110]"
+                >
+                  <Link
+                    to="/"
+                    onClick={() => { setLocationOpen(false); setMobileLocOpen(false); setCurrentLocation(null); }}
+                    className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100"
+                  >
+                    <div className="w-2 h-2 rounded-full mt-1.5 bg-gray-400" />
+                    <div>
+                      <span className="text-xs font-bold text-gray-800">All Locations</span>
+                    </div>
+                  </Link>
+                  {locations.filter(loc => loc.key !== activeLocKey).map((loc) => (
+                    <Link
+                      key={loc.key}
+                      to={loc.path}
+                      onClick={() => handleLocationSelect(loc)}
+                      className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0"
+                    >
+                      <div className="w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: loc.color }} />
+                      <div className="text-xs font-bold text-gray-800">{loc.label}</div>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Desktop Nav - Hidden on Mobile */}
+        <nav className="hidden lg:flex items-center gap-0.5">
+          {/* Desktop Location Switcher - After Logo */}
+          <div
+            className="relative mr-2"
             ref={locationDropRef}
             onMouseEnter={() => setLocationOpen(true)}
             onMouseLeave={() => setLocationOpen(false)}
@@ -249,9 +301,7 @@ export default function Navbar() {
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
                 ? "text-[#C5A861]"
-                : isTransparent
-                  ? "text-white/90 hover:text-white"
-                  : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
+                : isTransparent ? "text-white/90" : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
                 }`}
             >
               <MapPin className="w-3.5 h-3.5 opacity-70" />
@@ -277,47 +327,30 @@ export default function Navbar() {
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-bold text-[#2a2a2a]">All Locations (Main)</span>
-                        {isCommonPage && (
-                          <span className="text-[9px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full text-white bg-gray-400">
-                            Current
-                          </span>
-                        )}
                       </div>
                       <p className="text-xs text-gray-500 mt-0.5">Explore our brand properties</p>
                     </div>
                   </Link>
 
                   {locations.filter(loc => loc.key !== activeLocKey).map((loc) => {
-                    // Intelligent routing: Preserve the current sub-page when switching locations
                     const pathParts = location.pathname.split("/");
                     let targetPath = loc.path;
-
-                    // If user is on a specific location page like /chennai/rooms -> go to /ooty/rooms
                     if (pathParts.length >= 3 && (pathParts[1] === "chennai" || pathParts[1] === "ooty")) {
                       targetPath = `${loc.path}/${pathParts.slice(2).join("/")}`;
+                    } else if (pathParts.length === 2 && pathParts[1] && pathParts[1] !== "chennai" && pathParts[1] !== "ooty") {
+                      targetPath = `${loc.path}/${pathParts[1]}`;
                     }
-                    // If user is on a shared page like /rooms -> go to /ooty/rooms
-                    else if (pathParts.length === 2 && pathParts[1] && pathParts[1] !== "chennai" && pathParts[1] !== "ooty") {
-                      targetPath = `${loc.path}${location.pathname}`;
-                    }
-
                     return (
                       <Link
                         key={loc.key}
                         to={targetPath}
                         onClick={() => handleLocationSelect(loc)}
-                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0`}
+                        className="flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0"
                       >
-                        <div
-                          className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
-                          style={{ background: loc.color }}
-                        />
+                        <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: loc.color }} />
                         <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-[#2a2a2a]">{loc.label}</span>
-                          </div>
-                          <p className="text-xs text-gray-500 mt-0.5">{loc.sublabel}</p>
-                          <p className="text-xs font-medium mt-0.5" style={{ color: loc.color }}>{loc.phone}</p>
+                          <div className="text-sm font-bold text-[#2a2a2a]">{loc.label}</div>
+                          <p className="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">{loc.sublabel}</p>
                         </div>
                       </Link>
                     );
@@ -327,7 +360,6 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Regular nav links */}
           {navLinks.map((link) => {
             const isHash = link.path.startsWith("#");
             const isActive = isHash ? false : location.pathname === link.path;
@@ -516,8 +548,8 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right side */}
-        <div className="flex items-center gap-3">
+        {/* Header Actions */}
+        <div className="flex items-center gap-2 sm:gap-3 z-10">
           <Magnetic strength={0.2}>
             <button
               onClick={() => openBooking()}
@@ -530,21 +562,11 @@ export default function Navbar() {
             </button>
           </Magnetic>
 
-          <button
-            onClick={() => navigate(isAuthenticated ? "/admin/dashboard" : "/admin/login")}
-            className={`hidden items-center justify-center w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${isTransparent
-              ? "bg-white/15 hover:bg-white/25 text-white backdrop-blur-sm"
-              : "bg-[#2E6B8A]/10 hover:bg-[#2E6B8A]/20 text-[#2E6B8A]"
-              }`}
-            title="Admin Panel"
-          >
-            <UserCircle className="w-5 h-5" />
-          </button>
+
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`lg:hidden p-2 rounded-md transition-colors ${isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"
-              }`}
+            className={`p-2 rounded-md transition-colors ${isTransparent ? "text-white hover:bg-white/10" : "text-[#2E6B8A] hover:bg-[#2E6B8A]/10"} lg:hidden`}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -629,20 +651,22 @@ export default function Navbar() {
                 <div key={link.path}>
                   <Link
                     to={link.path}
-                    className={`block px-4 py-2 text-sm font-medium transition-colors ${location.pathname === link.path
+                    onClick={() => setMobileOpen(false)}
+                    className={`block px-4 py-3 text-base font-medium transition-colors ${location.pathname === link.path
                       ? "text-[#2E6B8A]"
-                      : "text-foreground/80 hover:text-[#2E6B8A] nav-link-underline"
+                      : "text-foreground/80 hover:text-[#2E6B8A]"
                       }`}
                   >
                     {link.label}
                   </Link>
                   {link.dropdown && (
-                    <div className="pl-6">
+                    <div className="pl-6 bg-gray-50/50">
                       {link.dropdown.map((item) => (
                         <Link
                           key={item.path}
                           to={item.path}
-                          className="block px-4 py-2 text-xs text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          onClick={() => setMobileOpen(false)}
+                          className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
                         >
                           {item.label}
                         </Link>
@@ -652,15 +676,25 @@ export default function Navbar() {
                 </div>
               ))}
 
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  openBooking();
-                }}
-                className="mt-3 mx-2 text-center px-6 py-3 bg-[#3a7d5a] text-white text-sm font-bold tracking-widest uppercase rounded-md hover:bg-[#3a7d5a] transition-colors"
-              >
-                Book Now
-              </button>
+              <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-3">
+                <Link
+                  to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-4 py-2 text-xs font-bold text-gray-400 hover:text-[#2E6B8A] uppercase tracking-widest text-center"
+                >
+                  Staff Portal Access
+                </Link>
+
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openBooking();
+                  }}
+                  className="mx-2 text-center px-6 py-4 bg-[#2E6B8A] text-white text-sm font-bold tracking-widest uppercase rounded-xl shadow-lg shadow-[#2E6B8A]/20 active:scale-95 transition-all"
+                >
+                  Book Your Stay Now
+                </button>
+              </div>
             </nav>
           </motion.div>
         )}

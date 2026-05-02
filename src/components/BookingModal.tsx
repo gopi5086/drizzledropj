@@ -39,7 +39,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         try {
             // Web3Forms API for frictionless zero-server deployments (works on Localhost + Hostinger + Vercel)
             const templateParams = {
-                access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb", 
+                access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
                 subject: `New Booking Request from ${data.name}`,
                 from_name: "DrizzleDrop Booking System",
                 Name: data.name,
@@ -49,6 +49,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
                 Room: data.roomType,
                 Guests: `${bookingData.adults} Adults, ${bookingData.children} Children (${bookingData.rooms} Rooms)`,
                 Dates: `${bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set"} to ${bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set"}`,
+                OfferCode: bookingData.offerCode || "None",
             };
 
             const response = await fetch("https://api.web3forms.com/submit", {

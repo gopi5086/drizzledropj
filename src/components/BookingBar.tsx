@@ -21,6 +21,7 @@ export interface BookingData {
     children: number;
     rooms: number;
     roomType?: string;
+    offerCode?: string;
 }
 
 export default function BookingBar() {
@@ -33,6 +34,7 @@ export default function BookingBar() {
     const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
     const [rooms, setRooms] = useState(1);
+    const [offerCode, setOfferCode] = useState("");
     const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 1024 : false);
     const { currentLocation } = useLocationContext();
 
@@ -56,6 +58,7 @@ export default function BookingBar() {
         adults,
         children,
         rooms,
+        offerCode,
     };
 
     return (
@@ -72,10 +75,9 @@ export default function BookingBar() {
                     style={{ background: `linear-gradient(90deg, ${TEAL}, ${GREEN})` }}
                 />
 
-                <div className="flex flex-col lg:flex-row items-stretch">
-
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row items-stretch">
                     {/* ── Location ─────────────────────────────────────────── */}
-                    <div className="flex-1 border-b lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
+                    <div className="flex-1 border-b md:border-r lg:border-b-0 border-gray-100 hover:bg-slate-50/80 transition-colors">
                         <Select value={location} onValueChange={setLocation}>
                             <SelectTrigger className="w-full h-full border-none shadow-none focus:ring-0 bg-transparent rounded-none px-5 py-4">
                                 <div className="flex items-center gap-3 w-full">
@@ -104,7 +106,7 @@ export default function BookingBar() {
                     </div>
 
                     {/* ── Check In – Out ────────────────────────────────────── */}
-                    <div className="flex-[1.4] border-b lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
+                    <div className="flex-[1.4] border-b md:border-b-0 lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <button
@@ -154,7 +156,7 @@ export default function BookingBar() {
                     </div>
 
                     {/* ── Guests & Rooms ────────────────────────────────────── */}
-                    <div className="flex-1 border-b lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
+                    <div className="flex-1 border-b md:border-r lg:border-b-0 border-gray-100 hover:bg-slate-50/80 transition-colors">
                         <Popover>
                             <PopoverTrigger asChild>
                                 <button className="w-full h-full px-5 py-4 flex items-center gap-3 text-left">
@@ -213,40 +215,43 @@ export default function BookingBar() {
                     </div>
 
                     {/* ── Offer Code ────────────────────────────────────────── */}
-                    <div className="flex-1 border-b lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
-                        <Select>
-                            <SelectTrigger className="w-full h-full border-none shadow-none focus:ring-0 bg-transparent rounded-none px-5 py-4">
-                                <div className="flex items-center gap-3 w-full">
-                                    <div
-                                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                                        style={{ backgroundColor: `${GREEN}15` }}
-                                    >
-                                        <Crown className="w-4 h-4" style={{ color: GREEN }} />
-                                    </div>
-                                    <div className="flex flex-col items-start min-w-0">
-                                        <span
-                                            className="text-[9px] uppercase tracking-[0.18em] font-bold mb-0.5"
-                                            style={{ color: GREEN }}
-                                        >
-                                            Offer Code
-                                        </span>
-                                        <SelectValue placeholder="None" />
-                                    </div>
-                                </div>
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="none">No Special Code</SelectItem>
-                                <SelectItem value="corporate">Corporate Code</SelectItem>
-                                <SelectItem value="promo">Promo Code</SelectItem>
-                                <SelectItem value="group">Group Code</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <div className="flex-1 border-b md:border-b-0 lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
+                        <div className="w-full h-full px-5 py-4 flex items-center gap-3">
+                            <div
+                                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+                                style={{ backgroundColor: `${GREEN}15` }}
+                            >
+                                <Crown className="w-4 h-4" style={{ color: GREEN }} />
+                            </div>
+                            <div className="flex flex-col items-start min-w-0 w-full">
+                                <span
+                                    className="text-[9px] uppercase tracking-[0.18em] font-bold mb-0.5"
+                                    style={{ color: GREEN }}
+                                >
+                                    Offer Code
+                                </span>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Code"
+                                    value={offerCode}
+                                    onChange={(e) => setOfferCode(e.target.value)}
+                                    className="w-full bg-transparent border-none p-0 text-sm font-medium text-gray-800 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     {/* ── Book Now Button ───────────────────────────────────── */}
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="w-full lg:w-auto px-10 py-5 font-bold tracking-[0.15em] text-sm uppercase text-white transition-all duration-300 flex-shrink-0 group relative overflow-hidden"
+                        className="w-full md:col-span-2 lg:w-auto px-10 py-5 font-bold tracking-[0.15em] text-sm uppercase text-white transition-all duration-300 flex-shrink-0 group relative overflow-hidden"
+                        style={{ background: `linear-gradient(135deg, ${TEAL} 0%, ${GREEN} 100%)` }}
+                    >
+                        {/* Hover shimmer */}
+                        <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
+                        <span className="relative">CHECK AVAILABILITY</span>
+                    </button>
+                </div>ase text-white transition-all duration-300 flex-shrink-0 group relative overflow-hidden"
                         style={{ background: `linear-gradient(135deg, ${TEAL} 0%, ${GREEN} 100%)` }}
                     >
                         {/* Hover shimmer */}

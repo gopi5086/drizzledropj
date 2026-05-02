@@ -19,6 +19,7 @@ export interface BookingData {
     children: number;
     rooms: number;
     roomType?: string;
+    offerCode?: string;
 }
 
 interface NavbarBookingModalProps {
@@ -100,6 +101,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 Room: guestDetails.roomType,
                 Guests: `${adults} Adults, ${children} Children (${rooms} Rooms)`,
                 Dates: `${date?.from ? format(date.from, "PPP") : "Not Set"} to ${date?.to ? format(date.to, "PPP") : "Not Set"}`,
+                OfferCode: bookingData?.offerCode || "None",
             };
 
             const response = await fetch("https://api.web3forms.com/submit", {
