@@ -94,7 +94,7 @@ export default function AdPopup() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative bg-white w-full max-w-4xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-black/5 flex flex-col md:flex-row"
+            className="relative bg-white w-full max-w-4xl overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-black/5 flex flex-col md:flex-row"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button - Bold X as per reference */}
@@ -106,7 +106,7 @@ export default function AdPopup() {
             </button>
  
             {/* Left Side: Cinematic Image */}
-            <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto relative overflow-hidden shrink-0">
+            <div className="w-full md:w-1/2 h-32 md:h-auto md:aspect-auto relative overflow-hidden shrink-0">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentImageIndex}
@@ -122,32 +122,32 @@ export default function AdPopup() {
             </div>
  
             {/* Right Side: Exact Taj Template */}
-            <div className="w-full md:w-1/2 bg-white flex flex-col pt-10 md:pt-16 pb-0 px-6 md:px-10 text-center relative">
+            <div className="w-full md:w-1/2 bg-white flex flex-col pt-6 md:pt-16 pb-0 px-6 md:px-10 text-center relative">
  
-              <div className="mb-6 md:mb-8">
-                <span className="text-[10px] md:text-[14px] uppercase tracking-[0.4em] text-black/80 font-medium block mb-3">
+              <div className="mb-4 md:mb-8">
+                <span className="text-[9px] md:text-[14px] uppercase tracking-[0.4em] text-black/80 font-medium block mb-2 md:mb-3">
                   Leaving so soon?
                 </span>
-                <h2 className="text-2xl md:text-5xl font-serif italic text-[#C5A861] leading-[1.1] mb-4">
+                <h2 className="text-xl md:text-5xl font-serif italic text-[#C5A861] leading-[1.1] mb-2 md:mb-4">
                   Avail Exclusive <br className="hidden md:block" /> Offers
                 </h2>
-                <div className="w-12 h-[1px] bg-black/20 mx-auto" />
+                <div className="w-10 md:w-12 h-[1px] bg-black/20 mx-auto" />
               </div>
  
               {/* Icon Layout - Exact Triple Centered Grid */}
-              <div className="flex-1 flex flex-col justify-center gap-8 md:gap-10 py-4 md:py-6">
+              <div className="flex-1 flex flex-col justify-center gap-4 md:gap-10 py-2 md:py-6">
                 {/* Top Row: Two Icons */}
-                <div className="flex items-start justify-center gap-6">
+                <div className="flex items-start justify-center gap-4 md:gap-6">
                   <div className="flex flex-col items-center gap-2 md:gap-3 w-1/2">
-                    <Tag className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
-                    <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                    <Tag className="w-4 h-4 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[7px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-tight md:leading-relaxed">
                       {displayBenefits[0]}
                     </span>
                   </div>
-                  <div className="w-[1px] h-10 md:h-12 bg-black/10 mt-2" />
+                  <div className="w-[1px] h-8 md:h-12 bg-black/10 mt-1 md:mt-2" />
                   <div className="flex flex-col items-center gap-2 md:gap-3 w-1/2">
-                    <Utensils className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
-                    <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                    <Utensils className="w-4 h-4 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[7px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-tight md:leading-relaxed">
                       {displayBenefits[1]}
                     </span>
                   </div>
@@ -155,8 +155,8 @@ export default function AdPopup() {
  
                 {/* Bottom Row: One Icon */}
                 <div className="flex flex-col items-center gap-2 md:gap-3">
-                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
-                  <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed max-w-[140px]">
+                  <Sparkles className="w-4 h-4 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                  <span className="text-[7px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-tight md:leading-relaxed max-w-[120px] md:max-w-[140px]">
                     {displayBenefits[2]}
                   </span>
                 </div>
