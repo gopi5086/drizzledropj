@@ -46,12 +46,12 @@ const seedAdmin = async () => {
     const count = await Admin.countDocuments();
     if (count === 0) {
       await Admin.create({
-        email: process.env.ADMIN_EMAIL || "admin@drizzledrop.com",
+        email: process.env.ADMIN_EMAIL || "admin@drizzledropinn.com",
         password: process.env.ADMIN_PASSWORD || "Admin@123",
         name: "DrizzleDrop Admin",
       });
       console.log("Default admin created:");
-      console.log(`  Email: ${process.env.ADMIN_EMAIL || "admin@drizzledrop.com"}`);
+      console.log(`  Email: ${process.env.ADMIN_EMAIL || "admin@drizzledropinn.com"}`);
       console.log(`  Password: ${process.env.ADMIN_PASSWORD || "Admin@123"}`);
     }
   } catch (error) {

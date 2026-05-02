@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import SEO from "@/components/SEO";
 import GuestReviews from "@/components/GuestReviews";
+import { ootyData } from "@/data/locationData";
 
 // Load all property images dynamically from assets - prioritizing webp for performance
 const allImagesRaw = import.meta.glob<{ default: string }>(
@@ -416,31 +417,7 @@ export default function Home() {
                   Ooty: See & Do
                 </h3>
                 <div className="space-y-3 sm:space-y-4 max-h-[400px] sm:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar text-sm sm:text-base">
-                  {[
-                    { name: "Nilgiri mountain Railway", dist: "2.8 KM" },
-                    { name: "Ooty lake", dist: "3.3 KM" },
-                    { name: "Ooty Bus stand", dist: "2.3 KM" },
-                    { name: "Charing cross", dist: "4.0 KM" },
-                    { name: "Cairn hill", dist: "2.1 KM" },
-                    { name: "Arboretum", dist: "1.5 KM" },
-                    { name: "Deer Park", dist: "2.0 KM" },
-                    { name: "Botanical garden", dist: "4.9 KM" },
-                    { name: "Rose garden", dist: "4.0 KM" },
-                    { name: "Pykara Lake", dist: "25 KM" },
-                    { name: "Tea factory", dist: "7.4 KM" },
-                    { name: "Dodabetta view point", dist: "11 KM" },
-                    { name: "Coonoor", dist: "21 KM" },
-                    { name: "Kotagiri", dist: "31 KM" },
-                    { name: "Avalanche", dist: "22 KM" },
-                    { name: "Emarald", dist: "19 KM" },
-                    { name: "Murugan Temple", dist: "4.5 KM" },
-                    { name: "Upper Bhavani", dist: "39 KM" },
-                    { name: "Gudalur", dist: "52 KM" },
-                    { name: "Mudhumalai", dist: "48 KM" },
-                    { name: "Pine Forest", dist: "10 KM" },
-                    { name: "Wax mesuem", dist: "5.2 KM" },
-                    { name: "Snow Park", dist: "2.7 KM" },
-                  ].map((att) => (
+                  {ootyData.nearbyAttractions.map((att) => (
                     <div key={att.name} className="flex justify-between items-center text-xs sm:text-sm border-b border-border/20 pb-2">
                       <span className="font-medium">{att.name}</span>
                       <span className="text-muted-foreground">{att.dist}</span>

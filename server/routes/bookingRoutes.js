@@ -110,7 +110,7 @@ function hotelEmailHtml({ name, phone, email, location, roomType, adults, childr
     </div>
   </div>
   <div class="footer">
-    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:info@drizzledrop.com">info@drizzledrop.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
+    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
     <p style="margin-top:5px">Please respond to this guest at your earliest convenience.</p>
   </div>
 </div>
@@ -158,7 +158,7 @@ function guestEmailHtml({ name, location, roomType, adults, children }) {
     <a class="cta" href="https://wa.me/918667825086">Chat on WhatsApp</a>
   </div>
   <div class="footer">
-    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:info@drizzledrop.com">info@drizzledrop.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
+    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
   </div>
 </div>
 </body>

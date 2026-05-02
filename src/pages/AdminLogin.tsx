@@ -122,7 +122,7 @@ export default function AdminLogin() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@drizzledrop.com"
+                  placeholder="admin@drizzledropinn.com"
                   className="w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-xs sm:text-sm
                     focus:outline-none focus:ring-2 focus:ring-[#2E6B8A]/30 focus:border-[#2E6B8A]
                     transition-all duration-300 placeholder:text-gray-400"
