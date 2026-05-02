@@ -94,19 +94,19 @@ export default function AdPopup() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative bg-white w-full max-w-4xl flex flex-col md:flex-row overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-black/5"
+            className="relative bg-white w-full max-w-4xl max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-black/5 flex flex-col md:flex-row"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button - Bold X as per reference */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 z-50 text-black font-bold hover:scale-110 transition-transform"
+              className="absolute top-4 right-4 z-[60] text-black bg-white/80 backdrop-blur-sm rounded-full p-1 font-bold hover:scale-110 transition-transform md:bg-transparent"
             >
-              <X className="w-6 h-6 stroke-[3px]" />
+              <X className="w-5 h-5 md:w-6 md:h-6 stroke-[3px]" />
             </button>
-
+ 
             {/* Left Side: Cinematic Image */}
-            <div className="w-full md:w-1/2 aspect-square md:aspect-auto relative overflow-hidden">
+            <div className="w-full md:w-1/2 aspect-[4/3] md:aspect-auto relative overflow-hidden shrink-0">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={currentImageIndex}
@@ -120,52 +120,52 @@ export default function AdPopup() {
                 />
               </AnimatePresence>
             </div>
-
+ 
             {/* Right Side: Exact Taj Template */}
-            <div className="w-full md:w-1/2 bg-white flex flex-col pt-12 md:pt-16 pb-0 px-6 md:px-10 text-center">
-
-              <div className="mb-8">
+            <div className="w-full md:w-1/2 bg-white flex flex-col pt-10 md:pt-16 pb-0 px-6 md:px-10 text-center relative">
+ 
+              <div className="mb-6 md:mb-8">
                 <span className="text-[10px] md:text-[14px] uppercase tracking-[0.4em] text-black/80 font-medium block mb-3">
                   Leaving so soon?
                 </span>
-                <h2 className="text-3xl md:text-5xl font-serif italic text-[#C5A861] leading-[1.1] mb-4">
-                  Avail Exclusive <br /> Offers
+                <h2 className="text-2xl md:text-5xl font-serif italic text-[#C5A861] leading-[1.1] mb-4">
+                  Avail Exclusive <br className="hidden md:block" /> Offers
                 </h2>
                 <div className="w-12 h-[1px] bg-black/20 mx-auto" />
               </div>
-
+ 
               {/* Icon Layout - Exact Triple Centered Grid */}
-              <div className="flex-1 flex flex-col justify-center gap-10 py-6">
+              <div className="flex-1 flex flex-col justify-center gap-8 md:gap-10 py-4 md:py-6">
                 {/* Top Row: Two Icons */}
                 <div className="flex items-start justify-center gap-6">
-                  <div className="flex flex-col items-center gap-3 w-1/2">
-                    <Tag className="w-6 h-6 text-[#C5A861] mb-1" />
-                    <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                  <div className="flex flex-col items-center gap-2 md:gap-3 w-1/2">
+                    <Tag className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
                       {displayBenefits[0]}
                     </span>
                   </div>
-                  <div className="w-[1px] h-12 bg-black/10 mt-2" />
-                  <div className="flex flex-col items-center gap-3 w-1/2">
-                    <Utensils className="w-6 h-6 text-[#C5A861] mb-1" />
-                    <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
+                  <div className="w-[1px] h-10 md:h-12 bg-black/10 mt-2" />
+                  <div className="flex flex-col items-center gap-2 md:gap-3 w-1/2">
+                    <Utensils className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                    <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed">
                       {displayBenefits[1]}
                     </span>
                   </div>
                 </div>
-
+ 
                 {/* Bottom Row: One Icon */}
-                <div className="flex flex-col items-center gap-3">
-                  <Sparkles className="w-6 h-6 text-[#C5A861] mb-1" />
-                  <span className="text-[9px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed max-w-[140px]">
+                <div className="flex flex-col items-center gap-2 md:gap-3">
+                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-[#C5A861] mb-1" />
+                  <span className="text-[8px] md:text-[11px] text-black/70 uppercase tracking-widest font-semibold leading-relaxed max-w-[140px]">
                     {displayBenefits[2]}
                   </span>
                 </div>
               </div>
-
-              {/* CTA Button - Full Width Bottom as per reference */}
+ 
+              {/* CTA Button - Responsive Width */}
               <button
                 onClick={handleBookNow}
-                className="w-[calc(100%+80px)] -mx-10 mt-10 py-5 bg-[#C5A861] text-white text-[12px] font-bold uppercase tracking-[0.4em] transition-all duration-500 hover:bg-black"
+                className="w-full md:w-[calc(100%+80px)] md:-mx-10 mt-8 md:mt-10 py-4 md:py-5 bg-[#C5A861] text-white text-[11px] md:text-[12px] font-bold uppercase tracking-[0.3em] md:tracking-[0.4em] transition-all duration-500 hover:bg-black shrink-0"
               >
                 View Offers
               </button>
