@@ -29,15 +29,12 @@ export default defineConfig(({ mode }) => ({
     },
   },
   assetsInclude: ["**/*.JPG", "**/*.JPEG", "**/*.PNG"],
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+  },
   build: {
     target: "esnext",
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: "esbuild",
     rollupOptions: {
       output: {
         manualChunks: {
