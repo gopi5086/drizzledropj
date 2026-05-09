@@ -136,12 +136,14 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             document.body.appendChild(tempForm);
             tempForm.submit();
 
-            // Give it time to submit, then cleanup
-            await new Promise(r => setTimeout(r, 2500));
+            // Keep the iframe and form in the DOM for much longer to ensure the request finishes
+            setTimeout(() => {
+                if (document.body.contains(tempForm)) document.body.removeChild(tempForm);
+                if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            }, 10000); // 10 seconds is safer
             
-            document.body.removeChild(tempForm);
-            document.body.removeChild(iframe);
-            
+            // Show success immediately after dispatch
+            await new Promise(r => setTimeout(r, 1000));
             setSuccess(true);
             toast({
                 title: "Booking Request Sent Successfully",
