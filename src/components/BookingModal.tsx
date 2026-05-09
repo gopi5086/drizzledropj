@@ -144,10 +144,7 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
                                         <Input name="phone" required placeholder="Phone" />
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <Label>Message / Special Request</Label>
-                                    <Textarea name="message" placeholder="Optional" />
-                                </div>
+
                                 <Button type="submit" disabled={loading} className="w-full py-6 gap-2">
                                     {loading ? "Sending Booking Request..." : <><Send className="w-4 h-4" /> Confirm Booking Request</>}
                                 </Button>

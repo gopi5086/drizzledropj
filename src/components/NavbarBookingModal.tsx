@@ -249,10 +249,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Special Request</Label>
-                                        <Textarea value={guestDetails.message} onChange={e => setGuestDetails({ ...guestDetails, message: e.target.value })} placeholder="Any special requests?" />
-                                    </div>
+
                                     <div className="flex gap-3 pt-4">
                                         <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1 py-6"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
                                         <Button type="submit" disabled={loading} className="flex-[2] py-6 gap-2">
