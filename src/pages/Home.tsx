@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, MapPin, Wifi, Car, Shield, MessageCircle, Phone, Mail, ArrowRight, ZoomIn } from "lucide-react";
@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { API_BASE } from "@/config";
 import SEO from "@/components/SEO";
 import GuestReviews from "@/components/GuestReviews";
 import { ootyData } from "@/data/locationData";
@@ -88,13 +89,13 @@ const reviews = [
   { name: "David L.", text: "World-class hospitality at an incredible value. Will definitely return.", rating: 4 },
 ];
 
-const faqs = [
-  { q: "What time is check-in and check-out?", a: "Check-in is at 12:00 PM and check-out is at 11:00 AM. Early check-in and late check-out are available upon request and subject to availability." },
-  { q: "Is parking available?", a: "Yes, we offer complimentary secure parking at both our Chennai and Ooty properties." },
-  { q: "Are pets allowed?", a: "Yes! DrizzleDrop Hotels is pooch friendly. Please inform us during booking so we can prepare your room." },
-  { q: "Do you provide airport pickup?", a: "Yes, we offer airport pickup and drop services for our Chennai property. Please book in advance." },
-  { q: "What payment methods do you accept?", a: "We accept all major credit/debit cards, GPay, PhonePe, Paytm, and WhatsApp Pay." },
-];
+interface FAQ {
+  _id: string;
+  question: string;
+  answer: string;
+  location: string;
+  order: number;
+}
 
 
 const blogPosts = [
@@ -106,6 +107,15 @@ const blogPosts = [
 export default function Home() {
   const navigate = useNavigate();
   const [galleryCategory, setGalleryCategory] = useState("ALL");
+
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/faqs/location/GENERAL`)
+      .then(res => res.json())
+      .then(data => setFaqs(data))
+      .catch(err => console.error("Error fetching FAQs:", err));
+  }, []);
 
   const filteredHomeGallery = useMemo(() => {
     if (galleryCategory === "ALL") return curatedHomeAll;
@@ -247,7 +257,7 @@ export default function Home() {
                 onClick={() => navigate('/ooty')}
               >
                 <div className="relative w-full aspect-video sm:aspect-[16/10] md:aspect-video cinematic-zoom-container rounded-t-2xl md:rounded-t-3xl">
-                  <img src={ootyImg} alt="DrizzleDrop Ooty" className="cinematic-zoom-image" loading="lazy" decoding="async" />
+                  <img src={ootyImg} alt="DrizzleDrop Ooty" className="cinematic-zoom-image object-top" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-700" />
 
                   <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
@@ -471,12 +481,12 @@ export default function Home() {
           <Reveal delay={0.3} width="100%">
             <Accordion type="single" collapsible className="space-y-2">
               {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
+                <AccordionItem key={faq._id} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
                   <AccordionTrigger className="text-left text-lg hover:text-primary transition-colors">
-                    {faq.q}
+                    {faq.question}
                   </AccordionTrigger>
                   <AccordionContent className="body-text text-sm">
-                    {faq.a}
+                    {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
               ))}

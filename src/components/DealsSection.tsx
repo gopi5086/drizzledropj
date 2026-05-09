@@ -17,9 +17,10 @@ interface Deal {
   validTo: string;
   isActive: boolean;
   priority: number;
+  promoCode: string;
 }
 
-const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
+import { BACKEND_BASE, API_BASE } from "@/config";
 
 export default function DealsSection({ location }: { location: "Chennai" | "Ooty" }) {
   const [deals, setDeals] = useState<Deal[]>([]);
@@ -30,7 +31,7 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
     const fetchDeals = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${BACKEND_BASE}/api/deals?location=${location}&activeOnly=true`);
+        const res = await fetch(`${API_BASE}/deals?location=${location}&activeOnly=true`);
         if (res.ok) {
           const data = await res.json();
           setDeals(data);
@@ -137,12 +138,21 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
                       </p>
                     </div>
                     
-                    <button 
-                      onClick={() => openBooking()}
-                      className="p-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-full transition-all duration-300"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
+                    <div className="flex flex-col gap-3">
+                      {deal.promoCode && (
+                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
+                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Code:</span>
+                           <span className="text-sm font-mono font-bold text-primary">{deal.promoCode}</span>
+                        </div>
+                      )}
+                      <button 
+                        onClick={() => openBooking({ offerCode: deal.promoCode, location: deal.location })}
+                        className="w-full flex items-center justify-center gap-2 py-3 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-xl transition-all duration-300 font-bold text-sm tracking-wide"
+                      >
+                        Redeem Now
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

@@ -11,7 +11,7 @@ import { useLocationContext } from "@/context/LocationContext";
 
 // Brand colours from DrizzleDrop logo
 const TEAL = "#2E6B8A";
-const GREEN = "#4A7C3F";
+const DARK_TEAL = "#1a4d66";
 
 export interface BookingData {
     location: string;
@@ -71,8 +71,7 @@ export default function BookingBar() {
             >
                 {/* Top accent bar */}
                 <div
-                    className="h-1 w-full"
-                    style={{ background: `linear-gradient(90deg, ${TEAL}, ${GREEN})` }}
+                    className="h-1 w-full bg-[#2E6B8A]"
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row items-stretch">
@@ -162,14 +161,14 @@ export default function BookingBar() {
                                 <button className="w-full h-full px-5 py-4 flex items-center gap-3 text-left">
                                     <div
                                         className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                                        style={{ backgroundColor: `${GREEN}15` }}
+                                        style={{ backgroundColor: `${TEAL}15` }}
                                     >
-                                        <Users className="w-4 h-4" style={{ color: GREEN }} />
+                                        <Users className="w-4 h-4" style={{ color: TEAL }} />
                                     </div>
                                     <div className="flex flex-col items-start min-w-0">
                                         <span
                                             className="text-[9px] uppercase tracking-[0.18em] font-bold mb-0.5"
-                                            style={{ color: GREEN }}
+                                            style={{ color: TEAL }}
                                         >
                                             Guests & Rooms
                                         </span>
@@ -219,14 +218,14 @@ export default function BookingBar() {
                         <div className="w-full h-full px-5 py-4 flex items-center gap-3">
                             <div
                                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                                style={{ backgroundColor: `${GREEN}15` }}
+                                style={{ backgroundColor: `${TEAL}15` }}
                             >
-                                <Crown className="w-4 h-4" style={{ color: GREEN }} />
+                                <Crown className="w-4 h-4" style={{ color: TEAL }} />
                             </div>
                             <div className="flex flex-col items-start min-w-0 w-full">
                                 <span
                                     className="text-[9px] uppercase tracking-[0.18em] font-bold mb-0.5"
-                                    style={{ color: GREEN }}
+                                    style={{ color: TEAL }}
                                 >
                                     Offer Code
                                 </span>
@@ -245,7 +244,7 @@ export default function BookingBar() {
                     <button
                         onClick={() => setIsModalOpen(true)}
                         className="w-full md:col-span-2 lg:w-auto px-10 py-5 font-bold tracking-[0.15em] text-sm uppercase text-white transition-all duration-300 flex-shrink-0 group relative overflow-hidden"
-                        style={{ background: `linear-gradient(135deg, ${TEAL} 0%, ${GREEN} 100%)` }}
+                        style={{ background: `linear-gradient(135deg, ${TEAL} 0%, ${DARK_TEAL} 100%)` }}
                     >
                         {/* Hover shimmer */}
                         <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />

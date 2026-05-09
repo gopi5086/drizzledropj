@@ -7,9 +7,9 @@ import chennaiHero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.
 import chennaiHero4 from "@/assets/Gallery/Chennai-images/RECEPTION/Corridor_5.webp";
 
 // Ooty hero images (Using high-quality gallery images from Ooty-Images)
-import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
+import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL7025.webp";
 import ootyHero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.webp";
-import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.webp";
+import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/BROL7023.webp";
 import ootyHero4 from "@/assets/Gallery/Ooty-Images/VILLA/Villa_with_Lawn.webp";
 
 // Chennai specific room interior images

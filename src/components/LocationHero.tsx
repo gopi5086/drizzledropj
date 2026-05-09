@@ -157,11 +157,10 @@ export default function LocationHero({ location }: Props) {
           <button
             key={i}
             onClick={() => goToSlide(i)}
-            className={`rounded-full transition-all duration-500 ${
-              i === currentSlide
+            className={`rounded-full transition-all duration-500 ${i === currentSlide
                 ? "w-6 h-2 bg-[#C5A861]"
                 : "w-2 h-2 bg-white/40 hover:bg-white/70"
-            }`}
+              }`}
             aria-label={`Slide ${i + 1}`}
           />
         ))}

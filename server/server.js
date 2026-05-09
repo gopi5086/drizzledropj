@@ -1,7 +1,7 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 const fs = require("fs");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
@@ -9,6 +9,8 @@ const adRoutes = require("./routes/adRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const dealRoutes = require("./routes/dealRoutes");
+const roomRoutes = require("./routes/roomRoutes");
+const faqRoutes = require("./routes/faqRoutes");
 const Admin = require("./models/Admin");
 
 const app = express();
@@ -34,6 +36,8 @@ app.use("/api/ads", adRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/deals", dealRoutes);
+app.use("/api/rooms", roomRoutes);
+app.use("/api/faqs", faqRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

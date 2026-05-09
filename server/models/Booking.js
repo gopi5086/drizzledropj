@@ -40,6 +40,11 @@ const bookingSchema = new mongoose.Schema(
       enum: ["pending", "confirmed", "cancelled"],
       default: "pending",
     },
+    promoCode: {
+      type: String,
+      trim: true,
+      default: "",
+    },
   },
   {
     timestamps: true,

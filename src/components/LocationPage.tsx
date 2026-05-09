@@ -23,6 +23,15 @@ import DealsSection from "./DealsSection";
 import SEO from "@/components/SEO";
 import GuestReviews from "@/components/GuestReviews";
 import { useMemo } from "react";
+import { API_BASE, BACKEND_BASE } from "@/config";
+
+interface FAQ {
+  _id: string;
+  question: string;
+  answer: string;
+  location: string;
+  order: number;
+}
 
 // Load all images dynamically from the Gallery assets - prioritizing webp
 const allImagesRaw = import.meta.glob<{ default: string }>(
@@ -141,10 +150,101 @@ function RoomCard({ room }: { room: LocationConfig["rooms"][0] }) {
   );
 }
 
+const RoomCardDynamic = ({ room }: { room: any }) => {
+  const { openBooking } = useBooking();
+  const imageUrl = room.image.startsWith("/") ? `${BACKEND_BASE}${room.image}` : room.image;
+
+  return (
+    <Reveal direction="up">
+      <div className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
+        <div className="relative h-64 overflow-hidden">
+          <img
+            src={imageUrl}
+            alt={`${room.name} at DrizzleDrop Inn`}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
+          />
+          <div className="absolute top-5 right-5 flex flex-col gap-2 items-end min-w-[150px]">
+            {(room.epPrice || room.cpPrice) ? (
+              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 w-full scale-90 origin-top-right">
+                {room.epPrice && (
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">EP <span className="font-medium opacity-60">(Room Only)</span></span>
+                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.epPrice}</span>
+                  </div>
+                )}
+                {room.cpPrice && (
+                  <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-1 mt-0.5">
+                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">CP <span className="font-medium opacity-60">(W/ BFast)</span></span>
+                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.cpPrice}</span>
+                  </div>
+                )}
+              </div>
+            ) : room.price && (
+              <div className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
+                <span className="text-lg font-bold text-[#2E6B8A]">{room.price}</span>
+                <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
+              </div>
+            )}
+          </div>
+          <div className="absolute bottom-5 left-5">
+            <span className="px-3 py-1 bg-[#C5A861] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{room.type}</span>
+          </div>
+        </div>
+        <div className="p-7 flex-1 flex flex-col">
+          <h3 className="text-2xl font-medium mb-1 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
+          <p className="px-3 py-1 bg-[#2E6B8A]/5 text-[#2E6B8A] text-[9px] font-bold uppercase tracking-wider rounded-md w-fit mb-4">{room.type}</p>
+          <p className="body-text text-sm mb-6 leading-relaxed text-muted-foreground/90 min-h-[4.5rem]">
+            {room.desc}
+          </p>
+          <div className="grid grid-cols-2 gap-3 mb-7 mt-auto">
+            {room.amenities.map((a: string) => (
+              <div key={a} className="flex items-center gap-2 text-xs font-medium text-foreground/70">
+                <div className="h-1.5 w-1.5 rounded-full bg-[#C5A861]" />
+                {a}
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => openBooking({ roomType: room.name })}
+            className="w-full group/btn relative overflow-hidden px-8 py-4 bg-[#2E6B8A] text-white text-xs font-bold tracking-[0.2em] uppercase rounded-xl transition-all duration-500 hover:shadow-[0_10px_20px_rgba(46,107,138,0.2)]"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-3">
+              Book This Room
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+            </span>
+            <div className="absolute inset-0 bg-[#C5A861] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500" />
+          </button>
+        </div>
+      </div>
+    </Reveal>
+  );
+};
+
 export default function LocationPage({ location }: Props) {
   const { openBooking } = useBooking();
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [galleryCategory, setGalleryCategory] = useState("ALL");
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [rooms, setRooms] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loc = location.key.toUpperCase();
+    
+    // Fetch FAQs
+    fetch(`${API_BASE}/faqs/location/${loc}`)
+      .then(res => res.json())
+      .then(data => setFaqs(data))
+      .catch(err => console.error("Error fetching FAQs:", err));
+
+    // Fetch Rooms
+    fetch(`${API_BASE}/rooms`)
+      .then(res => res.json())
+      .then(data => {
+        const filtered = data.filter((r: any) => r.location === loc);
+        setRooms(filtered);
+      })
+      .catch(err => console.error("Error fetching Rooms:", err));
+  }, [location.key]);
 
   const locationImages = useMemo(() => {
     return ALL_GALLERY_IMAGES.filter(img => img.location === location.key);
@@ -284,9 +384,15 @@ export default function LocationPage({ location }: Props) {
             />
           </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
-            {location.rooms.map((room) => (
-              <RoomCard key={room.name} room={room} />
-            ))}
+            {rooms.length > 0 ? (
+              rooms.map((room) => (
+                <RoomCardDynamic key={room._id || room.name} room={room} />
+              ))
+            ) : (
+              location.rooms.map((room) => (
+                <RoomCard key={room.name} room={room} />
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -459,12 +565,12 @@ export default function LocationPage({ location }: Props) {
           </Reveal>
           <Reveal delay={0.3} width="100%">
             <Accordion type="single" collapsible className="space-y-2">
-              {location.faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
+              {faqs.map((faq, i) => (
+                <AccordionItem key={faq._id} value={`faq-${i}`} className="glass-card border border-border/50 px-6">
                   <AccordionTrigger className="text-left text-lg hover:text-primary transition-colors">
-                    {faq.q}
+                    {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="body-text text-sm">{faq.a}</AccordionContent>
+                  <AccordionContent className="body-text text-sm">{faq.answer}</AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

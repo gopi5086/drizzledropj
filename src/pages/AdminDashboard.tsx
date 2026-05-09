@@ -17,13 +17,15 @@ import {
   MessageCircle,
   ClipboardList,
   Eye,
+  EyeOff,
   Tag,
+  BedDouble,
+  HelpCircle,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import driLogo from "@/assets/drilogo.webp";
 
-const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
-const API_BASE = `${BACKEND_BASE}/api`;
+import { BACKEND_BASE, API_BASE } from "@/config";
 
 interface Ad {
   _id: string;
@@ -35,7 +37,21 @@ interface Ad {
   createdAt: string;
 }
 
-type SidebarItem = "dashboard" | "manage-ads" | "manage-deals";
+type SidebarItem = "dashboard" | "manage-ads" | "manage-deals" | "manage-rooms" | "manage-faqs";
+
+interface Room {
+  _id: string;
+  name: string;
+  location: "CHENNAI" | "OOTY";
+  type: string;
+  desc: string;
+  epPrice?: string;
+  cpPrice?: string;
+  price?: string;
+  image: string;
+  amenities: string[];
+  order: number;
+}
 
 interface Deal {
   _id: string;
@@ -51,6 +67,7 @@ interface Deal {
   isActive: boolean;
   priority: number;
   isPopup: boolean;
+  promoCode: string;
 }
 
 interface ChatMessage {
@@ -72,19 +89,17 @@ interface ChatSession {
   updatedAt: string;
 }
 
-interface Booking {
-  _id: string;
-  name: string;
-  phone: string;
-  email: string;
-  location: string;
-  roomType: string;
-  adults: number;
-  children: number;
-  status: string;
-  createdAt: string;
-}
 
+
+
+interface FAQ {
+  _id: string;
+  question: string;
+  answer: string;
+  location: "CHENNAI" | "OOTY" | "GENERAL";
+  order: number;
+  isActive: boolean;
+}
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -92,7 +107,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<SidebarItem>("manage-ads");
   const [ads, setAds] = useState<Ad[]>([]);
   const [chats, setChats] = useState<ChatSession[]>([]);
-  const [bookings, setBookings] = useState<Booking[]>([]);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<ChatSession | null>(null);
@@ -100,6 +115,18 @@ export default function AdminDashboard() {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [editingDeal, setEditingDeal] = useState<Deal | null>(null);
   const [isDealModalOpen, setIsDealModalOpen] = useState(false);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<Room | null>(null);
+  const [faqs, setFaqs] = useState<FAQ[]>([]);
+  const [isFaqModalOpen, setIsFaqModalOpen] = useState(false);
+  const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
+  const [faqForm, setFaqForm] = useState({
+    question: "",
+    answer: "",
+    location: "GENERAL",
+    order: 0
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   // Form state (image-only ad)
@@ -144,19 +171,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const fetchBookings = async () => {
-    try {
-      const res = await fetch(`${API_BASE}/bookings`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setBookings(data.bookings || []);
-      }
-    } catch (error) {
-      console.error("Failed to fetch bookings:", error);
-    }
-  };
+
 
   const fetchDeals = async () => {
     try {
@@ -172,12 +187,38 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchRooms = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/rooms`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setRooms(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch rooms:", error);
+    }
+  };
+
+  const fetchFaqs = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/faqs`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) setFaqs(await res.json());
+    } catch (err) {
+      console.error("Failed to fetch FAQs:", err);
+    }
+  };
 
   useEffect(() => {
     fetchAds();
     fetchChats();
-    fetchBookings();
+
     fetchDeals();
+    fetchRooms();
+    fetchFaqs();
   }, [token]);
 
   // Filter ads
@@ -240,7 +281,8 @@ export default function AdminDashboard() {
     validTo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
     priority: 0,
     isPopup: false,
-    isActive: true
+    isActive: true,
+    promoCode: ""
   });
 
 
@@ -256,11 +298,41 @@ export default function AdminDashboard() {
       validTo: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
       priority: 0,
       isPopup: false,
-      isActive: true
+      isActive: true,
+      promoCode: ""
     });
     setFormImages(null);
     setFormImagePreviews([]);
     setEditingDeal(null);
+  };
+
+  const [roomForm, setRoomForm] = useState({
+    name: "",
+    location: "CHENNAI",
+    type: "",
+    desc: "",
+    epPrice: "",
+    cpPrice: "",
+    price: "",
+    amenities: "",
+    order: 0
+  });
+
+  const resetRoomForm = () => {
+    setRoomForm({
+      name: "",
+      location: "CHENNAI",
+      type: "",
+      desc: "",
+      epPrice: "",
+      cpPrice: "",
+      price: "",
+      amenities: "",
+      order: 0
+    });
+    setFormImages(null);
+    setFormImagePreviews([]);
+    setEditingRoom(null);
   };
 
   // Open edit modal
@@ -426,11 +498,136 @@ export default function AdminDashboard() {
       validTo: deal.validTo.split("T")[0],
       priority: deal.priority,
       isPopup: deal.isPopup,
-      isActive: deal.isActive
+      isActive: deal.isActive,
+      promoCode: deal.promoCode || ""
     });
     setFormImages(null);
-    setFormImagePreviews([deal.image]);
+    setFormImagePreviews([deal.image.startsWith("/uploads") ? `${BACKEND_BASE}${deal.image}` : deal.image]);
     setIsDealModalOpen(true);
+  };
+
+  const handleRoomSubmit = async () => {
+    if (!formImages && !editingRoom) {
+      alert("Please upload an image for the room");
+      return;
+    }
+
+    setIsLoading(true);
+    const formData = new FormData();
+    if (formImages) formData.append("images", formImages);
+    Object.entries(roomForm).forEach(([key, value]) => {
+      formData.append(key, String(value));
+    });
+
+    try {
+      const url = editingRoom ? `${API_BASE}/rooms/${editingRoom._id}` : `${API_BASE}/rooms`;
+      const method = editingRoom ? "PUT" : "POST";
+      const res = await fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      if (res.ok) {
+        await fetchRooms();
+        setIsRoomModalOpen(false);
+        resetRoomForm();
+      } else {
+        const data = await res.json();
+        alert(data.message || "Failed to save room");
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteRoom = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this room?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/rooms/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) fetchRooms();
+    } catch (error) {
+      alert("Failed to delete room");
+    }
+  };
+
+  const openEditRoomModal = (room: Room) => {
+    setEditingRoom(room);
+    setRoomForm({
+      name: room.name,
+      location: room.location,
+      type: room.type,
+      desc: room.desc,
+      epPrice: room.epPrice || "",
+      cpPrice: room.cpPrice || "",
+      price: room.price || "",
+      amenities: room.amenities.join(", "),
+      order: room.order
+    });
+    setFormImages(null);
+    setFormImagePreviews([room.image.startsWith("/uploads") ? `${BACKEND_BASE}${room.image}` : room.image]);
+    setIsRoomModalOpen(true);
+  };
+
+
+  const resetFaqForm = () => {
+    setFaqForm({ question: "", answer: "", location: "GENERAL", order: 0 });
+    setEditingFaq(null);
+  };
+
+  const handleFaqSubmit = async () => {
+    if (!faqForm.question || !faqForm.answer) return alert("Please fill all required fields");
+    setIsLoading(true);
+    try {
+      const url = editingFaq ? `${API_BASE}/faqs/${editingFaq._id}` : `${API_BASE}/faqs`;
+      const res = await fetch(url, {
+        method: editingFaq ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(faqForm)
+      });
+      if (res.ok) {
+        fetchFaqs();
+        setIsFaqModalOpen(false);
+        resetFaqForm();
+      }
+    } catch (err) {
+      alert("Error saving FAQ");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteFaq = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this FAQ?")) return;
+    try {
+      const res = await fetch(`${API_BASE}/faqs/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) fetchFaqs();
+    } catch (err) {
+      alert("Failed to delete FAQ");
+    }
+  };
+
+  const handleToggleFaq = async (id: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/faqs/${id}/toggle`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) fetchFaqs();
+    } catch (err) {
+      alert("Failed to toggle status");
+    }
   };
 
 
@@ -443,6 +640,9 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "manage-ads", label: "Manage Ads", icon: ImageIcon },
     { id: "manage-deals", label: "Manage Deals", icon: Tag },
+    { id: "manage-rooms", label: "Manage Rooms", icon: BedDouble },
+    { id: "manage-faqs", label: "Manage FAQ", icon: HelpCircle },
+
   ];
 
   return (
@@ -501,6 +701,9 @@ export default function AdminDashboard() {
             {activeTab === "dashboard" && "Dashboard"}
             {activeTab === "manage-ads" && "Manage Ads"}
             {activeTab === "manage-deals" && "Manage Deals"}
+            {activeTab === "manage-rooms" && "Manage Rooms"}
+            {activeTab === "manage-faqs" && "Manage FAQs"}
+
           </h1>
 
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
@@ -531,6 +734,20 @@ export default function AdminDashboard() {
               >
                 <Plus className="w-4 h-4" />
                 <span>New Deal</span>
+              </motion.button>
+            )}
+            {activeTab === "manage-rooms" && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  resetRoomForm();
+                  setIsRoomModalOpen(true);
+                }}
+                className="flex items-center gap-2 px-3 sm:px-5 py-2 sm:py-2.5 bg-[#2E6B8A] hover:bg-[#1a4a63] text-white text-xs sm:text-sm font-bold rounded-lg sm:rounded-xl transition-colors shadow-md whitespace-nowrap"
+              >
+                <Plus className="w-4 h-4" />
+                <span>New Room</span>
               </motion.button>
             )}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
@@ -766,7 +983,59 @@ export default function AdminDashboard() {
             </>
           )}
 
-          {/* manage-rooms removed per request */}
+          {activeTab === "manage-rooms" && (
+            <div className="bg-white rounded-lg sm:rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+              <table className="w-full text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 italic">
+                    <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Room</th>
+                    <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Location & Type</th>
+                    <th className="text-center px-6 py-4 font-bold text-gray-500 uppercase">Rates</th>
+                    <th className="text-right px-6 py-4 font-bold text-gray-500 uppercase">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rooms?.map(room => (
+                    <tr key={room?._id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img src={room?.image?.startsWith("/uploads") ? `${BACKEND_BASE}${room.image}` : room?.image} className="w-12 h-12 object-cover rounded-md border" />
+                          <div>
+                            <div className="font-bold text-gray-800">{room?.name}</div>
+                            <div className="text-[10px] text-gray-400 line-clamp-1 max-w-[200px]">{room?.desc}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-xs font-semibold text-primary uppercase">{room?.location}</div>
+                        <div className="text-[10px] text-gray-500">{room?.type}</div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="flex flex-col gap-1 items-center">
+                          {room.epPrice && <span className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-bold">EP: {room.epPrice}</span>}
+                          {room.cpPrice && <span className="text-[10px] bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-bold">CP: {room.cpPrice}</span>}
+                          {room.price && <span className="text-[10px] bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-bold">Price: {room.price}</span>}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                         <div className="flex justify-end gap-2">
+                            <button onClick={() => openEditRoomModal(room)} className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"><Edit className="w-4 h-4" /></button>
+                            <button onClick={() => handleDeleteRoom(room._id)} className="p-2 text-red-600 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
+                         </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {rooms.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="text-center py-12 text-gray-400">
+                        No rooms found. Add your first room to manage rates.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {activeTab === "manage-deals" && (
             <div className="bg-white rounded-lg sm:rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
@@ -774,6 +1043,7 @@ export default function AdminDashboard() {
                 <thead>
                   <tr className="border-b border-gray-100 italic">
                     <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Offer</th>
+                    <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Code</th>
                     <th className="text-left px-6 py-4 font-bold text-gray-500 uppercase">Type & Location</th>
                     <th className="text-center px-6 py-4 font-bold text-gray-500 uppercase">Discount</th>
                     <th className="text-right px-6 py-4 font-bold text-gray-500 uppercase">Actions</th>
@@ -784,12 +1054,17 @@ export default function AdminDashboard() {
                     <tr key={deal?._id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img src={deal?.image} className="w-12 h-12 object-cover rounded-md border" />
+                          <img src={deal?.image?.startsWith("/uploads") ? `${BACKEND_BASE}${deal.image}` : deal?.image} className="w-12 h-12 object-cover rounded-md border" />
                           <div>
                             <div className="font-bold text-gray-800">{deal?.title}</div>
                             <div className="text-[10px] text-gray-400">Valid to: {new Date(deal?.validTo)?.toLocaleDateString()}</div>
                           </div>
                         </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="font-mono bg-gray-100 px-2 py-1 rounded text-xs font-bold text-[#2E6B8A]">
+                          {deal?.promoCode || "---"}
+                        </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-xs font-semibold text-primary uppercase">{deal?.dealType}</div>
@@ -817,7 +1092,98 @@ export default function AdminDashboard() {
 
 
 
+
+
         </div>
+        {/* FAQ Management Section */}
+        {activeTab === "manage-faqs" && (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-2xl font-bold text-[#2d6647] font-serif">Frequently Asked Questions</h2>
+                <p className="text-sm text-gray-500">Manage location-specific and general FAQs</p>
+              </div>
+              <button
+                onClick={() => {
+                  resetFaqForm();
+                  setIsFaqModalOpen(true);
+                }}
+                className="bg-[#3a7d5a] text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 hover:shadow-lg transition-all"
+              >
+                <Plus className="w-5 h-5" /> Add New FAQ
+              </button>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <table className="w-full text-left">
+                <thead className="bg-gray-50/50 border-b border-gray-100">
+                  <tr>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Question & Answer</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Location</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-center">Status</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {faqs.map((faq) => (
+                    <tr key={faq._id} className="hover:bg-gray-50/50 transition-colors group">
+                      <td className="px-6 py-4">
+                        <p className="text-sm font-bold text-gray-900 mb-1">{faq.question}</p>
+                        <p className="text-xs text-gray-500 line-clamp-1">{faq.answer}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          faq.location === 'CHENNAI' ? 'bg-blue-50 text-blue-600' :
+                          faq.location === 'OOTY' ? 'bg-emerald-50 text-emerald-600' :
+                          'bg-purple-50 text-purple-600'
+                        }`}>
+                          {faq.location}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex justify-center">
+                          <button
+                            onClick={() => handleToggleFaq(faq._id)}
+                            className={`p-2 rounded-lg transition-all ${
+                              faq.isActive ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"
+                            }`}
+                          >
+                            {faq.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() => {
+                              setEditingFaq(faq);
+                              setFaqForm({
+                                question: faq.question,
+                                answer: faq.answer,
+                                location: faq.location,
+                                order: faq.order
+                              });
+                              setIsFaqModalOpen(true);
+                            }}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteFaq(faq._id)}
+                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Chat Details Modal */}
@@ -1068,6 +1434,16 @@ export default function AdminDashboard() {
                     <input type="text" className="w-full border p-2 rounded-lg" value={dealForm.customPrice} onChange={e => setDealForm({...dealForm, customPrice: e.target.value})} />
                   </div>
                   <div>
+                    <label className="block text-xs font-bold mb-1 uppercase text-[#2E6B8A]">Promo/Offer Code</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. SUMMER25" 
+                      className="w-full border-2 border-[#2E6B8A]/20 p-2 rounded-lg font-bold" 
+                      value={dealForm.promoCode} 
+                      onChange={e => setDealForm({...dealForm, promoCode: e.target.value.toUpperCase()})} 
+                    />
+                  </div>
+                  <div>
                     <label className="block text-xs font-bold mb-1 uppercase">Valid From</label>
                     <input type="date" className="w-full border p-2 rounded-lg" value={dealForm.validFrom} onChange={e => setDealForm({...dealForm, validFrom: e.target.value})} />
                   </div>
@@ -1107,6 +1483,183 @@ export default function AdminDashboard() {
                     {isLoading ? "Saving..." : "Save Deal"}
                   </button>
                </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Room Create / Edit Modal */}
+      <AnimatePresence>
+        {isRoomModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 overflow-y-auto"
+            onClick={resetRoomForm}
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              className="bg-white rounded-2xl w-full max-w-2xl my-8"
+              onClick={e => e.stopPropagation()}
+            >
+               <div className="p-6 border-b flex justify-between items-center">
+                  <h2 className="text-xl font-bold">{editingRoom ? "Edit Room" : "Create New Room"}</h2>
+                  <button onClick={() => { setIsRoomModalOpen(false); resetRoomForm(); }} className="hover:bg-gray-100 p-2 rounded-full"><X className="w-5 h-5" /></button>
+               </div>
+               <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto">
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Room Name</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={roomForm.name} onChange={e => setRoomForm({...roomForm, name: e.target.value})} placeholder="e.g. Standard Room" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Location</label>
+                    <select className="w-full border p-2 rounded-lg" value={roomForm.location} onChange={e => setRoomForm({...roomForm, location: e.target.value as any})}>
+                      <option value="CHENNAI">Chennai</option>
+                      <option value="OOTY">Ooty</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Room Type/Label</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={roomForm.type} onChange={e => setRoomForm({...roomForm, type: e.target.value})} placeholder="e.g. Business Comfort" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">Display Order</label>
+                    <input type="number" className="w-full border p-2 rounded-lg" value={roomForm.order} onChange={e => setRoomForm({...roomForm, order: Number(e.target.value)})} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold mb-1 uppercase">Description</label>
+                    <textarea className="w-full border p-2 rounded-lg" rows={2} value={roomForm.desc} onChange={e => setRoomForm({...roomForm, desc: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">EP Price (Room Only)</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={roomForm.epPrice} onChange={e => setRoomForm({...roomForm, epPrice: e.target.value})} placeholder="e.g. ₹2,450" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1 uppercase">CP Price (W/ Breakfast)</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={roomForm.cpPrice} onChange={e => setRoomForm({...roomForm, cpPrice: e.target.value})} placeholder="e.g. ₹2,650" />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-bold mb-1 uppercase">Amenities (comma separated)</label>
+                    <input type="text" className="w-full border p-2 rounded-lg" value={roomForm.amenities} onChange={e => setRoomForm({...roomForm, amenities: e.target.value})} placeholder="WiFi, TV, AC, etc." />
+                  </div>
+
+                  <div className="md:col-span-2 pt-4">
+                     <label className="block text-xs font-bold mb-1 uppercase">Room Image</label>
+                     <div 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="border-2 border-dashed p-8 rounded-xl text-center cursor-pointer hover:bg-gray-50 bg-gray-50/30"
+                     >
+                        {formImagePreviews.length > 0 ? (
+                           <img src={formImagePreviews[0]} className="h-32 mx-auto rounded-lg shadow-sm" />
+                        ) : (
+                           <Upload className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                        )}
+                        <p className="text-xs text-gray-500 mt-2">Click to upload room image</p>
+                     </div>
+                  </div>
+               </div>
+               <div className="p-6 border-t flex justify-end gap-3">
+                  <button onClick={() => { setIsRoomModalOpen(false); resetRoomForm(); }} className="px-6 py-2 border rounded-xl hover:bg-gray-100">Cancel</button>
+                  <button onClick={handleRoomSubmit} className="px-8 py-2 bg-[#2E6B8A] text-white font-bold rounded-xl hover:shadow-lg transition-all">
+                    {isLoading ? "Saving..." : "Save Room"}
+                  </button>
+               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* FAQ Create / Edit Modal */}
+      <AnimatePresence>
+        {isFaqModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+            onClick={() => {
+              setIsFaqModalOpen(false);
+              resetFaqForm();
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              className="bg-white rounded-2xl w-full max-w-lg shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="p-6 border-b flex justify-between items-center">
+                <h2 className="text-xl font-bold font-serif text-[#2d6647]">
+                  {editingFaq ? "Edit FAQ" : "Add New FAQ"}
+                </h2>
+                <button 
+                  onClick={() => { setIsFaqModalOpen(false); resetFaqForm(); }} 
+                  className="hover:bg-gray-100 p-2 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-400" />
+                </button>
+              </div>
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider text-gray-500">Question</label>
+                  <input 
+                    type="text" 
+                    className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" 
+                    value={faqForm.question} 
+                    onChange={e => setFaqForm({...faqForm, question: e.target.value})} 
+                    placeholder="e.g. Do you offer free Wi-Fi?"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider text-gray-500">Answer</label>
+                  <textarea 
+                    className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" 
+                    rows={4} 
+                    value={faqForm.answer} 
+                    onChange={e => setFaqForm({...faqForm, answer: e.target.value})} 
+                    placeholder="Provide a detailed answer..."
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider text-gray-500">Location</label>
+                    <select 
+                      className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" 
+                      value={faqForm.location} 
+                      onChange={e => setFaqForm({...faqForm, location: e.target.value as any})}
+                    >
+                      <option value="GENERAL">General</option>
+                      <option value="CHENNAI">Chennai</option>
+                      <option value="OOTY">Ooty</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold mb-1.5 uppercase tracking-wider text-gray-500">Display Order</label>
+                    <input 
+                      type="number" 
+                      className="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" 
+                      value={faqForm.order} 
+                      onChange={e => setFaqForm({...faqForm, order: Number(e.target.value)})} 
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 border-t flex justify-end gap-3 bg-gray-50/50 rounded-b-2xl">
+                <button 
+                  onClick={() => { setIsFaqModalOpen(false); resetFaqForm(); }} 
+                  className="px-6 py-2.5 border border-gray-200 rounded-xl hover:bg-white hover:shadow-sm transition-all font-medium text-gray-600"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleFaqSubmit} 
+                  disabled={isLoading}
+                  className="px-8 py-2.5 bg-[#3a7d5a] text-white font-bold rounded-xl hover:bg-[#2d6647] hover:shadow-lg transition-all disabled:opacity-50"
+                >
+                  {isLoading ? "Saving..." : "Save FAQ"}
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}

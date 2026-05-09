@@ -7,6 +7,7 @@ import { useBooking } from "@/context/BookingContext";
 import { useAuth } from "@/context/AuthContext";
 import { useLocationContext } from "@/context/LocationContext";
 import Magnetic from "./Magnetic";
+import { API_BASE } from "@/config";
 
 const locations = [
   {
@@ -43,6 +44,15 @@ export default function Navbar() {
   const locationDropRef = useRef<HTMLDivElement>(null);
 
   const { currentLocation, setCurrentLocation } = useLocationContext();
+  const [dynamicRooms, setDynamicRooms] = useState<any[]>([]);
+
+  // Fetch rooms for dynamic dropdowns
+  useEffect(() => {
+    fetch(`${API_BASE}/rooms`)
+      .then(res => res.json())
+      .then(data => setDynamicRooms(data))
+      .catch(err => console.error("Error fetching rooms for navbar:", err));
+  }, []);
 
   // Determine current location key from URL
   const pathParts = location.pathname.split("/");
@@ -94,26 +104,29 @@ export default function Navbar() {
   const facilitiesList = useMemo(() => {
     if (activeLocKey === "ooty") {
       return [
-        { name: "Hill & Valley Views", icon: Mountain },
-        { name: "Private Balcony", icon: Tv },
-        { name: "Bonfire & Barbeque", icon: Flame },
-        { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
-        { name: "Smart Google TV", icon: Tv },
-        { name: "Secure Parking", icon: Car },
-        { name: "Lawn & Nature Walk", icon: Mountain },
-        { name: "24/7 Support", icon: ShieldCheck },
+        { name: "Comfortable Rooms", icon: BedDouble },
+        { name: "Free Wi-Fi", icon: Wifi },
+        { name: "24/7 Room Service", icon: Bell },
+        { name: "Restaurant & Dining", icon: Utensils },
+        { name: "Parking Facilities", icon: Car },
+        { name: "Travel Assistance", icon: MapPin },
+        { name: "Laundry Services", icon: Shirt },
+        { name: "Cozy Common Areas", icon: Coffee },
+        { name: "Outdoor Spaces", icon: Mountain },
+        { name: "Lawn & Barbeque", icon: Flame },
       ];
     }
     if (activeLocKey === "chennai") {
       return [
-        { name: "Free Hi-Speed Wi-Fi", icon: Wifi },
-        { name: "Smart Google TV", icon: Tv },
-        { name: "Secure Parking", icon: Car },
-        { name: "Rooftop Dining", icon: Utensils },
-        { name: "24/7 Security", icon: ShieldCheck },
-        { name: "Laundry Service", icon: Shirt },
-        { name: "Room Service", icon: Bell },
-        { name: "OMR Proximity", icon: MapPin },
+        { name: "Comfortable Rooms", icon: BedDouble },
+        { name: "Free Wi-Fi", icon: Wifi },
+        { name: "24/7 Room Service", icon: Bell },
+        { name: "Restaurant & Dining", icon: Utensils },
+        { name: "Parking Facilities", icon: Car },
+        { name: "Travel Assistance", icon: MapPin },
+        { name: "Laundry Services", icon: Shirt },
+        { name: "Cozy Common Areas", icon: Coffee },
+        { name: "Outdoor Spaces", icon: Mountain },
       ];
     }
     return [
@@ -127,29 +140,41 @@ export default function Navbar() {
   }, [activeLocKey]);
 
   const roomsList = useMemo(() => {
+    const locKeyUpper = activeLocKey.toUpperCase();
+    const locRooms = dynamicRooms.filter(r => r.location === locKeyUpper);
+    
+    if (locRooms.length > 0) {
+      return locRooms.slice(0, 4).map(r => ({
+        name: r.name,
+        slug: r.name.toLowerCase().replace(/\s+/g, '-'),
+        location: r.location.toLowerCase(),
+        icon: BedDouble 
+      }));
+    }
+
     if (activeLocKey === "ooty") {
       return [
-        { name: "Alpine Solace (Std)", icon: BedDouble },
-        { name: "Luxury View (Deluxe)", icon: Tv },
-        { name: "Cozy Trio (Triple)", icon: Users },
-        { name: "Grand Vista (Family)", icon: Mountain },
+        { name: "Standard Room", slug: "standard-room", location: "ooty", icon: BedDouble },
+        { name: "Deluxe Room", slug: "deluxe-room", location: "ooty", icon: Tv },
+        { name: "Triple Room", slug: "triple-room", location: "ooty", icon: Users },
+        { name: "Family Room", slug: "family-room", location: "ooty", icon: Mountain },
       ];
     }
     if (activeLocKey === "chennai") {
       return [
-        { name: "Standard Room", icon: BedDouble },
-        { name: "Deluxe Room", icon: Tv },
-        { name: "Triple Room", icon: Users },
-        { name: "Family Room", icon: Users },
+        { name: "Standard Room", slug: "standard-room", location: "chennai", icon: BedDouble },
+        { name: "Deluxe Room", slug: "deluxe-room", location: "chennai", icon: Tv },
+        { name: "Triple Room", slug: "triple-room", location: "chennai", icon: Users },
+        { name: "Family Room", slug: "family-room", location: "chennai", icon: Users },
       ];
     }
     return [
-      { name: "Standard Rooms", icon: BedDouble },
-      { name: "Deluxe Rooms", icon: Tv },
-      { name: "Triple Rooms", icon: Users },
-      { name: "Family Suites", icon: Users },
+      { name: "Standard Rooms", path: "/rooms", icon: BedDouble },
+      { name: "Deluxe Rooms", path: "/rooms", icon: Tv },
+      { name: "Triple Rooms", path: "/rooms", icon: Users },
+      { name: "Family Suites", path: "/rooms", icon: Users },
     ];
-  }, [activeLocKey]);
+  }, [activeLocKey, dynamicRooms]);
 
   const diningList = useMemo(() => {
     if (activeLocKey === "ooty") {
@@ -211,9 +236,10 @@ export default function Navbar() {
   const currentLocObj = locations.find((l) => activeLocKey === l.key);
 
   const handleLocationSelect = (loc: any) => {
-    setCurrentLocation(loc.key);
+    setCurrentLocation(loc ? loc.key : null);
     setLocationOpen(false);
     setMobileLocOpen(false);
+    setMobileOpen(false);
   };
 
   return (
@@ -263,7 +289,7 @@ export default function Navbar() {
                 >
                   <Link
                     to="/"
-                    onClick={() => { setLocationOpen(false); setMobileLocOpen(false); setCurrentLocation(null); }}
+                    onClick={() => handleLocationSelect(null)}
                     className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100"
                   >
                     <div className="w-2 h-2 rounded-full mt-1.5 bg-gray-400" />
@@ -440,17 +466,23 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
                       >
-                        {roomsList.map((item) => {
+                        {roomsList.map((item: any) => {
                           const Icon = item.icon;
+                          const targetPath = item.path || `/${item.location}/rooms#${item.location}-${item.slug}`;
                           return (
-                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                            <Link 
+                              key={item.name} 
+                              to={targetPath}
+                              onClick={() => setRoomsOpen(false)}
+                              className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
+                            >
                               <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
                                 <Icon className="w-5 h-5" />
                               </div>
                               <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
                                 {item.name}
                               </span>
-                            </div>
+                            </Link>
                           );
                         })}
 
@@ -606,7 +638,7 @@ export default function Navbar() {
                     >
                       <Link
                         to="/"
-                        onClick={() => { setMobileLocOpen(false); setMobileOpen(false); setCurrentLocation(null); }}
+                        onClick={() => handleLocationSelect(null)}
                         className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${isCommonPage
                           ? "font-bold text-gray-700 bg-gray-100"
                           : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
@@ -677,13 +709,7 @@ export default function Navbar() {
               ))}
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-3">
-                <Link
-                  to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-gray-400 hover:text-[#2E6B8A] uppercase tracking-widest text-center"
-                >
-                  Staff Portal Access
-                </Link>
+
 
                 <button
                   onClick={() => {

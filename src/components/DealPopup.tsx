@@ -13,7 +13,7 @@ interface Deal {
   isPopup: boolean;
 }
 
-const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
+import { BACKEND_BASE, API_BASE } from "@/config";
 
 export default function DealPopup() {
   const [deal, setDeal] = useState<Deal | null>(null);
@@ -23,7 +23,7 @@ export default function DealPopup() {
   useEffect(() => {
     const fetchPopupDeal = async () => {
       try {
-        const res = await fetch(`${BACKEND_BASE}/api/deals?activeOnly=true`);
+        const res = await fetch(`${API_BASE}/deals?activeOnly=true`);
         if (res.ok) {
           const deals = await res.json();
           // Find the highest priority deal that is marked as a popup
@@ -102,7 +102,7 @@ export default function DealPopup() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={() => {
-                    openBooking();
+                    openBooking({ offerCode: `${deal.discountPercentage}% OFF - ${deal.title}` });
                     setIsOpen(false);
                   }}
                   className="w-full py-3.5 md:py-4 bg-primary text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2 group"

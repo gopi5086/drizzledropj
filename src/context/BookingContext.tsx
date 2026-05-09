@@ -6,6 +6,7 @@ interface BookingData {
     location?: string;
     guests?: string;
     roomType?: string;
+    offerCode?: string;
 }
 
 interface BookingContextType {

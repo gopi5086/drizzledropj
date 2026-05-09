@@ -10,6 +10,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
+import { API_BASE } from "@/config";
+import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
 export interface BookingData {
     location: string;
@@ -29,6 +32,7 @@ interface NavbarBookingModalProps {
 }
 
 export default function NavbarBookingModal({ isOpen, onClose, bookingData }: NavbarBookingModalProps) {
+    const { toast } = useToast();
     const [step, setStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -55,6 +59,8 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
     // Reset or sync state when modal opens
     useEffect(() => {
         if (isOpen) {
+            // Only reset if we are not already in success state
+            // or if we want to start fresh every time the modal is opened
             setSuccess(false);
             setError("");
 
@@ -82,50 +88,81 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 setStep(1);
             }
         }
-    }, [isOpen, bookingData]);
+    }, [isOpen]); // Removed bookingData from dependencies to prevent reset on re-renders
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");
 
         try {
-            const templateParams = {
+            // Create hidden iframe if it doesn't exist
+            const iframeId = "w3f-iframe-booking-navbar";
+            let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
+            if (!iframe) {
+                iframe = document.createElement("iframe");
+                iframe.id = iframeId;
+                iframe.name = iframeId;
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
+            }
+
+            // Create temporary form for iframe submission
+            const tempForm = document.createElement("form");
+            tempForm.method = "POST";
+            tempForm.action = "https://api.web3forms.com/submit";
+            tempForm.target = iframeId;
+            tempForm.style.display = "none";
+
+            // Add all fields
+            const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
-                subject: `Navbar Booking Request from ${guestDetails.name}`,
-                from_name: "DrizzleDrop Booking System",
-                Name: guestDetails.name,
-                Phone: guestDetails.phone,
-                Email: guestDetails.email,
-                Location: location,
-                Room: guestDetails.roomType,
-                Guests: `${adults} Adults, ${children} Children (${rooms} Rooms)`,
-                Dates: `${date?.from ? format(date.from, "PPP") : "Not Set"} to ${date?.to ? format(date.to, "PPP") : "Not Set"}`,
-                OfferCode: bookingData?.offerCode || "None",
+                subject: `New Booking Inquiry - ${guestDetails.name}`,
+                from_name: "DrizzleDrop Inn Booking",
+                replyto: guestDetails.email,
+                name: guestDetails.name,
+                email: guestDetails.email,
+                phone: guestDetails.phone,
+                location: location,
+                room: guestDetails.roomType,
+                guests: `${adults} Adults, ${children} Children (${rooms} Rooms)`,
+                dates: `${date?.from ? format(date.from, "PPP") : "Not Set"} to ${date?.to ? format(date.to, "PPP") : "Not Set"}`,
+                offer_code: bookingData?.offerCode || "None",
             };
 
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(templateParams)
+            Object.entries(fields).forEach(([key, value]) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = value;
+                tempForm.appendChild(input);
             });
 
-            const result = await response.json();
-            if (response.ok && result.success) {
-                setSuccess(true);
-            } else {
-                throw new Error(result.message || "Submission failed");
-            }
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+
+            // Give it some time to submit before showing success
+            await new Promise(r => setTimeout(r, 1500));
+            
+            document.body.removeChild(tempForm);
+            setSuccess(true);
+            toast({
+                title: "Booking Request Sent!",
+                description: "We'll contact you shortly to confirm your stay.",
+            });
         } catch (err: any) {
             console.error("Booking Error:", err);
-            setError(err?.message || `Failed to submit request. Please check your connection.`);
+            setError("Failed to send booking request. Please try again or call us.");
+            toast({
+                title: "Submission Error",
+                description: "Failed to send booking request.",
+                variant: "destructive",
+            });
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleClose = () => {
         setStep(1);
@@ -136,7 +173,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[550px] border-border/50 glass-card p-0 overflow-hidden shadow-2xl">
+            <DialogContent className="sm:max-w-[425px] md:max-w-[550px] border-border/50 glass-card p-0 overflow-hidden shadow-2xl max-h-[95vh] flex flex-col">
                 {success ? (
                     <div className="p-8 text-center flex flex-col items-center justify-center space-y-4">
                         <CheckCircle2 className="w-16 h-16 text-primary animate-bounce" />
@@ -152,13 +189,13 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                     <>
                         <div className="h-1.5 w-full bg-gray-100">
                             <div
-                                className="h-full bg-primary transition-all duration-500"
+                                className="h-full bg-[#2E6B8A] transition-all duration-500"
                                 style={{ width: step === 1 ? '50%' : '100%' }}
                             />
                         </div>
 
                         <DialogHeader className="p-6 pb-2">
-                            <DialogTitle className="text-2xl font-serif text-primary">
+                            <DialogTitle className="text-2xl font-serif text-[#2E6B8A]">
                                 {step === 1 ? "Plan Your Stay" : "Finalize Booking"}
                             </DialogTitle>
                             <DialogDescription>
@@ -166,7 +203,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                             </DialogDescription>
                         </DialogHeader>
 
-                        <div className="p-6 pt-0">
+                        <div className="p-6 pt-0 overflow-y-auto">
                             {step === 1 ? (
                                 <div className="space-y-5">
                                     {/* Location Select */}
@@ -175,7 +212,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                         <Select value={location} onValueChange={setLocation}>
                                             <SelectTrigger className="w-full bg-gray-50/50 border-gray-100 py-6">
                                                 <div className="flex items-center gap-2">
-                                                    <MapPin className="w-4 h-4 text-primary" />
+                                                    <MapPin className="w-4 h-4 text-[#2E6B8A]" />
                                                     <SelectValue />
                                                 </div>
                                             </SelectTrigger>
@@ -198,7 +235,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                                         !date && "text-muted-foreground"
                                                     )}
                                                 >
-                                                    <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
+                                                    <CalendarIcon className="mr-2 h-4 w-4 text-[#2E6B8A]" />
                                                     {date?.from ? (
                                                         date.to ? (
                                                             <>{format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}</>
@@ -250,7 +287,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
 
                                     <Button
                                         onClick={() => setStep(2)}
-                                        className="w-full bg-primary py-6 text-lg font-bold group"
+                                        className="w-full bg-[#2E6B8A] py-6 text-lg font-bold group"
                                     >
                                         Continue <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
@@ -262,6 +299,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                             <Label htmlFor="nav-modal-name">Full Name *</Label>
                                             <Input
                                                 id="nav-modal-name"
+                                                name="name"
                                                 required
                                                 placeholder="John Doe"
                                                 value={guestDetails.name}
@@ -273,6 +311,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                             <Label htmlFor="nav-modal-phone">Phone Number *</Label>
                                             <Input
                                                 id="nav-modal-phone"
+                                                name="phone"
                                                 type="tel"
                                                 required
                                                 placeholder="+91"
@@ -286,6 +325,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                         <Label htmlFor="nav-modal-email">Email Address *</Label>
                                         <Input
                                             id="nav-modal-email"
+                                            name="email"
                                             type="email"
                                             required
                                             placeholder="john@example.com"
@@ -326,7 +366,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                         <Button
                                             type="submit"
                                             disabled={loading}
-                                            className="flex-1 bg-primary py-6 text-lg font-bold hover-gold-glow"
+                                            className="flex-1 bg-[#2E6B8A] py-6 text-lg font-bold hover-gold-glow"
                                         >
                                             {loading ? "Checking..." : "Check Availability & Book"}
                                         </Button>

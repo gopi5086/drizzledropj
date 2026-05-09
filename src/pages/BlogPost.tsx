@@ -21,7 +21,7 @@ export default function BlogPost() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title={`${post.title} | DrizzleDropinn`}
         description={post.excerpt}
       />
@@ -43,11 +43,11 @@ export default function BlogPost() {
               <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
             </div>
           </Reveal>
-          
+
           <Reveal delay={0.2}>
             <article className="prose prose-lg max-w-none text-muted-foreground">
               {post.content}
-              
+
               <SocialShare url={currentUrl} title={post.title} />
 
               <div className="bg-primary/5 border border-primary/20 p-8 rounded-2xl my-12">

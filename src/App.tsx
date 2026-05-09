@@ -34,7 +34,7 @@ import { useBooking } from "@/context/BookingContext";
 import { locationMap } from "@/data/locationData";
 import { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
-import NoupeChatbot from "@/components/NoupeChatbot";
+import DrizzleChatbot from "@/components/DrizzleChatbot";
 import AdPopup from "@/components/AdPopup";
 import DealPopup from "@/components/DealPopup";
 import StickyBookingCTA from "@/components/StickyBookingCTA";
@@ -43,18 +43,28 @@ const queryClient = new QueryClient();
 
 const GlobalBookingModal = () => {
   const { isModalOpen, closeBooking, initialData } = useBooking();
+
+  // Map internal location keys to display strings used in the modal
+  let displayLocation = initialData?.location || "";
+  const normalizedLoc = displayLocation.toUpperCase();
+  
+  if (normalizedLoc.includes("CHENNAI")) displayLocation = "DrizzleDrop Inn, Chennai";
+  else if (normalizedLoc.includes("OOTY")) displayLocation = "DrizzleDrop Inn, Ooty";
+  else displayLocation = "DrizzleDrop Inn, Chennai"; // Default fallback
+
   return (
     <NavbarBookingModal
       isOpen={isModalOpen}
       onClose={closeBooking}
       bookingData={{
-        location: initialData?.location || "",
-        adults: Number(initialData?.guests) || 0,
+        location: displayLocation,
+        adults: Number(initialData?.guests) || 2,
         children: 0,
         rooms: 1,
         checkIn: initialData?.checkIn,
         checkOut: initialData?.checkOut,
         roomType: initialData?.roomType,
+        offerCode: initialData?.offerCode,
       }}
     />
   );
@@ -97,59 +107,9 @@ const App = () => (
             <BrowserRouter>
               <ScrollToTop />
               <LocationProvider>
-                <Suspense fallback={
-                  <div className="h-screen w-full flex items-center justify-center bg-white">
-                    <div className="w-16 h-16 border-4 border-[#2E6B8A]/10 border-t-[#2E6B8A] rounded-full animate-spin" />
-                  </div>
-                }>
-                  <Routes>
-                    {/* Admin routes – prioritized at top */}
-                    <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-                    <Route path="/admin/login" element={<AdminLogin />} />
-                    <Route
-                      path="/admin/dashboard"
-                      element={
-                        <AdminRoute>
-                          <AdminDashboard />
-                        </AdminRoute>
-                      }
-                    />
-
-                    {/* Main routes */}
-                    <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
-                    <Route path="/ooty" element={<Layout><Ooty /></Layout>} />
-
-                    {/* Dynamic Location Routes */}
-                    <Route path="/:locationId" element={<Layout><LocationHomeBridge /></Layout>} />
-                    <Route path="/:locationId/home" element={<NavigateToCanonical />} />
-                    <Route path="/:locationId/rooms" element={<Layout><Rooms /></Layout>} />
-                    <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
-                    <Route path="/:locationId/about" element={<Layout><About /></Layout>} />
-                    <Route path="/:locationId/deals" element={<Layout><Deals /></Layout>} />
-                    <Route path="/:locationId/gallery" element={<Layout><Gallery /></Layout>} />
-                    <Route path="/:locationId/dining" element={<Layout><Dining /></Layout>} />
-                    <Route path="/:locationId/contact" element={<Layout><Contact /></Layout>} />
-
-                    {/* Shared pages */}
-                    <Route path="/" element={<Layout><Home /></Layout>} />
-                    <Route path="/about" element={<Layout><About /></Layout>} />
-                    <Route path="/contact" element={<Layout><Contact /></Layout>} />
-                    <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
-                    <Route path="/rooms" element={<Layout><Rooms /></Layout>} />
-                    <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
-                    <Route path="/dining" element={<Layout><Dining /></Layout>} />
-                    <Route path="/deals" element={<Layout><Deals /></Layout>} />
-                    <Route path="/overview" element={<Layout><Overview /></Layout>} />
-                    <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
-                    <Route path="*" element={<Layout><NotFound /></Layout>} />
-                  </Routes>
+                <Suspense fallback={<div className="h-screen w-screen flex items-center justify-center bg-[#2E6B8A]/5"><div className="w-12 h-12 border-4 border-[#2E6B8A]/20 border-t-[#2E6B8A] rounded-full animate-spin" /></div>}>
+                  <AppContent />
                 </Suspense>
-                <SocialFloatingIcons />
-                <NoupeChatbot />
-                <AdPopup />
-                <DealPopup />
-                <StickyBookingCTA />
-                <GlobalBookingModal />
               </LocationProvider>
             </BrowserRouter>
           </BookingProvider>
@@ -158,5 +118,67 @@ const App = () => (
     </QueryClientProvider>
   </HelmetProvider>
 );
+
+const AppContent = () => {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <>
+      <Routes>
+        {/* Admin routes – prioritized at top */}
+        <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+
+        {/* Main routes */}
+        <Route path="/chennai" element={<Layout><Chennai /></Layout>} />
+        <Route path="/ooty" element={<Layout><Ooty /></Layout>} />
+
+        {/* Dynamic Location Routes */}
+        <Route path="/:locationId" element={<Layout><LocationHomeBridge /></Layout>} />
+        <Route path="/:locationId/home" element={<NavigateToCanonical />} />
+        <Route path="/:locationId/rooms" element={<Layout><Rooms /></Layout>} />
+        <Route path="/:locationId/facilities" element={<Layout><Facilities /></Layout>} />
+        <Route path="/:locationId/about" element={<Layout><About /></Layout>} />
+        <Route path="/:locationId/deals" element={<Layout><Deals /></Layout>} />
+        <Route path="/:locationId/gallery" element={<Layout><Gallery /></Layout>} />
+        <Route path="/:locationId/dining" element={<Layout><Dining /></Layout>} />
+        <Route path="/:locationId/contact" element={<Layout><Contact /></Layout>} />
+
+        {/* Shared pages */}
+        <Route path="/" element={<Layout><Home /></Layout>} />
+        <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/contact" element={<Layout><Contact /></Layout>} />
+        <Route path="/facilities" element={<Layout><Facilities /></Layout>} />
+        <Route path="/rooms" element={<Layout><Rooms /></Layout>} />
+        <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+        <Route path="/dining" element={<Layout><Dining /></Layout>} />
+        <Route path="/deals" element={<Layout><Deals /></Layout>} />
+        <Route path="/overview" element={<Layout><Overview /></Layout>} />
+        <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
+        <Route path="*" element={<Layout><NotFound /></Layout>} />
+      </Routes>
+
+      {!isAdmin && (
+        <>
+          <SocialFloatingIcons />
+          <DrizzleChatbot />
+          <AdPopup />
+          <DealPopup />
+          <StickyBookingCTA />
+          <GlobalBookingModal />
+        </>
+      )}
+    </>
+  );
+};
 
 export default App;

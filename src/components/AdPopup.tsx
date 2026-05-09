@@ -12,8 +12,7 @@ interface Ad {
   isActive: boolean;
 }
 
-const BACKEND_BASE = "https://drizzledropj-2.onrender.com";
-const API_BASE = `${BACKEND_BASE}/api`;
+import { BACKEND_BASE, API_BASE } from "@/config";
 
 export default function AdPopup() {
   const [ads, setAds] = useState<Ad[]>([]);
@@ -57,7 +56,7 @@ export default function AdPopup() {
     if (currentAd?.redirectLink) {
       window.open(currentAd.redirectLink, "_blank");
     } else {
-      openBooking();
+      openBooking({ offerCode: `AD: ${currentAd.title}` });
     }
     setIsVisible(false);
   };

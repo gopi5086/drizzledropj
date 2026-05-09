@@ -15,7 +15,7 @@ function validateBooking({ name, phone, email, location, roomType, adults }) {
 }
 
 // ── Email builders ────────────────────────────────────────────────────────────
-function hotelEmailHtml({ name, phone, email, location, roomType, adults, children, _id }) {
+function hotelEmailHtml({ name, phone, email, location, roomType, adults, children, promoCode, _id }) {
   return `
 <!DOCTYPE html>
 <html lang="en">
@@ -64,6 +64,7 @@ function hotelEmailHtml({ name, phone, email, location, roomType, adults, childr
       <tr><td>Property</td><td>${location}</td></tr>
       <tr><td>Room Type</td><td>${roomType}</td></tr>
       <tr><td>Guests</td><td>${adults} Adult${adults > 1 ? "s" : ""}${children > 0 ? `, ${children} Child${children > 1 ? "ren" : ""}` : ""}</td></tr>
+      <tr><td>Offer Code</td><td><strong style="color: #2E6B8A;">${promoCode || "None"}</strong></td></tr>
       <tr><td>Status</td><td><span class="badge">Pending</span></td></tr>
     </table>
 
@@ -168,7 +169,7 @@ function guestEmailHtml({ name, location, roomType, adults, children }) {
 // ── POST /api/bookings ────────────────────────────────────────────────────────
 router.post("/", async (req, res) => {
   try {
-    const { name, phone, email, location, roomType, adults, children = 0 } = req.body;
+    const { name, phone, email, location, roomType, adults, children = 0, promoCode = "" } = req.body;
 
     // 1. Validate
     const errors = validateBooking({ name, phone, email, location, roomType, adults });
@@ -185,6 +186,7 @@ router.post("/", async (req, res) => {
       roomType: roomType || "Deluxe Room",
       adults: Number(adults) || 1,
       children: Number(children) || 0,
+      promoCode: promoCode || "",
     });
 
     // 3. Email to hotel (non-blocking — don't fail the request if email errors)
@@ -194,7 +196,7 @@ router.post("/", async (req, res) => {
       to: hotelEmail,
       replyTo: email,
       subject: `New Booking Request — ${location} | ${name}`,
-      html: hotelEmailHtml({ name, phone, email, location, roomType, adults: Number(adults), children: Number(children), _id: booking._id }),
+      html: hotelEmailHtml({ name, phone, email, location, roomType, adults: Number(adults), children: Number(children), promoCode, _id: booking._id }),
     }).catch((err) => console.error("Hotel email error:", err.message));
 
     // 4. Confirmation email to guest

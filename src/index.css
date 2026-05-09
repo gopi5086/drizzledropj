@@ -228,16 +228,3 @@ footer img {
 }
 
 /* --- Mobile Optimizations --- */
-
-/* Scale down the Noupe Chatbot on mobile to avoid overlapping central buttons */
-@media (max-width: 768px) {
-  #noupe-widget-launcher, 
-  .noupe-widget-launcher,
-  iframe[src*="noupe.com"],
-  #noupe-bubble-launcher {
-    transform: scale(0.75) !important;
-    transform-origin: bottom right !important;
-    bottom: 10px !important;
-    right: 10px !important;
-  }
-}

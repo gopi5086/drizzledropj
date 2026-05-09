@@ -8,7 +8,7 @@ const createDeal = async (req, res) => {
     const { 
       title, description, dealType, location, 
       discountPercentage, customPrice, validFrom, 
-      validTo, priority, isPopup, isActive 
+      validTo, priority, isPopup, isActive, promoCode 
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
@@ -38,6 +38,7 @@ const createDeal = async (req, res) => {
       priority: Number(priority) || 0,
       isPopup: isPopup === "true" || isPopup === true,
       isActive: isActive === "true" || isActive === true,
+      promoCode: promoCode || "",
     });
 
     res.status(201).json({ message: "Deal created successfully", deal });

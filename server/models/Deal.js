@@ -63,6 +63,11 @@ const dealSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    promoCode: {
+      type: String,
+      trim: true,
+      default: "",
+    },
   },
   { timestamps: true }
 );

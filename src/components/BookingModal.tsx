@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { CheckCircle2 } from "lucide-react";
+import { API_BASE } from "@/config";
 
 export interface BookingData {
     location: string;
@@ -34,47 +35,68 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         setLoading(true);
         setError("");
 
-        const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries());
-
         try {
-            // Web3Forms API for frictionless zero-server deployments (works on Localhost + Hostinger + Vercel)
-            const templateParams = {
+            const formData = new FormData(e.currentTarget);
+            
+            // Create hidden iframe if it doesn't exist
+            const iframeId = "w3f-iframe-booking-modal";
+            let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
+            if (!iframe) {
+                iframe = document.createElement("iframe");
+                iframe.id = iframeId;
+                iframe.name = iframeId;
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
+            }
+
+            // Create temporary form for iframe submission
+            const tempForm = document.createElement("form");
+            tempForm.method = "POST";
+            tempForm.action = "https://api.web3forms.com/submit";
+            tempForm.target = iframeId;
+            tempForm.style.display = "none";
+
+            // Map all data to simple fields
+            const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
-                subject: `New Booking Request from ${data.name}`,
+                subject: `New Booking Request from ${formData.get("name")}`,
                 from_name: "DrizzleDrop Booking System",
-                Name: data.name,
-                Phone: data.phone,
-                Email: data.email,
-                Location: bookingData.location,
-                Room: data.roomType,
-                Guests: `${bookingData.adults} Adults, ${bookingData.children} Children (${bookingData.rooms} Rooms)`,
-                Dates: `${bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set"} to ${bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set"}`,
-                OfferCode: bookingData.offerCode || "None",
+                replyto: (formData.get("email") ?? "").toString(),
+                name: (formData.get("name") ?? "").toString(),
+                email: (formData.get("email") ?? "").toString(),
+                phone: (formData.get("phone") ?? "").toString(),
+                location: bookingData.location,
+                room: (formData.get("roomType") ?? bookingData.roomType ?? "").toString(),
+                guests: `${bookingData.adults} Adults, ${bookingData.children} Children (${bookingData.rooms} Rooms)`,
+                dates: `${bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set"} to ${bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set"}`,
+                offer_code: bookingData.offerCode || "None",
             };
 
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(templateParams)
+            Object.entries(fields).forEach(([key, value]) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = value;
+                tempForm.appendChild(input);
             });
 
-            const result = await response.json();
-            if (response.ok && result.success) {
-                setSuccess(true);
-            } else {
-                throw new Error(result.message || "Submission failed");
-            }
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+
+            // Give it some time to submit before showing success
+            await new Promise(r => setTimeout(r, 1500));
+            
+            document.body.removeChild(tempForm);
+            setSuccess(true);
+            (e.target as HTMLFormElement).reset();
         } catch (err: any) {
             console.error("Booking Error:", err);
-            setError(err?.message || `Failed to submit request. Please check your connection.`);
+            setError("Failed to submit. Please try again or call us.");
         } finally {
             setLoading(false);
         }
     };
+
 
     const handleClose = () => {
         setSuccess(false);

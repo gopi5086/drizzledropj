@@ -1,10 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Wifi, Tv, BedDouble, Car, Coffee, Wind, Droplets, ArrowRight, Star, ShieldAlert, Users, Receipt, Info } from "lucide-react";
+import { Star, MapPin, Wifi, Tv, Users, ShieldCheck, Coffee, ChevronRight, ArrowRight, Wind, Waves, Sparkles, Building2, Utensils, Zap, Clock, Key, BedDouble, Car, Droplets, Receipt, Info } from "lucide-react";
+import { BACKEND_BASE, API_BASE } from "@/config";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import { useBooking } from "@/context/BookingContext";
 import SEO from "@/components/SEO";
+import { useState, useEffect } from "react";
 
 // ── Rooms Images ──────────────────────────────────────────────────────────
 // Chennai
@@ -22,7 +24,9 @@ import ootyRoomsHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6956.webp";
 import chennaiRoomsHero from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.webp";
 
 interface Room {
+  _id?: string;
   name: string;
+  location: "CHENNAI" | "OOTY";
   desc: string;
   price?: string;
   epPrice?: string;
@@ -35,6 +39,7 @@ interface Room {
 const chennaiRooms: Room[] = [
   { 
     name: "Standard Room", 
+    location: "CHENNAI",
     type: "Business Comfort", 
     desc: "Well-furnished room ideal for business travelers, featuring smart Google TV and ergonomic work space.", 
     epPrice: "₹2,450", 
@@ -44,6 +49,7 @@ const chennaiRooms: Room[] = [
   },
   { 
     name: "Deluxe Room", 
+    location: "CHENNAI",
     type: "Executive Luxury", 
     desc: "Sophisticated accommodation with upscale furnishings and premium hospitality.", 
     epPrice: "₹2,800", 
@@ -53,6 +59,7 @@ const chennaiRooms: Room[] = [
   },
   { 
     name: "Triple Room", 
+    location: "CHENNAI",
     type: "Group Stay", 
     desc: "Perfect for small groups or families, offering comfortable bedding for three with modern amenities.", 
     epPrice: "₹3,200", 
@@ -62,6 +69,7 @@ const chennaiRooms: Room[] = [
   },
   { 
     name: "Family Room", 
+    location: "CHENNAI",
     type: "Spacious Retreat", 
     desc: "Large rooms designed for families, featuring multiple beds and extra space to relax.", 
     epPrice: "₹3,700", 
@@ -74,6 +82,7 @@ const chennaiRooms: Room[] = [
 const ootyRooms: Room[] = [
   { 
     name: "Standard Room", 
+    location: "OOTY",
     type: "Alpine Solace", 
     desc: "Individual apartment-type room with private balcony offering excellent panoramic hill views.", 
     epPrice: "₹2,450", 
@@ -83,6 +92,7 @@ const ootyRooms: Room[] = [
   },
   { 
     name: "Deluxe Room", 
+    location: "OOTY",
     type: "Luxury View", 
     desc: "Enchanting hill-view room with premium furnishings and a private balcony to enjoy the Nilgiris.", 
     epPrice: "₹2,800", 
@@ -91,16 +101,8 @@ const ootyRooms: Room[] = [
     amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"] 
   },
   { 
-    name: "Family Room", 
-    type: "Grand Vista", 
-    desc: "Large hill-station getaway for the whole family, featuring multiple beds and breathtaking views.", 
-    epPrice: "₹3,700", 
-    cpPrice: "₹4,100", 
-    image: ootyFamilyRoom, 
-    amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"] 
-  },
-  { 
     name: "Triple Room", 
+    location: "OOTY",
     type: "Cozy Trio", 
     desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.", 
     epPrice: "₹3,200", 
@@ -108,12 +110,22 @@ const ootyRooms: Room[] = [
     image: ootyTripleRoom, 
     amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"] 
   },
+  { 
+    name: "Family Room", 
+    location: "OOTY",
+    type: "Grand Vista", 
+    desc: "Large hill-station getaway for the whole family, featuring multiple beds and breathtaking views.", 
+    epPrice: "₹3,700", 
+    cpPrice: "₹4,100", 
+    image: ootyFamilyRoom, 
+    amenities: ["Panoramic View", "Private Balcony", "Spacious", "WiFi"] 
+  },
 ];
 
 const policies = [
   {
     title: "Reservation Policy",
-    icon: ShieldAlert,
+    icon: ShieldCheck,
     content: "As per booking policy, First Night Rent OR 30% of total rent should be paid as prepayment (Advance Amount).",
     color: "#2E6B8A"
   },
@@ -142,9 +154,13 @@ function RoomCard({ room }: { room: Room }) {
 
   return (
     <Reveal direction="up" className="h-full">
-      <div className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
+      <div id={`${room.location.toLowerCase()}-${room.name.toLowerCase().replace(/\s+/g, '-')}`} className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
         <div className="relative h-72 overflow-hidden">
-          <img src={room.image} alt={room.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" />
+          <img 
+            src={room.image?.startsWith("/uploads") ? `${BACKEND_BASE}${room.image}` : room.image} 
+            alt={room.name} 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" 
+          />
           
           <div className="absolute top-6 right-6 flex flex-col gap-2 items-end">
             {room.price && (
@@ -178,7 +194,13 @@ function RoomCard({ room }: { room: Room }) {
         </div>
 
         <div className="p-6 lg:p-7 flex-1 flex flex-col">
-          <h3 className="text-2xl font-medium mb-3 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
+          <div className="flex items-center justify-between mb-3">
+             <h3 className="text-2xl font-medium group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
+             <div className="flex items-center gap-1.5 text-muted-foreground group-hover:text-primary transition-colors duration-500">
+                <MapPin className="w-3.5 h-3.5" />
+                <span className="text-[10px] font-bold uppercase tracking-widest">{room.location === 'OOTY' ? 'Ooty – Nilgiris' : 'Chennai – OMR'}</span>
+             </div>
+          </div>
           <p className="body-text text-sm mb-8 leading-relaxed text-muted-foreground/90">{room.desc}</p>
 
           <div className="grid grid-cols-2 gap-4 mb-10 mt-auto">
@@ -191,7 +213,7 @@ function RoomCard({ room }: { room: Room }) {
           </div>
 
           <button
-            onClick={() => openBooking({ roomType: room.name })}
+            onClick={() => openBooking({ roomType: room.name, location: room.location })}
             className="w-full group/btn relative overflow-hidden px-8 py-4 bg-[#2E6B8A] text-white text-xs font-bold tracking-[0.2em] uppercase rounded-xl transition-all duration-500 hover:shadow-[0_10px_20px_rgba(46,107,138,0.2)]"
           >
             <span className="relative z-10 flex items-center justify-center gap-3">
@@ -209,12 +231,53 @@ function RoomCard({ room }: { room: Room }) {
 
 export default function Rooms() {
   const { locationId } = useParams();
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/rooms`);
+        if (res.ok) {
+          const data = await res.json();
+          setRooms(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch rooms:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRooms();
+  }, []);
+
+  const location = useLocation();
+  useEffect(() => {
+    if (!loading && location.hash) {
+      const id = location.hash.substring(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          const headerOffset = 150;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 600);
+    }
+  }, [loading, location.hash]);
 
   const isOoty = locationId?.toLowerCase() === "ooty";
   const isChennai = locationId?.toLowerCase() === "chennai";
   const showChennai = !locationId || locationId.toLowerCase() === "chennai";
   const showOoty = !locationId || locationId.toLowerCase() === "ooty";
-  
+
+  const chennaiRoomsData = rooms.filter(r => r.location === "CHENNAI");
+  const ootyRoomsData = rooms.filter(r => r.location === "OOTY");
+
   const seoTitle = isOoty ? "Luxury Rooms & Suites in Ooty | DrizzleDrop Inn" : isChennai ? "Executive Business Rooms Chennai OMR | DrizzleDrop Inn" : "Our Rooms & Suites | DrizzleDrop Inn";
   const seoDesc = isOoty ? "Stay in our alpine suites with private balconies and Nilgiri hill views. Perfect for families and couples." : isChennai ? "Comfortable business rooms in Thoraipakkam, OMR. Smart TVs, high-speed Wi-Fi, and 3-star luxury." : "Explore luxury accommodations at DrizzleDrop Inn. From hill-view suites in Ooty to business rooms in Chennai.";
 
@@ -259,7 +322,7 @@ export default function Rooms() {
                 <Reveal>
                   <p className="label-caps !text-[#C5A861] mb-4 sm:mb-6">Metropolitan Elegance</p>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">DrizzleDrop <br /><span className="italic text-[#C5A861]">Chennai</span></h2>
-                  <p className="body-text text-sm md:text-lg">Sophisticated urban sanctuaries located in the heart of the OMR IT Corridor. Choose from our EP or CP plans tailored for the modern professional and family tracker.</p>
+                  <p className="body-text text-sm md:text-lg">Sophisticated urban sanctuaries located in the heart of the OMR IT Corridor. Choose from our EP or CP plans tailored for the modern professional and family traveler.</p>
                 </Reveal>
               </div>
               <Reveal delay={0.3}>
@@ -271,7 +334,7 @@ export default function Rooms() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
-              {chennaiRooms.map((room) => (
+              {(chennaiRoomsData.length > 0 ? chennaiRoomsData : chennaiRooms).map((room) => (
                 <RoomCard key={room.name + "chennai"} room={room} />
               ))}
             </div>
@@ -300,7 +363,7 @@ export default function Rooms() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-24">
-              {ootyRooms.map((room) => (
+              {(ootyRoomsData.length > 0 ? ootyRoomsData : ootyRooms).map((room) => (
                 <RoomCard key={room.name + "ooty"} room={room} />
               ))}
             </div>

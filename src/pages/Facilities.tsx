@@ -8,6 +8,7 @@ import facilityHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.web
 import chennaiFacilitiesHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0024.webp";
 import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
 import receptionImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).webp";
+import ootyReceptionImg from "@/assets/Gallery/Ooty-Images/RECEPTION/REception_Ooty.webp";
 import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).webp";
 import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
 
@@ -99,7 +100,7 @@ export default function Facilities() {
           <div className="w-full lg:w-1/2">
             <Reveal direction="left">
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video lg:aspect-square">
-                <img src={receptionImg} alt="Reception" className="w-full h-full object-cover" />
+                <img src={isOoty ? ootyReceptionImg : receptionImg} alt="Reception" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 text-white">
                   <p className="text-xs sm:text-sm font-bold tracking-widest uppercase mb-1 sm:mb-2">Hospitality</p>
