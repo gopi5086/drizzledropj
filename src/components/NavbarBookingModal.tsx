@@ -10,7 +10,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
-import { API_BASE } from "@/config";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -51,28 +50,20 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
     // Step 2 State
     const [guestDetails, setGuestDetails] = useState({
         name: "",
-        phone: "",
         email: "",
-        roomType: "Deluxe Room"
+        phone: "",
+        roomType: "Deluxe Room",
+        message: "",
     });
 
-    // Reset or sync state when modal opens
     useEffect(() => {
         if (isOpen) {
-            // Only reset if we are not already in success state
-            // or if we want to start fresh every time the modal is opened
             setSuccess(false);
             setError("");
-
             if (bookingData) {
-                // If we have substantial data (from the rectangle bar), jump to Step 2
-                if (bookingData.location && bookingData.checkIn) {
-                    setStep(2);
-                } else {
-                    setStep(1);
-                }
+                if (bookingData.location && bookingData.checkIn) setStep(2);
+                else setStep(1);
 
-                // Sync data regardless
                 setLocation(bookingData.location || "DrizzleDrop Inn, Chennai");
                 setDate({
                     from: bookingData.checkIn || new Date(),
@@ -81,14 +72,13 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 setAdults(bookingData.adults || 2);
                 setChildren(bookingData.children || 0);
                 setRooms(bookingData.rooms || 1);
-                if (bookingData.roomType) {
-                    setGuestDetails(prev => ({ ...prev, roomType: bookingData.roomType! }));
-                }
+                if (bookingData.roomType) setGuestDetails(prev => ({ ...prev, roomType: bookingData.roomType! }));
+                if (bookingData.offerCode) setGuestDetails(prev => ({ ...prev, message: `Offer Code: ${bookingData.offerCode}` }));
             } else {
                 setStep(1);
             }
         }
-    }, [isOpen]); // Removed bookingData from dependencies to prevent reset on re-renders
+    }, [isOpen]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -96,16 +86,16 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
         setError("");
 
         try {
-            // Create hidden iframe if it doesn't exist
-            const iframeId = "w3f-iframe-booking-navbar";
-            let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
-            if (!iframe) {
-                iframe = document.createElement("iframe");
-                iframe.id = iframeId;
-                iframe.name = iframeId;
-                iframe.style.display = "none";
-                document.body.appendChild(iframe);
-            }
+            // Generate a unique ID for this specific submission
+            const submissionId = Date.now();
+            const iframeId = `w3f-iframe-${submissionId}`;
+            
+            // Create a fresh hidden iframe
+            const iframe = document.createElement("iframe");
+            iframe.id = iframeId;
+            iframe.name = iframeId;
+            iframe.style.display = "none";
+            document.body.appendChild(iframe);
 
             // Create temporary form for iframe submission
             const tempForm = document.createElement("form");
@@ -114,20 +104,21 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             tempForm.target = iframeId;
             tempForm.style.display = "none";
 
-            // Add all fields
             const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
-                subject: `New Booking Inquiry - ${guestDetails.name}`,
-                from_name: "DrizzleDrop Inn Booking",
+                subject: "New Booking Request - DrizzleDrop Inn",
+                from_name: "DrizzleDrop Inn Website",
+                "Customer Name": guestDetails.name,
+                "Phone Number": guestDetails.phone,
+                "Email Address": guestDetails.email,
+                "Selected Hotel Location": location,
+                "Room Type": guestDetails.roomType,
+                "Number of Guests": `${adults} Adults, ${children} Children`,
+                "Number of Rooms": rooms.toString(),
+                "Check-in Date": date?.from ? format(date.from, "PPP") : "Not Set",
+                "Check-out Date": date?.to ? format(date.to, "PPP") : "Not Set",
+                "Message / Special Request": guestDetails.message || "None",
                 replyto: guestDetails.email,
-                name: guestDetails.name,
-                email: guestDetails.email,
-                phone: guestDetails.phone,
-                location: location,
-                room: guestDetails.roomType,
-                guests: `${adults} Adults, ${children} Children (${rooms} Rooms)`,
-                dates: `${date?.from ? format(date.from, "PPP") : "Not Set"} to ${date?.to ? format(date.to, "PPP") : "Not Set"}`,
-                offer_code: bookingData?.offerCode || "None",
             };
 
             Object.entries(fields).forEach(([key, value]) => {
@@ -141,21 +132,22 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             document.body.appendChild(tempForm);
             tempForm.submit();
 
-            // Give it some time to submit before showing success
-            await new Promise(r => setTimeout(r, 1500));
+            // Give it time to submit, then cleanup
+            await new Promise(r => setTimeout(r, 2500));
             
             document.body.removeChild(tempForm);
+            document.body.removeChild(iframe);
+            
             setSuccess(true);
             toast({
-                title: "Booking Request Sent!",
+                title: "Booking Request Sent Successfully",
                 description: "We'll contact you shortly to confirm your stay.",
             });
         } catch (err: any) {
-            console.error("Booking Error:", err);
-            setError("Failed to send booking request. Please try again or call us.");
+            setError("Something went wrong. Please try again.");
             toast({
                 title: "Submission Error",
-                description: "Failed to send booking request.",
+                description: "Something went wrong. Please try again.",
                 variant: "destructive",
             });
         } finally {
@@ -163,214 +155,111 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
         }
     };
 
-
-    const handleClose = () => {
-        setStep(1);
-        setSuccess(false);
-        setError("");
-        onClose();
-    };
-
     return (
-        <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[550px] border-border/50 glass-card p-0 overflow-hidden shadow-2xl max-h-[95vh] flex flex-col">
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="max-w-[95vw] sm:max-w-xl max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-[2rem] border-none shadow-2xl">
                 {success ? (
-                    <div className="p-8 text-center flex flex-col items-center justify-center space-y-4">
-                        <CheckCircle2 className="w-16 h-16 text-primary animate-bounce" />
-                        <DialogTitle className="text-2xl font-serif">Booking Request Sent</DialogTitle>
-                        <DialogDescription className="text-base">
-                            Thank you! Your request for {location} has been received. Our team will contact you at {guestDetails.phone} shortly.
-                        </DialogDescription>
-                        <Button onClick={handleClose} className="mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                            Done
-                        </Button>
+                    <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
+                        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center">
+                            <CheckCircle2 className="w-10 h-10 text-green-500" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900">Booking Request Sent Successfully</h2>
+                        <p className="text-gray-500">Thank you for choosing DrizzleDrop Inn. We will contact you at {guestDetails.phone} within 24 hours.</p>
+                        <Button onClick={onClose} className="mt-4 rounded-xl px-8">Close</Button>
                     </div>
                 ) : (
                     <>
-                        <div className="h-1.5 w-full bg-gray-100">
-                            <div
-                                className="h-full bg-[#2E6B8A] transition-all duration-500"
-                                style={{ width: step === 1 ? '50%' : '100%' }}
-                            />
-                        </div>
-
-                        <DialogHeader className="p-6 pb-2">
-                            <DialogTitle className="text-2xl font-serif text-[#2E6B8A]">
-                                {step === 1 ? "Plan Your Stay" : "Finalize Booking"}
+                        <DialogHeader className="p-6 pb-0">
+                            <DialogTitle className="text-2xl sm:text-3xl font-serif">
+                                {step === 1 ? "Book Your Stay" : "Guest Details"}
                             </DialogTitle>
                             <DialogDescription>
                                 {step === 1 ? "Where and when would you like to visit us?" : "Almost there! We just need your contact details."}
                             </DialogDescription>
                         </DialogHeader>
 
-                        <div className="p-6 pt-0 overflow-y-auto">
+                        <div className="p-6 pt-2 overflow-y-auto custom-scrollbar">
                             {step === 1 ? (
-                                <div className="space-y-5">
-                                    {/* Location Select */}
+                                <div className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Select Location</Label>
+                                        <Label>Select Location</Label>
                                         <Select value={location} onValueChange={setLocation}>
-                                            <SelectTrigger className="w-full bg-gray-50/50 border-gray-100 py-6">
-                                                <div className="flex items-center gap-2">
-                                                    <MapPin className="w-4 h-4 text-[#2E6B8A]" />
-                                                    <SelectValue />
-                                                </div>
-                                            </SelectTrigger>
+                                            <SelectTrigger className="bg-gray-50/50"><SelectValue /></SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="DrizzleDrop Inn, Chennai">DrizzleDrop Inn, Chennai</SelectItem>
                                                 <SelectItem value="DrizzleDrop Inn, Ooty">DrizzleDrop Inn, Ooty</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
-
-                                    {/* Date Range */}
                                     <div className="space-y-2">
-                                        <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Check In – Out</Label>
+                                        <Label>Dates</Label>
                                         <Popover>
                                             <PopoverTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    className={cn(
-                                                        "w-full justify-start text-left font-normal py-6 bg-gray-50/50 border-gray-100",
-                                                        !date && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    <CalendarIcon className="mr-2 h-4 w-4 text-[#2E6B8A]" />
-                                                    {date?.from ? (
-                                                        date.to ? (
-                                                            <>{format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}</>
-                                                        ) : (
-                                                            format(date.from, "LLL dd, y")
-                                                        )
-                                                    ) : (
-                                                        <span>Pick a date range</span>
-                                                    )}
+                                                <Button variant="outline" className="w-full justify-start py-6 bg-gray-50/50">
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {date?.from ? (date.to ? <>{format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}</> : format(date.from, "LLL dd, y")) : <span>Pick dates</span>}
                                                 </Button>
                                             </PopoverTrigger>
                                             <PopoverContent className="w-auto p-0" align="start">
-                                                <Calendar
-                                                    initialFocus
-                                                    mode="range"
-                                                    defaultMonth={date?.from}
-                                                    selected={date}
-                                                    onSelect={setDate}
-                                                    numberOfMonths={1}
-                                                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
-                                                />
+                                                <Calendar mode="range" selected={date} onSelect={setDate} numberOfMonths={2} />
                                             </PopoverContent>
                                         </Popover>
                                     </div>
-
-                                    {/* Guests Row */}
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-3 gap-4">
                                         <div className="space-y-2">
-                                            <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Adults</Label>
-                                            <Input
-                                                type="number"
-                                                min={1}
-                                                value={adults}
-                                                onChange={e => setAdults(parseInt(e.target.value) || 1)}
-                                                className="bg-gray-50/50 py-6"
-                                            />
+                                            <Label>Adults</Label>
+                                            <Input type="number" min={1} value={adults} onChange={e => setAdults(Number(e.target.value))} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label className="text-xs uppercase tracking-widest font-bold text-gray-500">Rooms</Label>
-                                            <Input
-                                                type="number"
-                                                min={1}
-                                                value={rooms}
-                                                onChange={e => setRooms(parseInt(e.target.value) || 1)}
-                                                className="bg-gray-50/50 py-6"
-                                            />
+                                            <Label>Children</Label>
+                                            <Input type="number" min={0} value={children} onChange={e => setChildren(Number(e.target.value))} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Rooms</Label>
+                                            <Input type="number" min={1} value={rooms} onChange={e => setRooms(Number(e.target.value))} />
                                         </div>
                                     </div>
-
-                                    <Button
-                                        onClick={() => setStep(2)}
-                                        className="w-full bg-[#2E6B8A] py-6 text-lg font-bold group"
-                                    >
-                                        Continue <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Button>
+                                    <Button onClick={() => setStep(2)} className="w-full py-6 mt-4 gap-2">Next Step <ArrowRight className="w-4 h-4" /></Button>
                                 </div>
                             ) : (
-                                <form onSubmit={handleSubmit} className="space-y-5">
-                                    <div className="grid grid-cols-2 gap-4">
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label>Full Name</Label>
+                                        <Input required value={guestDetails.name} onChange={e => setGuestDetails({ ...guestDetails, name: e.target.value })} placeholder="John Doe" />
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="nav-modal-name">Full Name *</Label>
-                                            <Input
-                                                id="nav-modal-name"
-                                                name="name"
-                                                required
-                                                placeholder="John Doe"
-                                                value={guestDetails.name}
-                                                onChange={e => setGuestDetails({ ...guestDetails, name: e.target.value })}
-                                                className="py-6"
-                                            />
+                                            <Label>Email</Label>
+                                            <Input type="email" required value={guestDetails.email} onChange={e => setGuestDetails({ ...guestDetails, email: e.target.value })} placeholder="john@example.com" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="nav-modal-phone">Phone Number *</Label>
-                                            <Input
-                                                id="nav-modal-phone"
-                                                name="phone"
-                                                type="tel"
-                                                required
-                                                placeholder="+91"
-                                                value={guestDetails.phone}
-                                                onChange={e => setGuestDetails({ ...guestDetails, phone: e.target.value })}
-                                                className="py-6"
-                                            />
+                                            <Label>Phone</Label>
+                                            <Input required value={guestDetails.phone} onChange={e => setGuestDetails({ ...guestDetails, phone: e.target.value })} placeholder="+91 98765 43210" />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="nav-modal-email">Email Address *</Label>
-                                        <Input
-                                            id="nav-modal-email"
-                                            name="email"
-                                            type="email"
-                                            required
-                                            placeholder="john@example.com"
-                                            value={guestDetails.email}
-                                            onChange={e => setGuestDetails({ ...guestDetails, email: e.target.value })}
-                                            className="py-6"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label>Room Preference</Label>
-                                        <Select
-                                            value={guestDetails.roomType}
-                                            onValueChange={v => setGuestDetails({ ...guestDetails, roomType: v })}
-                                        >
-                                            <SelectTrigger className="py-6">
-                                                <SelectValue />
-                                            </SelectTrigger>
+                                        <Label>Room Type</Label>
+                                        <Select value={guestDetails.roomType} onValueChange={val => setGuestDetails({ ...guestDetails, roomType: val })}>
+                                            <SelectTrigger className="bg-gray-50/50"><SelectValue /></SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Deluxe Room">Deluxe Room</SelectItem>
                                                 <SelectItem value="Standard Room">Standard Room</SelectItem>
-                                                <SelectItem value="Family Room">Family Room</SelectItem>
                                                 <SelectItem value="Triple Room">Triple Room</SelectItem>
+                                                <SelectItem value="Family Suite">Family Suite</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
-
-                                    {error && <div className="p-3 bg-red-50 text-red-500 text-sm rounded-lg border border-red-100">{error}</div>}
-
-                                    <div className="flex gap-3 pt-2">
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => setStep(1)}
-                                            className="px-6 py-6"
-                                        >
-                                            <ArrowLeft className="w-5 h-5" />
-                                        </Button>
-                                        <Button
-                                            type="submit"
-                                            disabled={loading}
-                                            className="flex-1 bg-[#2E6B8A] py-6 text-lg font-bold hover-gold-glow"
-                                        >
-                                            {loading ? "Checking..." : "Check Availability & Book"}
+                                    <div className="space-y-2">
+                                        <Label>Special Request</Label>
+                                        <Textarea value={guestDetails.message} onChange={e => setGuestDetails({ ...guestDetails, message: e.target.value })} placeholder="Any special requests?" />
+                                    </div>
+                                    <div className="flex gap-3 pt-4">
+                                        <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1 py-6"><ArrowLeft className="w-4 h-4 mr-2" /> Back</Button>
+                                        <Button type="submit" disabled={loading} className="flex-[2] py-6 gap-2">
+                                            {loading ? "Sending Booking Request..." : "Confirm Booking"}
                                         </Button>
                                     </div>
+                                    {error && <p className="text-sm text-red-500 font-bold text-center mt-2">{error}</p>}
                                 </form>
                             )}
                         </div>

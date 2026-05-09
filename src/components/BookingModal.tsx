@@ -3,15 +3,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
-import { CheckCircle2 } from "lucide-react";
-import { API_BASE } from "@/config";
+import { CheckCircle2, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 
-export interface BookingData {
+export interface BookingModalData {
+    checkIn?: Date;
+    checkOut?: Date;
     location: string;
-    checkIn: Date | undefined;
-    checkOut: Date | undefined;
     adults: number;
     children: number;
     rooms: number;
@@ -22,10 +22,11 @@ export interface BookingData {
 interface BookingModalProps {
     isOpen: boolean;
     onClose: () => void;
-    bookingData: BookingData;
+    bookingData: BookingModalData;
 }
 
 export default function BookingModal({ isOpen, onClose, bookingData }: BookingModalProps) {
+    const { toast } = useToast();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
@@ -38,16 +39,16 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
         try {
             const formData = new FormData(e.currentTarget);
             
-            // Create hidden iframe if it doesn't exist
-            const iframeId = "w3f-iframe-booking-modal";
-            let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
-            if (!iframe) {
-                iframe = document.createElement("iframe");
-                iframe.id = iframeId;
-                iframe.name = iframeId;
-                iframe.style.display = "none";
-                document.body.appendChild(iframe);
-            }
+            // Generate unique submission ID
+            const submissionId = Date.now();
+            const iframeId = `w3f-iframe-room-${submissionId}`;
+            
+            // Create fresh hidden iframe
+            const iframe = document.createElement("iframe");
+            iframe.id = iframeId;
+            iframe.name = iframeId;
+            iframe.style.display = "none";
+            document.body.appendChild(iframe);
 
             // Create temporary form for iframe submission
             const tempForm = document.createElement("form");
@@ -56,20 +57,21 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
             tempForm.target = iframeId;
             tempForm.style.display = "none";
 
-            // Map all data to simple fields
             const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
-                subject: `New Booking Request from ${formData.get("name")}`,
-                from_name: "DrizzleDrop Booking System",
+                subject: "New Booking Request - DrizzleDrop Inn",
+                from_name: "DrizzleDrop Inn Website",
+                "Customer Name": (formData.get("name") ?? "").toString(),
+                "Phone Number": (formData.get("phone") ?? "").toString(),
+                "Email Address": (formData.get("email") ?? "").toString(),
+                "Selected Hotel Location": bookingData.location,
+                "Room Type": (formData.get("roomType") ?? bookingData.roomType ?? "Standard").toString(),
+                "Number of Guests": `${bookingData.adults} Adults, ${bookingData.children} Children`,
+                "Number of Rooms": bookingData.rooms.toString(),
+                "Check-in Date": bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set",
+                "Check-out Date": bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set",
+                "Message / Special Request": (formData.get("message") ?? bookingData.offerCode ?? "None").toString(),
                 replyto: (formData.get("email") ?? "").toString(),
-                name: (formData.get("name") ?? "").toString(),
-                email: (formData.get("email") ?? "").toString(),
-                phone: (formData.get("phone") ?? "").toString(),
-                location: bookingData.location,
-                room: (formData.get("roomType") ?? bookingData.roomType ?? "").toString(),
-                guests: `${bookingData.adults} Adults, ${bookingData.children} Children (${bookingData.rooms} Rooms)`,
-                dates: `${bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set"} to ${bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set"}`,
-                offer_code: bookingData.offerCode || "None",
             };
 
             Object.entries(fields).forEach(([key, value]) => {
@@ -83,111 +85,75 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
             document.body.appendChild(tempForm);
             tempForm.submit();
 
-            // Give it some time to submit before showing success
-            await new Promise(r => setTimeout(r, 1500));
+            // Give it time to submit, then cleanup
+            await new Promise(r => setTimeout(r, 2500));
             
             document.body.removeChild(tempForm);
+            document.body.removeChild(iframe);
+            
             setSuccess(true);
-            (e.target as HTMLFormElement).reset();
+            toast({
+                title: "Booking Request Sent Successfully",
+                description: "We'll contact you shortly to confirm your stay.",
+            });
         } catch (err: any) {
-            console.error("Booking Error:", err);
-            setError("Failed to submit. Please try again or call us.");
+            setError("Something went wrong. Please try again.");
+            toast({
+                title: "Submission Error",
+                description: "Something went wrong. Please try again.",
+                variant: "destructive",
+            });
         } finally {
             setLoading(false);
         }
     };
 
-
-    const handleClose = () => {
-        setSuccess(false);
-        setError("");
-        onClose();
-    };
-
     return (
-        <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[600px] border-border/50 glass-card p-0 overflow-hidden">
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="max-w-[95vw] sm:max-w-lg max-h-[90vh] overflow-hidden flex flex-col p-0 rounded-[2rem] border-none shadow-2xl">
                 {success ? (
-                    <div className="p-8 text-center flex flex-col items-center justify-center space-y-4">
-                        <CheckCircle2 className="w-16 h-16 text-primary" />
-                        <DialogTitle className="text-2xl font-serif">Booking Request Sent</DialogTitle>
-                        <DialogDescription className="text-base">
-                            Your booking request has been submitted successfully. Our team will contact you soon to confirm your reservation.
-                        </DialogDescription>
-                        <Button onClick={handleClose} className="mt-4 w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                            Done
-                        </Button>
+                    <div className="flex flex-col items-center justify-center p-12 text-center space-y-4">
+                        <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center">
+                            <CheckCircle2 className="w-10 h-10 text-green-500" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900">Booking Request Sent Successfully</h2>
+                        <p className="text-gray-500">Thank you for Choosing DrizzleDrop Inn. We will contact you soon.</p>
+                        <Button onClick={onClose} className="mt-4 rounded-xl px-8">Close</Button>
                     </div>
                 ) : (
                     <>
-                        <DialogHeader className="p-6 pb-2">
-                            <DialogTitle className="text-2xl font-serif text-primary">Complete Your Booking</DialogTitle>
-                            <DialogDescription>
-                                Please provide your details below to finalize your booking request.
-                            </DialogDescription>
-                        </DialogHeader>
-
-                        <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-6">
-                            {/* Summary of Search */}
-                            <div className="bg-secondary/30 p-4 rounded-lg flex flex-col gap-2 text-sm border border-border/50">
-                                <div className="flex justify-between border-b border-border/50 pb-2">
-                                    <span className="text-muted-foreground">Location:</span>
-                                    <span className="font-medium text-foreground">{bookingData.location || "Not specified"}</span>
-                                </div>
-                                <div className="flex justify-between border-b border-border/50 pb-2">
-                                    <span className="text-muted-foreground">Dates:</span>
-                                    <span className="font-medium text-foreground">
-                                        {bookingData.checkIn ? format(bookingData.checkIn, "d MMM yyyy") : ""} -{" "}
-                                        {bookingData.checkOut ? format(bookingData.checkOut, "d MMM yyyy") : ""}
-                                    </span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Guests & Rooms:</span>
-                                    <span className="font-medium text-foreground">
-                                        {bookingData.adults} Adults, {bookingData.children} Children, {bookingData.rooms} Room(s)
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="bg-primary/5 p-6 border-b border-primary/10">
+                            <DialogHeader>
+                                <DialogTitle className="text-2xl font-serif">Complete Reservation</DialogTitle>
+                                <DialogDescription>Submit your details for {bookingData.location}</DialogDescription>
+                            </DialogHeader>
+                        </div>
+                        <div className="p-6 overflow-y-auto">
+                            <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="name">Full Name *</Label>
-                                    <Input id="name" name="name" required placeholder="John Doe" className="bg-background" />
+                                    <Label>Customer Name</Label>
+                                    <Input name="name" required placeholder="Full Name" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label>Email Address</Label>
+                                        <Input name="email" type="email" required placeholder="Email" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Phone Number</Label>
+                                        <Input name="phone" required placeholder="Phone" />
+                                    </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="phone">Phone Number *</Label>
-                                    <Input id="phone" name="phone" type="tel" required placeholder="+91 98765 43210" className="bg-background" />
+                                    <Label>Message / Special Request</Label>
+                                    <Textarea name="message" placeholder="Optional" />
                                 </div>
-                                <div className="space-y-2 md:col-span-2">
-                                    <Label htmlFor="email">Email Address *</Label>
-                                    <Input id="email" name="email" type="email" required placeholder="john@example.com" className="bg-background" />
-                                </div>
-                                <div className="space-y-2 md:col-span-2">
-                                    <Label htmlFor="roomType">Room Type *</Label>
-                                    <Select name="roomType" required defaultValue={bookingData.roomType || "Deluxe Room"}>
-                                        <SelectTrigger className="bg-background">
-                                            <SelectValue placeholder="Select Room Type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="Standard Room">Standard Room</SelectItem>
-                                            <SelectItem value="Triple Room">Triple Room</SelectItem>
-                                            <SelectItem value="Family Room">Family Room</SelectItem>
-                                            <SelectItem value="Deluxe Room">Deluxe Room</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                {/* Hidden fields to sync states with form data submission */}
-                                <input type="hidden" name="adults" value={bookingData.adults} />
-                                <input type="hidden" name="children" value={bookingData.children} />
-                            </div>
-
-                            {error && <div className="text-red-500 text-sm">{error}</div>}
-
-                            <Button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover-gold-glow py-6 text-base shadow-sm">
-                                {loading ? "Checking..." : "Check Availability & Book"}
-                            </Button>
-                        </form>
+                                <Button type="submit" disabled={loading} className="w-full py-6 gap-2">
+                                    {loading ? "Sending Booking Request..." : <><Send className="w-4 h-4" /> Confirm Booking Request</>}
+                                </Button>
+                                {error && <p className="text-sm text-red-500 font-bold text-center">{error}</p>}
+                            </form>
+                        </div>
                     </>
                 )}
             </DialogContent>
