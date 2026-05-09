@@ -104,20 +104,24 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             tempForm.target = iframeId;
             tempForm.style.display = "none";
 
+            const guestsCount = `${adults} Adults, ${children} Children`;
+            const roomsCount = rooms.toString();
+            const checkInDate = date?.from ? format(date.from, "PPP") : "Not Set";
+            const checkOutDate = date?.to ? format(date.to, "PPP") : "Not Set";
+
             const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
                 subject: "New Booking Request - DrizzleDrop Inn",
                 from_name: "DrizzleDrop Inn Website",
-                "Customer Name": guestDetails.name,
-                "Phone Number": guestDetails.phone,
-                "Email Address": guestDetails.email,
-                "Selected Hotel Location": location,
-                "Room Type": guestDetails.roomType,
-                "Number of Guests": `${adults} Adults, ${children} Children`,
-                "Number of Rooms": rooms.toString(),
-                "Check-in Date": date?.from ? format(date.from, "PPP") : "Not Set",
-                "Check-out Date": date?.to ? format(date.to, "PPP") : "Not Set",
-                "Message / Special Request": guestDetails.message || "None",
+                name: guestDetails.name,
+                email: guestDetails.email,
+                phone: guestDetails.phone,
+                location: location,
+                room_type: guestDetails.roomType,
+                guests: guestsCount,
+                rooms_count: roomsCount,
+                check_in: checkInDate,
+                check_out: checkOutDate,
                 replyto: guestDetails.email,
             };
 

@@ -57,20 +57,24 @@ export default function BookingModal({ isOpen, onClose, bookingData }: BookingMo
             tempForm.target = iframeId;
             tempForm.style.display = "none";
 
+            const guestsCount = `${bookingData.adults} Adults, ${bookingData.children} Children`;
+            const roomsCount = bookingData.rooms.toString();
+            const checkInDate = bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set";
+            const checkOutDate = bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set";
+
             const fields: Record<string, string> = {
                 access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
                 subject: "New Booking Request - DrizzleDrop Inn",
                 from_name: "DrizzleDrop Inn Website",
-                "Customer Name": (formData.get("name") ?? "").toString(),
-                "Phone Number": (formData.get("phone") ?? "").toString(),
-                "Email Address": (formData.get("email") ?? "").toString(),
-                "Selected Hotel Location": bookingData.location,
-                "Room Type": (formData.get("roomType") ?? bookingData.roomType ?? "Standard").toString(),
-                "Number of Guests": `${bookingData.adults} Adults, ${bookingData.children} Children`,
-                "Number of Rooms": bookingData.rooms.toString(),
-                "Check-in Date": bookingData.checkIn ? format(bookingData.checkIn, "PPP") : "Not Set",
-                "Check-out Date": bookingData.checkOut ? format(bookingData.checkOut, "PPP") : "Not Set",
-                "Message / Special Request": (formData.get("message") ?? bookingData.offerCode ?? "None").toString(),
+                name: (formData.get("name") ?? "").toString(),
+                email: (formData.get("email") ?? "").toString(),
+                phone: (formData.get("phone") ?? "").toString(),
+                location: bookingData.location,
+                room_type: (formData.get("roomType") ?? bookingData.roomType ?? "Standard").toString(),
+                guests: guestsCount,
+                rooms_count: roomsCount,
+                check_in: checkInDate,
+                check_out: checkOutDate,
                 replyto: (formData.get("email") ?? "").toString(),
             };
 
