@@ -10,15 +10,15 @@ import Magnetic from "./Magnetic";
 import { API_BASE } from "@/config";
 
 // Room interior images for Navbar dropdown
-import chennaiStdRoom from "../assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
-import chennaiDeluxeRoom from "../assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.webp";
-import chennaiFamilyRoom from "../assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.webp";
-import chennaiTripleRoom from "../assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.webp";
+import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
+import chennaiDeluxeRoom from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.webp";
+import chennaiFamilyRoom from "@/assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.webp";
+import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.webp";
 
-import ootyStdRoom from "../assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
-import ootyDeluxeRoom from "../assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
-import ootyFamilyRoom from "../assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
-import ootyTripleRoom from "../assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
+import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
+import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
+import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
 
 const locations = [
   {

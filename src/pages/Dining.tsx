@@ -125,7 +125,7 @@ export default function Dining() {
                   <Reveal direction="left">
                     <div className="relative">
                       <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
-                        <img src={chennaiDining1} alt="Chennai Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]" />
+                        <img src={chennaiDining1} alt="Chennai Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                       </div>
                       {/* Decorative element */}
                       <div className="absolute -z-10 -top-6 -left-6 w-full h-full border border-[#C5A861]/20 rounded-3xl" />
@@ -156,7 +156,7 @@ export default function Dining() {
                   <Reveal direction="right">
                     <div className="relative">
                       <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
-                        <img src={ootyDining1} alt="Ooty Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]" />
+                        <img src={ootyDining1} alt="Ooty Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                       </div>
                       {/* Decorative element */}
                       <div className="absolute -z-10 -top-6 -right-6 w-full h-full border border-[#C5A861]/20 rounded-2xl md:rounded-3xl" />

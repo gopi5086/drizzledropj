@@ -3,19 +3,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import BookingBar from "./BookingBar";
 
 // Chennai hero images
-import c1 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.jpg";
-import c2 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.JPG";
-import c3 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.JPG";
-import c4 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.jpg";
-import c5 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.JPG";
-import c6 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.jpg";
+import c1 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.webp";
+import c2 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.webp";
+import c3 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.webp";
+import c4 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.webp";
+import c5 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.webp";
+import c6 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.webp";
 
 // Ooty hero images
-import o1 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.jpg";
-import o2 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.JPG";
-import o3 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.jpg";
-import o4 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.jpg";
-import o5 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.jpg";
+import o1 from "@/assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.webp";
+import o2 from "@/assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.webp";
+import o3 from "@/assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.webp";
+import o4 from "@/assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.webp";
+import o5 from "@/assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.webp";
 
 interface HeroSlide {
   image: string;
