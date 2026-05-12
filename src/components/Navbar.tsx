@@ -461,7 +461,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-xl p-6 min-w-[450px] shadow-xl border border-[#2E6B8A]/15 grid grid-cols-2 gap-4"
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-xl p-6 min-w-[450px] shadow-xl border border-[#2E6B8A]/15 grid grid-cols-2 gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:right-0 before:h-4"
                       >
                         {galleryList.map((item: any) => (
                           <Link
@@ -491,7 +491,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:right-0 before:h-4"
                       >
                         {roomsList.map((item: any) => {
                           const Icon = item.icon;
@@ -503,7 +503,7 @@ export default function Navbar() {
                               onClick={() => setRoomsOpen(false)}
                               className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
                             >
-                              <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 shadow-sm">
+                              <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 shadow-sm bg-gray-50">
                                 <img 
                                   src={item.image} 
                                   alt={item.name} 
@@ -544,7 +544,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:right-0 before:h-4"
                       >
                         {diningList.map((item: any) => {
                           const Icon = item.icon;
@@ -601,7 +601,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-[-150px] mt-2 bg-white rounded-2xl p-6 min-w-[500px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
+                        className="absolute top-full left-[-150px] mt-2 bg-white rounded-2xl p-6 min-w-[500px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:right-0 before:h-4"
                       >
                         {facilitiesList.map((item: any) => {
                           const Icon = item.icon;
