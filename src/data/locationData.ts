@@ -1,19 +1,19 @@
 // ── Central config for all location-specific content ──────────────────────
 
 // Chennai hero images (New high-quality visuals)
-import chennaiHero1 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.jpg";
-import chennaiHero2 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.JPG";
-import chennaiHero3 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.JPG";
-import chennaiHero4 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.jpg";
-import chennaiHero5 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.JPG";
-import chennaiHero6 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.jpg";
+import chennaiHero1 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.webp";
+import chennaiHero2 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.webp";
+import chennaiHero3 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.webp";
+import chennaiHero4 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.webp";
+import chennaiHero5 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.webp";
+import chennaiHero6 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.webp";
 
 // Ooty hero images (New high-quality visuals)
-import ootyHero1 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.jpg";
-import ootyHero2 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.JPG";
-import ootyHero3 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.jpg";
-import ootyHero4 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.jpg";
-import ootyHero5 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.jpg";
+import ootyHero1 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.webp";
+import ootyHero2 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.webp";
+import ootyHero3 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.webp";
+import ootyHero4 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.webp";
+import ootyHero5 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.webp";
 
 // Chennai specific room interior images
 import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
