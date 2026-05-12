@@ -163,16 +163,42 @@ export default function Navbar() {
   }, [activeLocKey]);
 
   const roomsList = useMemo(() => {
+    const imageMap: Record<string, Record<string, string>> = {
+      chennai: {
+        "standard room": chennaiStdRoom,
+        "deluxe room": chennaiDeluxeRoom,
+        "triple room": chennaiTripleRoom,
+        "family room": chennaiFamilyRoom,
+      },
+      ooty: {
+        "standard room": ootyStdRoom,
+        "deluxe room": ootyDeluxeRoom,
+        "triple room": ootyTripleRoom,
+        "family room": ootyFamilyRoom,
+      },
+    };
+
     const locKeyUpper = activeLocKey.toUpperCase();
     const locRooms = dynamicRooms.filter(r => r.location === locKeyUpper);
 
     if (locRooms.length > 0) {
-      return locRooms.slice(0, 4).map(r => ({
-        name: r.name,
-        slug: r.name.toLowerCase().replace(/\s+/g, '-'),
-        location: r.location.toLowerCase(),
-        icon: BedDouble
-      }));
+      return locRooms.slice(0, 4).map(r => {
+        const locKey = r.location.toLowerCase();
+        const nameKey = r.name.toLowerCase();
+        const image =
+          imageMap[locKey]?.[nameKey] ||
+          Object.entries(imageMap[locKey] || {}).find(([k]) =>
+            nameKey.includes(k.split(" ")[0])
+          )?.[1] ||
+          (locKey === "ooty" ? ootyDeluxeRoom : chennaiDeluxeRoom);
+        return {
+          name: r.name,
+          slug: r.name.toLowerCase().replace(/\s+/g, '-'),
+          location: locKey,
+          image,
+          icon: BedDouble,
+        };
+      });
     }
 
     if (activeLocKey === "ooty") {
@@ -503,12 +529,20 @@ export default function Navbar() {
                               onClick={() => setRoomsOpen(false)}
                               className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
                             >
-                              <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 shadow-sm bg-gray-50">
-                                <img 
-                                  src={item.image} 
-                                  alt={item.name} 
-                                  className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" 
-                                />
+                              <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 shadow-sm bg-gray-50 flex items-center justify-center">
+                                {item.image ? (
+                                  <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500"
+                                    onError={(e) => {
+                                      (e.currentTarget as HTMLImageElement).style.display = 'none';
+                                      (e.currentTarget.parentElement as HTMLElement).classList.add('icon-fallback');
+                                    }}
+                                  />
+                                ) : (
+                                  <BedDouble className="w-6 h-6 text-[#2E6B8A]/40" />
+                                )}
                               </div>
                               <div className="flex flex-col">
                                 <span className="text-sm font-bold text-gray-800 group-hover/item:text-[#2E6B8A] transition-colors">
