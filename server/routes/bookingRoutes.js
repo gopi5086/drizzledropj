@@ -111,7 +111,7 @@ function hotelEmailHtml({ name, phone, email, location, roomType, adults, childr
     </div>
   </div>
   <div class="footer">
-    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
+    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/919962822355">+91 99628 22355</a></p>
     <p style="margin-top:5px">Please respond to this guest at your earliest convenience.</p>
   </div>
 </div>
@@ -156,10 +156,10 @@ function guestEmailHtml({ name, location, roomType, adults, children }) {
       <p><strong>Guests:</strong> ${adults} Adult${adults > 1 ? "s" : ""}${children > 0 ? `, ${children} Child${children > 1 ? "ren" : ""}` : ""}</p>
     </div>
     <p>Need immediate assistance? Reach us on WhatsApp:</p>
-    <a class="cta" href="https://wa.me/918667825086">Chat on WhatsApp</a>
+    <a class="cta" href="https://wa.me/919962822355">Chat on WhatsApp</a>
   </div>
   <div class="footer">
-    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/918667825086">+91 86678 25086</a></p>
+    <p>DrizzleDrop Inn &nbsp;•&nbsp; <a href="mailto:stay@drizzledropinn.com">stay@drizzledropinn.com</a> &nbsp;•&nbsp; <a href="https://wa.me/919962822355">+91 99628 22355</a></p>
   </div>
 </div>
 </body>

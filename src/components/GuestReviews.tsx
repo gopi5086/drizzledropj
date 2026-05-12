@@ -268,71 +268,94 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
       : "Voices of Satisfaction";
 
   return (
-    <section className="py-24 bg-white relative">
-      <div className="container-luxury">
-        <div className="text-center mb-16 px-4">
-          <span className="text-[10px] uppercase tracking-[0.5em] text-[#2E6B8A] font-bold mb-4 block">
+    <section className="py-32 bg-[#FAF9F6] relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-[#2E6B8A]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-[#C5A861]/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+
+      <div className="container-luxury relative z-10">
+        <div className="text-center mb-20 px-4">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[11px] uppercase tracking-[0.6em] text-[#C5A861] font-bold mb-5 block"
+          >
             Verified Testimonials
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-black mx-auto max-w-2xl">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-bold tracking-tight text-[#1A1A1A] mx-auto max-w-3xl leading-tight"
+          >
             {title}
-          </h2>
+          </motion.h2>
+          <motion.div 
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="w-20 h-1 bg-[#2E6B8A]/20 mx-auto mt-8 rounded-full"
+          />
         </div>
 
-        <div className="relative px-6 md:px-16">
-          {/* Left Arrow */}
+        <div className="relative px-4 md:px-20">
+          {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 md:left-2 top-1/2 -translate-y-1/2 w-10 md:w-14 h-10 md:h-14 rounded-full bg-white border border-black/5 shadow-xl flex items-center justify-center hover:bg-[#2E6B8A] hover:text-white transition-all duration-500 z-30 group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-[#2E6B8A]/5 flex items-center justify-center hover:bg-[#2E6B8A] hover:text-white transition-all duration-500 z-30 group"
             aria-label="Previous reviews"
           >
-            <ChevronLeft className="w-5 md:w-6 h-5 md:h-6 group-hover:-translate-x-1 transition-transform" />
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
-          {/* Right Arrow */}
           <button
             onClick={nextSlide}
-            className="absolute right-0 md:right-2 top-1/2 -translate-y-1/2 w-10 md:w-14 h-10 md:h-14 rounded-full bg-white border border-black/5 shadow-xl flex items-center justify-center hover:bg-[#2E6B8A] hover:text-white transition-all duration-500 z-30 group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg border border-[#2E6B8A]/5 flex items-center justify-center hover:bg-[#2E6B8A] hover:text-white transition-all duration-500 z-30 group"
             aria-label="Next reviews"
           >
-            <ChevronRight className="w-5 md:w-6 h-5 md:h-6 group-hover:translate-x-1 transition-transform" />
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
           </button>
 
-          <div className="overflow-hidden px-2">
+          <div className="overflow-hidden">
             <motion.div
               className="flex"
               animate={{ x: `-${currentIndex * 100}%` }}
-              transition={currentIndex === 0 && !isAnimating ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 100 }}
+              transition={currentIndex === 0 && !isAnimating ? { duration: 0 } : { type: "spring", damping: 35, stiffness: 80 }}
             >
               {displayReviews.map((review, idx) => (
                 <div
                   key={idx}
-                  className="w-full md:w-1/3 flex-shrink-0 px-3 py-4"
+                  className="w-full md:w-1/3 flex-shrink-0 px-4 py-8"
                 >
-                  <div className="h-full bg-[#FAF9F6] p-8 md:p-10 border border-black/5 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 group/card">
-                    <div className="flex gap-1 mb-6">
+                  <div className="h-full bg-white p-10 md:p-12 border border-[#2E6B8A]/5 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_60px_rgba(46,107,138,0.1)] transition-all duration-700 group/card relative overflow-hidden flex flex-col">
+                    <Quote className="absolute top-6 right-8 w-24 h-24 text-[#2E6B8A]/[0.03] -rotate-12 group-hover/card:rotate-0 transition-transform duration-700" />
+                    
+                    <div className="flex gap-1.5 mb-8 relative z-10">
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-[#C5A861] text-[#C5A861]" />
+                        <Star key={i} className="w-3.5 h-3.5 fill-[#C5A861] text-[#C5A861]" />
                       ))}
                     </div>
 
-                    <Quote className="w-8 h-8 text-black/5 mb-4 group-hover/card:text-[#2E6B8A]/20 transition-colors" />
+                    <div className="relative z-10 flex-grow">
+                      <p className="text-base md:text-[17px] text-[#444] font-medium leading-relaxed mb-10 italic">
+                        "{review.text}"
+                      </p>
+                    </div>
 
-                    <p className="text-sm md:text-base text-black/80 font-medium leading-relaxed mb-8 italic min-h-[120px] whitespace-normal">
-                      "{review.text}"
-                    </p>
-
-                    <div className="flex items-center justify-between border-t border-black/5 pt-6">
+                    <div className="flex items-center gap-5 border-t border-[#2E6B8A]/5 pt-8 relative z-10">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2E6B8A]/10 to-[#C5A861]/10 flex items-center justify-center text-[#2E6B8A] font-bold text-sm">
+                        {review.author.charAt(0)}
+                      </div>
                       <div>
-                        <h4 className="font-bold text-sm text-black tracking-wide">
+                        <h4 className="font-bold text-[15px] text-[#1A1A1A] tracking-tight mb-0.5">
                           {review.author}
                         </h4>
-                        <span className="text-[10px] uppercase tracking-widest text-black/40 font-bold">
+                        <span className="text-[10px] uppercase tracking-widest text-[#2E6B8A]/60 font-bold">
                           {review.location}
                         </span>
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-[#2E6B8A]/10 flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#2E6B8A]" />
                       </div>
                     </div>
                   </div>
@@ -341,13 +364,13 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
             </motion.div>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-2 mt-12">
+          <div className="flex justify-center gap-3 mt-16">
             {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-500 ${currentIndex % totalPages === i ? "bg-[#2E6B8A] w-6" : "bg-black/10"}`}
+                className={`h-1.5 rounded-full transition-all duration-700 ${currentIndex % totalPages === i ? "bg-[#2E6B8A] w-12" : "bg-[#2E6B8A]/10 w-4 hover:bg-[#2E6B8A]/30"}`}
+                aria-label={`Go to slide ${i + 1}`}
               />
             ))}
           </div>

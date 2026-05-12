@@ -1,16 +1,19 @@
 // ── Central config for all location-specific content ──────────────────────
 
-// Chennai hero images (Using high-quality gallery images from Chennai-images/RECEPTION)
-import chennaiHero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
-import chennaiHero2 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0030.webp";
-import chennaiHero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.webp";
-import chennaiHero4 from "@/assets/Gallery/Chennai-images/RECEPTION/Corridor_5.webp";
+// Chennai hero images (New high-quality visuals)
+import chennaiHero1 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.jpg";
+import chennaiHero2 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.JPG";
+import chennaiHero3 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.JPG";
+import chennaiHero4 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.jpg";
+import chennaiHero5 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.JPG";
+import chennaiHero6 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.jpg";
 
-// Ooty hero images (Using high-quality gallery images from Ooty-Images)
-import ootyHero1 from "@/assets/Gallery/Ooty-Images/VIEW/BROL7025.webp";
-import ootyHero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6954.webp";
-import ootyHero3 from "@/assets/Gallery/Ooty-Images/VIEW/BROL7023.webp";
-import ootyHero4 from "@/assets/Gallery/Ooty-Images/VILLA/Villa_with_Lawn.webp";
+// Ooty hero images (New high-quality visuals)
+import ootyHero1 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.jpg";
+import ootyHero2 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.JPG";
+import ootyHero3 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.jpg";
+import ootyHero4 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.jpg";
+import ootyHero5 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.jpg";
 
 // Chennai specific room interior images
 import chennaiStdRoom from "@/assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
@@ -112,10 +115,12 @@ export const chennaiData: LocationConfig = {
   fullName: "DrizzleDrop Inn, Chennai",
   tagline: "Comfort and Convenience, Your Perfect Stay in Chennai.",
   heroSlides: [
-    { image: chennaiHero1, location: "Chennai", tagline: "Sophisticated Business Stay" },
-    { image: chennaiHero2, location: "OMR Corridor", tagline: "Modern Urban Luxury" },
-    { image: chennaiHero3, location: "Chennai", tagline: "Premium Hospitality" },
-    { image: chennaiHero4, location: "DrizzleDrop", tagline: "Comfort in Every Corner" },
+    { image: chennaiHero1, location: "Chennai", tagline: "Sophisticated Urban Comfort" },
+    { image: chennaiHero2, location: "Thoraipakkam", tagline: "Elegantly Appointed Rooms" },
+    { image: chennaiHero3, location: "DrizzleDrop", tagline: "Modern Living in OMR" },
+    { image: chennaiHero4, location: "Chennai", tagline: "Contemporary Architectural Design" },
+    { image: chennaiHero5, location: "DrizzleDrop Inn", tagline: "Your Gateway to the IT Hub" },
+    { image: chennaiHero6, location: "Chennai", tagline: "Elegant Night Ambience" },
   ],
   about: {
     label: "A Premier 3-Star Business Hotel",
@@ -240,10 +245,11 @@ export const ootyData: LocationConfig = {
   fullName: "DrizzleDrop Inn, Ooty",
   tagline: "Unwind with Panoramic Hill Views and the Magic of the Nilgiris.",
   heroSlides: [
-    { image: ootyHero1, location: "Ooty", tagline: "Breathtaking Hill Views" },
-    { image: ootyHero3, location: "Nilgiris", tagline: "Where Mist Meets Mountain" },
-    { image: ootyHero2, location: "Ooty", tagline: "Serene Valley Panoramas" },
-    { image: ootyHero4, location: "DrizzleDrop", tagline: "Your Mountain Sanctuary" },
+    { image: ootyHero1, location: "Ooty", tagline: "Breathtaking Valley Views" },
+    { image: ootyHero2, location: "DrizzleDrop Inn", tagline: "Elegant Mountain Sanctuary" },
+    { image: ootyHero3, location: "Ooty", tagline: "Serene Garden Evenings" },
+    { image: ootyHero4, location: "Reception", tagline: "Warm Alpine Hospitality" },
+    { image: ootyHero5, location: "DrizzleDrop", tagline: "Experience the Nilgiris" },
   ],
   about: {
     label: "Alpine Serenity",

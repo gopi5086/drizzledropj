@@ -2,11 +2,20 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BookingBar from "./BookingBar";
 
-// Hero slide images from professional gallery
-import hero1 from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
-import hero2 from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
-import hero3 from "@/assets/Gallery/Chennai-images/RECEPTION/Reception_1.webp";
-import hero4 from "@/assets/Gallery/Ooty-Images/VIEW/IMG20210520085101.webp";
+// Chennai hero images
+import c1 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.jpg";
+import c2 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0060.JPG";
+import c3 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0055.JPG";
+import c4 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Corridor_11.jpg";
+import c5 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/_SPY0127.JPG";
+import c6 from "../assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/IMG_20240815_184010_HDR.jpg";
+
+// Ooty hero images
+import o1 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG_20251218_071327.jpg";
+import o2 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/DSC_0108.JPG";
+import o3 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203017.jpg";
+import o4 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421192113.jpg";
+import o5 from "../assets/OOTY_FRONT_Page_Website-3-001/OOTY_FRONT_Page_Website/IMG20260421203836.jpg";
 
 interface HeroSlide {
   image: string;
@@ -15,26 +24,17 @@ interface HeroSlide {
 }
 
 const heroSlides: HeroSlide[] = [
-  {
-    image: hero1,
-    location: "Chennai",
-    tagline: "Sophisticated Business Stay",
-  },
-  {
-    image: hero2,
-    location: "Ooty",
-    tagline: "Enchanting Nature Escapes",
-  },
-  {
-    image: hero3,
-    location: "Luxury",
-    tagline: "The Prodigious Hospitality",
-  },
-  {
-    image: hero4,
-    location: "Serenity",
-    tagline: "Comfort in Every Corner",
-  },
+  { image: c1, location: "Chennai", tagline: "Sophisticated Urban Comfort" },
+  { image: o1, location: "Ooty", tagline: "Breathtaking Valley Views" },
+  { image: c2, location: "Chennai", tagline: "Elegantly Appointed Rooms" },
+  { image: o2, location: "Ooty", tagline: "Elegant Mountain Sanctuary" },
+  { image: c3, location: "Chennai", tagline: "Modern Living in OMR" },
+  { image: o3, location: "Ooty", tagline: "Serene Garden Evenings" },
+  { image: c4, location: "Chennai", tagline: "Contemporary Architectural Design" },
+  { image: o4, location: "Ooty", tagline: "Warm Alpine Hospitality" },
+  { image: c5, location: "Chennai", tagline: "Your Gateway to the IT Hub" },
+  { image: c6, location: "Chennai", tagline: "Elegant Night Ambience" },
+  { image: o5, location: "Ooty", tagline: "Experience the Nilgiris" },
 ];
 
 const SLIDE_DURATION = 6000;

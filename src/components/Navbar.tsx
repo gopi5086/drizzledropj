@@ -9,6 +9,17 @@ import { useLocationContext } from "@/context/LocationContext";
 import Magnetic from "./Magnetic";
 import { API_BASE } from "@/config";
 
+// Room interior images for Navbar dropdown
+import chennaiStdRoom from "../assets/Gallery/Chennai-images/STANDARD-ROOMS/Standard Room - DDI Chennai/Standard_Room_1.webp";
+import chennaiDeluxeRoom from "../assets/Gallery/Chennai-images/DELUXE-ROOMS/107_DeluxeRoom_1.webp";
+import chennaiFamilyRoom from "../assets/Gallery/Chennai-images/FAMILY-ROOMS/Family Room - DDI Chennai/Family_Room.webp";
+import chennaiTripleRoom from "../assets/Gallery/Chennai-images/TRIPLE-ROOMS/Triple Room - DDI CHennai/106_Deluxe_TripleRoom.webp";
+
+import ootyStdRoom from "../assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
+import ootyDeluxeRoom from "../assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
+import ootyFamilyRoom from "../assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
+import ootyTripleRoom from "../assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+
 const locations = [
   {
     key: "chennai",
@@ -91,10 +102,7 @@ export default function Navbar() {
       {
         label: "Gallery",
         path: `${prefix}/gallery`,
-        dropdown: locKey ? undefined : [
-          { label: "Chennai Gallery", path: "/chennai/gallery" },
-          { label: "Ooty Gallery", path: "/ooty/gallery" },
-        ],
+        isGallery: !locKey
       },
       { label: "Offers", path: `${prefix}/deals` },
       { label: "Contact", path: `${prefix}/contact` },
@@ -130,49 +138,62 @@ export default function Navbar() {
       ];
     }
     return [
-      { name: "Modern Facilities", icon: Wifi },
-      { name: "Secure Parking", icon: Car },
-      { name: "Prime Locations", icon: MapPin },
-      { name: "24/7 Security", icon: ShieldCheck },
-      { name: "Guest Support", icon: Bell },
-      { name: "Smart TVs", icon: Tv },
+      { name: "Chennai Facilities", path: "/chennai/facilities", icon: MapPin },
+      { name: "Ooty Facilities", path: "/ooty/facilities", icon: Mountain },
+    ];
+  }, [activeLocKey]);
+
+  const galleryList = useMemo(() => {
+    if (activeLocKey === "ooty") {
+      return [
+        { name: "Resort Views", path: "/ooty/gallery", icon: Mountain },
+        { name: "Room Gallery", path: "/ooty/gallery", icon: BedDouble },
+      ];
+    }
+    if (activeLocKey === "chennai") {
+      return [
+        { name: "Hotel Exterior", path: "/chennai/gallery", icon: MapPin },
+        { name: "Room Gallery", path: "/chennai/gallery", icon: BedDouble },
+      ];
+    }
+    return [
+      { name: "Chennai Gallery", path: "/chennai/gallery", icon: MapPin },
+      { name: "Ooty Gallery", path: "/ooty/gallery", icon: Mountain },
     ];
   }, [activeLocKey]);
 
   const roomsList = useMemo(() => {
     const locKeyUpper = activeLocKey.toUpperCase();
     const locRooms = dynamicRooms.filter(r => r.location === locKeyUpper);
-    
+
     if (locRooms.length > 0) {
       return locRooms.slice(0, 4).map(r => ({
         name: r.name,
         slug: r.name.toLowerCase().replace(/\s+/g, '-'),
         location: r.location.toLowerCase(),
-        icon: BedDouble 
+        icon: BedDouble
       }));
     }
 
     if (activeLocKey === "ooty") {
       return [
-        { name: "Standard Room", slug: "standard-room", location: "ooty", icon: BedDouble },
-        { name: "Deluxe Room", slug: "deluxe-room", location: "ooty", icon: Tv },
-        { name: "Triple Room", slug: "triple-room", location: "ooty", icon: Users },
-        { name: "Family Room", slug: "family-room", location: "ooty", icon: Mountain },
+        { name: "Standard Room", slug: "standard-room", location: "ooty", image: ootyStdRoom },
+        { name: "Deluxe Room", slug: "deluxe-room", location: "ooty", image: ootyDeluxeRoom },
+        { name: "Triple Room", slug: "triple-room", location: "ooty", image: ootyTripleRoom },
+        { name: "Family Room", slug: "family-room", location: "ooty", image: ootyFamilyRoom },
       ];
     }
     if (activeLocKey === "chennai") {
       return [
-        { name: "Standard Room", slug: "standard-room", location: "chennai", icon: BedDouble },
-        { name: "Deluxe Room", slug: "deluxe-room", location: "chennai", icon: Tv },
-        { name: "Triple Room", slug: "triple-room", location: "chennai", icon: Users },
-        { name: "Family Room", slug: "family-room", location: "chennai", icon: Users },
+        { name: "Standard Room", slug: "standard-room", location: "chennai", image: chennaiStdRoom },
+        { name: "Deluxe Room", slug: "deluxe-room", location: "chennai", image: chennaiDeluxeRoom },
+        { name: "Triple Room", slug: "triple-room", location: "chennai", image: chennaiTripleRoom },
+        { name: "Family Room", slug: "family-room", location: "chennai", image: chennaiFamilyRoom },
       ];
     }
     return [
-      { name: "Standard Rooms", path: "/rooms", icon: BedDouble },
-      { name: "Deluxe Rooms", path: "/rooms", icon: Tv },
-      { name: "Triple Rooms", path: "/rooms", icon: Users },
-      { name: "Family Suites", path: "/rooms", icon: Users },
+      { name: "Chennai Rooms", path: "/chennai/rooms", image: chennaiDeluxeRoom, location: "chennai" },
+      { name: "Ooty Rooms", path: "/ooty/rooms", image: ootyDeluxeRoom, location: "ooty" },
     ];
   }, [activeLocKey, dynamicRooms]);
 
@@ -194,10 +215,8 @@ export default function Navbar() {
       ];
     }
     return [
-      { name: "Fine Dining", icon: Utensils },
-      { name: "Room Service", icon: Bell },
-      { name: "Local Flavors", icon: MapPin },
-      { name: "Global Cuisine", icon: Utensils },
+      { name: "Chennai Dining", path: "/chennai/dining", icon: Utensils },
+      { name: "Ooty Dining", path: "/ooty/dining", icon: Mountain },
     ];
   }, [activeLocKey]);
 
@@ -278,7 +297,7 @@ export default function Navbar() {
               </span>
               <ChevronDown className={`w-2.5 h-2.5 opacity-70 transition-transform duration-300 ${locationOpen ? "rotate-180" : ""}`} />
             </button>
-            
+
             <AnimatePresence>
               {locationOpen && (
                 <motion.div
@@ -386,7 +405,7 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          {navLinks.map((link) => {
+          {navLinks.map((link: any) => {
             const isHash = link.path.startsWith("#");
             const isActive = isHash ? false : location.pathname === link.path;
 
@@ -403,12 +422,14 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={() => {
                   if (link.dropdown) setGalleryOpen(true);
+                  if (link.isGallery) setGalleryOpen(true);
                   if (link.isFacilities) setFacilitiesOpen(true);
                   if (link.isRooms) setRoomsOpen(true);
                   if (link.isDining) setDiningOpen(true);
                 }}
                 onMouseLeave={() => {
                   if (link.dropdown) setGalleryOpen(false);
+                  if (link.isGallery) setGalleryOpen(false);
                   if (link.isFacilities) setFacilitiesOpen(false);
                   if (link.isRooms) setRoomsOpen(false);
                   if (link.isDining) setDiningOpen(false);
@@ -425,14 +446,14 @@ export default function Navbar() {
                     }`}
                 >
                   {link.label}
-                  {(link.dropdown || link.isFacilities || link.isRooms || link.isDining) && <ChevronDown className="w-3 h-3 opacity-70" />}
+                  {(link.dropdown || link.isFacilities || link.isRooms || link.isDining || link.isGallery) && <ChevronDown className="w-3 h-3 opacity-70" />}
                   <span
                     className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
                       }`}
                   />
                 </Link>
 
-                {link.dropdown && (
+                {link.isGallery && (
                   <AnimatePresence>
                     {galleryOpen && (
                       <motion.div
@@ -440,15 +461,21 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 bg-white rounded-xl py-2 min-w-[200px] shadow-xl border border-[#2E6B8A]/15"
+                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-xl p-6 min-w-[450px] shadow-xl border border-[#2E6B8A]/15 grid grid-cols-2 gap-4"
                       >
-                        {link.dropdown.map((item) => (
+                        {galleryList.map((item: any) => (
                           <Link
-                            key={item.path}
+                            key={item.name}
                             to={item.path}
-                            className="block px-5 py-2.5 text-sm text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/8 transition-colors font-medium text-center"
+                            onClick={() => setGalleryOpen(false)}
+                            className="flex items-center gap-4 p-3 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
                           >
-                            {item.label}
+                            <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
+                              <item.icon className="w-5 h-5" />
+                            </div>
+                            <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
+                              {item.name}
+                            </span>
                           </Link>
                         ))}
                       </motion.div>
@@ -470,18 +497,27 @@ export default function Navbar() {
                           const Icon = item.icon;
                           const targetPath = item.path || `/${item.location}/rooms#${item.location}-${item.slug}`;
                           return (
-                            <Link 
-                              key={item.name} 
+                            <Link
+                              key={item.name}
                               to={targetPath}
                               onClick={() => setRoomsOpen(false)}
                               className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
                             >
-                              <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
-                                <Icon className="w-5 h-5" />
+                              <div className="w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 shadow-sm">
+                                <img 
+                                  src={item.image} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" 
+                                />
                               </div>
-                              <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
-                                {item.name}
-                              </span>
+                              <div className="flex flex-col">
+                                <span className="text-sm font-bold text-gray-800 group-hover/item:text-[#2E6B8A] transition-colors">
+                                  {item.name}
+                                </span>
+                                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">
+                                  {item.location}
+                                </span>
+                              </div>
                             </Link>
                           );
                         })}
@@ -510,16 +546,35 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
                       >
-                        {diningList.map((item) => {
+                        {diningList.map((item: any) => {
                           const Icon = item.icon;
-                          return (
-                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                          const content = (
+                            <>
                               <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
                                 <Icon className="w-5 h-5" />
                               </div>
                               <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
                                 {item.name}
                               </span>
+                            </>
+                          );
+
+                          if (item.path) {
+                            return (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                onClick={() => setDiningOpen(false)}
+                                className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
+                              >
+                                {content}
+                              </Link>
+                            );
+                          }
+
+                          return (
+                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                              {content}
                             </div>
                           );
                         })}
@@ -548,16 +603,35 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="absolute top-full left-[-150px] mt-2 bg-white rounded-2xl p-6 min-w-[500px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4"
                       >
-                        {facilitiesList.map((item) => {
+                        {facilitiesList.map((item: any) => {
                           const Icon = item.icon;
-                          return (
-                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                          const content = (
+                            <>
                               <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
                                 <Icon className="w-5 h-5" />
                               </div>
                               <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
                                 {item.name}
                               </span>
+                            </>
+                          );
+
+                          if (item.path) {
+                            return (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                onClick={() => setFacilitiesOpen(false)}
+                                className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
+                              >
+                                {content}
+                              </Link>
+                            );
+                          }
+
+                          return (
+                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
+                              {content}
                             </div>
                           );
                         })}
@@ -679,7 +753,7 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {navLinks.map((link) => (
+              {navLinks.map((link: any) => (
                 <div key={link.path}>
                   <Link
                     to={link.path}
@@ -691,18 +765,64 @@ export default function Navbar() {
                   >
                     {link.label}
                   </Link>
-                  {link.dropdown && (
+                  {(link.dropdown || (link.isFacilities && !activeLocKey) || (link.isGallery && !activeLocKey) || (link.isRooms && !activeLocKey) || (link.isDining && !activeLocKey)) && (
                     <div className="pl-6 bg-gray-50/50">
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          onClick={() => setMobileOpen(false)}
-                          className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
+                      {link.dropdown ? (
+                        link.dropdown.map((item: any) => (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        ))
+                      ) : link.isFacilities ? (
+                        facilitiesList.map((item: any) => (
+                          <Link
+                            key={item.name}
+                            to={item.path || "#"}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        ))
+                      ) : link.isGallery ? (
+                        galleryList.map((item: any) => (
+                          <Link
+                            key={item.name}
+                            to={item.path || "#"}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        ))
+                      ) : link.isRooms ? (
+                        roomsList.map((item: any) => (
+                          <Link
+                            key={item.name}
+                            to={item.path || (item.location ? `/${item.location}/rooms#${item.location}-${item.slug}` : "#")}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        ))
+                      ) : link.isDining ? (
+                        diningList.map((item: any) => (
+                          <Link
+                            key={item.name}
+                            to={item.path || "#"}
+                            onClick={() => setMobileOpen(false)}
+                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
+                          >
+                            {item.name}
+                          </Link>
+                        ))
+                      ) : null}
                     </div>
                   )}
                 </div>
