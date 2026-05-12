@@ -1,4 +1,4 @@
-import whatsappIcon from "../assets/icons8-whatsapp-48.webp";
+import whatsappIcon from "@/assets/icons8-whatsapp-48.webp";
 
 export default function WhatsAppButton() {
     return (
