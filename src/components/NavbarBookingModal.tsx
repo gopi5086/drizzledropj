@@ -54,6 +54,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
         phone: "",
         roomType: "Deluxe Room",
         message: "",
+        offerCode: "",
     });
 
     useEffect(() => {
@@ -73,7 +74,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 setChildren(bookingData.children || 0);
                 setRooms(bookingData.rooms || 1);
                 if (bookingData.roomType) setGuestDetails(prev => ({ ...prev, roomType: bookingData.roomType! }));
-                if (bookingData.offerCode) setGuestDetails(prev => ({ ...prev, message: `Offer Code: ${bookingData.offerCode}` }));
+                if (bookingData.offerCode) setGuestDetails(prev => ({ ...prev, offerCode: bookingData.offerCode! }));
             } else {
                 setStep(1);
             }
@@ -89,7 +90,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             // Generate a unique ID for this specific submission
             const submissionId = Date.now();
             const iframeId = `w3f-iframe-${submissionId}`;
-            
+
             // Create a fresh hidden iframe
             const iframe = document.createElement("iframe");
             iframe.id = iframeId;
@@ -122,6 +123,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 rooms_count: roomsCount,
                 check_in: checkInDate,
                 check_out: checkOutDate,
+                offer_code: guestDetails.offerCode || "None",
                 replyto: guestDetails.email,
             };
 
@@ -141,7 +143,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 if (document.body.contains(tempForm)) document.body.removeChild(tempForm);
                 if (document.body.contains(iframe)) document.body.removeChild(iframe);
             }, 10000); // 10 seconds is safer
-            
+
             // Show success immediately after dispatch
             await new Promise(r => setTimeout(r, 1000));
             setSuccess(true);
@@ -254,6 +256,23 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                                 <SelectItem value="Family Suite">Family Suite</SelectItem>
                                             </SelectContent>
                                         </Select>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label>Offer Code (Optional)</Label>
+                                        <div className="relative">
+                                            <Input 
+                                                value={guestDetails.offerCode} 
+                                                onChange={e => setGuestDetails({ ...guestDetails, offerCode: e.target.value })} 
+                                                placeholder="Enter promo code" 
+                                                className={cn("bg-gray-50/50 uppercase font-mono tracking-wider", guestDetails.offerCode && "border-primary/50 bg-primary/5")}
+                                            />
+                                            {guestDetails.offerCode && (
+                                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <div className="flex gap-3 pt-4">
