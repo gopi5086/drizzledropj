@@ -90,11 +90,6 @@ export default function Navbar() {
         isRooms: true
       },
       {
-        label: "Dining",
-        path: `${prefix}/dining`,
-        isDining: true
-      },
-      {
         label: "Facilities",
         path: `${prefix}/facilities`,
         isFacilities: true
@@ -103,6 +98,11 @@ export default function Navbar() {
         label: "Gallery",
         path: `${prefix}/gallery`,
         isGallery: !locKey
+      },
+      {
+        label: "Dining",
+        path: `${prefix}/dining`,
+        isDining: true
       },
       { label: "Offers", path: `${prefix}/deals` },
       { label: "Contact", path: `${prefix}/contact` },
@@ -451,14 +451,12 @@ export default function Navbar() {
                   if (link.isGallery) setGalleryOpen(true);
                   if (link.isFacilities) setFacilitiesOpen(true);
                   if (link.isRooms) setRoomsOpen(true);
-                  if (link.isDining) setDiningOpen(true);
                 }}
                 onMouseLeave={() => {
                   if (link.dropdown) setGalleryOpen(false);
                   if (link.isGallery) setGalleryOpen(false);
                   if (link.isFacilities) setFacilitiesOpen(false);
                   if (link.isRooms) setRoomsOpen(false);
-                  if (link.isDining) setDiningOpen(false);
                 }}
               >
                 <Link
@@ -472,7 +470,7 @@ export default function Navbar() {
                     }`}
                 >
                   {link.label}
-                  {(link.dropdown || link.isFacilities || link.isRooms || link.isDining || link.isGallery) && <ChevronDown className="w-3 h-3 opacity-70" />}
+                  {(link.dropdown || link.isFacilities || link.isRooms || link.isGallery) && <ChevronDown className="w-3 h-3 opacity-70" />}
                   <span
                     className={`absolute bottom-0 left-3 right-3 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ${isTransparent ? "bg-[#3a7d5a]" : "bg-[#2E6B8A]"
                       }`}
@@ -562,63 +560,6 @@ export default function Navbar() {
                             className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
                           >
                             View All Rooms
-                            <ChevronDown className="-rotate-90 w-3 h-3" />
-                          </Link>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                )}
-
-                {link.isDining && (
-                  <AnimatePresence>
-                    {diningOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-[-100px] mt-2 bg-white rounded-2xl p-6 min-w-[450px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-[#2E6B8A]/10 grid grid-cols-2 gap-4 before:content-[''] before:absolute before:-top-4 before:left-0 before:right-0 before:h-4"
-                      >
-                        {diningList.map((item: any) => {
-                          const Icon = item.icon;
-                          const content = (
-                            <>
-                              <div className="w-10 h-10 rounded-lg bg-[#2E6B8A]/5 flex items-center justify-center text-[#2E6B8A] group-hover/item:bg-[#2E6B8A]/10 transition-colors">
-                                <Icon className="w-5 h-5" />
-                              </div>
-                              <span className="text-sm font-semibold text-gray-700 group-hover/item:text-[#2E6B8A] transition-colors">
-                                {item.name}
-                              </span>
-                            </>
-                          );
-
-                          if (item.path) {
-                            return (
-                              <Link
-                                key={item.name}
-                                to={item.path}
-                                onClick={() => setDiningOpen(false)}
-                                className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item"
-                              >
-                                {content}
-                              </Link>
-                            );
-                          }
-
-                          return (
-                            <div key={item.name} className="flex items-center gap-4 p-2 rounded-xl transition-all duration-300 hover:bg-[#2E6B8A]/5 group/item">
-                              {content}
-                            </div>
-                          );
-                        })}
-
-                        <div className="col-span-2 pt-4 border-t border-gray-100 mt-2">
-                          <Link
-                            to={link.path}
-                            className="text-xs font-bold text-[#C5A861] uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:gap-4 transition-all"
-                          >
-                            Explore Dining Experience
                             <ChevronDown className="-rotate-90 w-3 h-3" />
                           </Link>
                         </div>
