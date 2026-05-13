@@ -62,7 +62,9 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             setSuccess(false);
             setError("");
             if (bookingData) {
-                if (bookingData.location && bookingData.checkIn) setStep(2);
+                // If offer code is present (Redeem Now flow), jump directly to Step 2
+                if (bookingData.offerCode) setStep(2);
+                else if (bookingData.location && bookingData.checkIn) setStep(2);
                 else setStep(1);
 
                 setLocation(bookingData.location || "DrizzleDrop Inn, Chennai");
@@ -73,13 +75,17 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                 setAdults(bookingData.adults || 2);
                 setChildren(bookingData.children || 0);
                 setRooms(bookingData.rooms || 1);
-                if (bookingData.roomType) setGuestDetails(prev => ({ ...prev, roomType: bookingData.roomType! }));
-                if (bookingData.offerCode) setGuestDetails(prev => ({ ...prev, offerCode: bookingData.offerCode! }));
+                setGuestDetails(prev => ({
+                    ...prev,
+                    roomType: bookingData.roomType || prev.roomType,
+                    offerCode: bookingData.offerCode ?? prev.offerCode,
+                }));
             } else {
                 setStep(1);
+                setGuestDetails(prev => ({ ...prev, offerCode: "" }));
             }
         }
-    }, [isOpen]);
+    }, [isOpen, bookingData?.offerCode, bookingData?.location]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -259,17 +265,27 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label>Offer Code (Optional)</Label>
+                                        <div className="flex items-center gap-2">
+                                            <Label>Offer Code</Label>
+                                            {guestDetails.offerCode && (
+                                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                                    <CheckCircle2 className="w-3 h-3" /> Applied
+                                                </span>
+                                            )}
+                                            {!guestDetails.offerCode && (
+                                                <span className="text-[10px] text-gray-400 font-medium">(Optional)</span>
+                                            )}
+                                        </div>
                                         <div className="relative">
-                                            <Input 
-                                                value={guestDetails.offerCode} 
-                                                onChange={e => setGuestDetails({ ...guestDetails, offerCode: e.target.value })} 
-                                                placeholder="Enter promo code" 
-                                                className={cn("bg-gray-50/50 uppercase font-mono tracking-wider", guestDetails.offerCode && "border-primary/50 bg-primary/5")}
+                                            <Input
+                                                value={guestDetails.offerCode}
+                                                onChange={e => setGuestDetails({ ...guestDetails, offerCode: e.target.value })}
+                                                placeholder="Enter promo code"
+                                                className={cn("bg-gray-50/50 uppercase font-mono tracking-wider", guestDetails.offerCode && "border-emerald-400 bg-emerald-50/40 text-emerald-700")}
                                             />
                                             {guestDetails.offerCode && (
                                                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                                    <CheckCircle2 className="w-4 h-4 text-primary" />
+                                                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                                 </div>
                                             )}
                                         </div>

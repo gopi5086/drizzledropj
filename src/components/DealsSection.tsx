@@ -118,36 +118,41 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
                     {deal.title}
                   </h3>
+                  
+                  {deal.customPrice && (
+                    <div className="mb-4">
+                      <span className="inline-block bg-primary/10 border border-primary/20 text-primary font-bold text-lg px-3 py-1 rounded-lg font-display">
+                        {deal.customPrice}
+                      </span>
+                    </div>
+                  )}
+
                   <p className="text-muted-foreground text-sm line-clamp-3 mb-6">
                     {deal.description}
                   </p>
                   
-                  <div className="mt-auto pt-6 border-t border-border/20 flex items-center justify-between">
-                    <div>
-                      {deal.customPrice && (
-                        <p className="text-secondary-foreground font-bold text-lg">{deal.customPrice}</p>
-                      )}
-                      <p className="text-[10px] text-gray-400 flex items-center gap-1 uppercase tracking-widest font-bold">
-                        <Clock className="w-3 h-3" />
-                        Valid until {new Date(deal.validTo).toLocaleDateString()}
+                  <div className="mt-auto pt-5 border-t border-border/20 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[11px] text-muted-foreground flex items-center gap-1.5 uppercase tracking-widest font-semibold">
+                        <Clock className="w-3.5 h-3.5" />
+                        Valid till {new Date(deal.validTo).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>
                     </div>
                     
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2 min-w-[140px]">
                       {deal.promoCode && (
-                        <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2">
-                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Code:</span>
+                        <div className="flex items-center justify-between gap-2 bg-primary/5 border border-primary/10 rounded-lg px-3 py-1.5">
+                           <span className="text-[10px] font-bold text-primary/60 uppercase tracking-wider">Code</span>
                            <span className="text-sm font-mono font-bold text-primary">{deal.promoCode}</span>
                         </div>
                       )}
                       <button 
                         onClick={() => openBooking({ offerCode: deal.promoCode, location: deal.location })}
-                        className="w-full flex items-center justify-center gap-2 py-3 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-xl transition-all duration-300 font-bold text-sm tracking-wide"
+                        className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-primary text-white hover:bg-primary/90 hover:shadow-md hover:-translate-y-0.5 rounded-lg transition-all duration-300 font-bold text-sm tracking-wide"
                       >
                         Redeem Now
                         <ChevronRight className="w-4 h-4" />
