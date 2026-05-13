@@ -226,7 +226,9 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
 
   useEffect(() => {
     const updateItemsPerView = () => {
-      setItemsPerView(window.innerWidth < 768 ? 1 : 3);
+      if (window.innerWidth < 768) setItemsPerView(1);
+      else if (window.innerWidth < 1024) setItemsPerView(2);
+      else setItemsPerView(4);
     };
     updateItemsPerView();
     window.addEventListener("resize", updateItemsPerView);
@@ -268,27 +270,24 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
       : "Voices of Satisfaction";
 
   return (
-    <section className="py-32 bg-[#FAF9F6] relative overflow-hidden">
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-[#2E6B8A]/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-[#C5A861]/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+    <section className="py-24 bg-white relative overflow-hidden">
 
       <div className="container-luxury relative z-10">
-        <div className="text-center mb-20 px-4">
+        <div className="text-center mb-16 px-4">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[11px] uppercase tracking-[0.6em] text-[#C5A861] font-bold mb-5 block"
+            className="text-[11px] uppercase tracking-widest text-[#3a7d5a] font-bold mb-4 block"
           >
-            Verified Testimonials
+            GUEST REVIEWS
           </motion.span>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold tracking-tight text-[#1A1A1A] mx-auto max-w-3xl leading-tight"
+            className="text-4xl md:text-5xl font-bold tracking-tight text-[#2E6B8A] mx-auto max-w-3xl leading-tight font-display"
           >
             {title}
           </motion.h2>
@@ -297,7 +296,7 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="w-20 h-1 bg-[#2E6B8A]/20 mx-auto mt-8 rounded-full"
+            className="w-24 h-0.5 bg-[#C5A861] mx-auto mt-6"
           />
         </div>
 
@@ -328,35 +327,25 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
               {displayReviews.map((review, idx) => (
                 <div
                   key={idx}
-                  className="w-full md:w-1/3 flex-shrink-0 px-4 py-8"
+                  className="w-full md:w-1/2 lg:w-1/4 flex-shrink-0 px-3 py-6"
                 >
-                  <div className="h-full bg-white p-10 md:p-12 border border-[#2E6B8A]/5 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_60px_rgba(46,107,138,0.1)] transition-all duration-700 group/card relative overflow-hidden flex flex-col">
-                    <Quote className="absolute top-6 right-8 w-24 h-24 text-[#2E6B8A]/[0.03] -rotate-12 group-hover/card:rotate-0 transition-transform duration-700" />
-                    
-                    <div className="flex gap-1.5 mb-8 relative z-10">
+                  <div className="h-full bg-white p-8 border border-border/60 hover:border-border transition-colors duration-300 flex flex-col">
+                    <div className="flex gap-1 mb-6">
                       {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-[#C5A861] text-[#C5A861]" />
+                        <Star key={i} className="w-4 h-4 fill-[#C5A861] text-[#C5A861]" />
                       ))}
                     </div>
 
-                    <div className="relative z-10 flex-grow">
-                      <p className="text-base md:text-[17px] text-[#444] font-medium leading-relaxed mb-10 italic">
+                    <div className="flex-grow">
+                      <p className="text-[15px] text-[#2E6B8A]/80 leading-relaxed mb-8 italic">
                         "{review.text}"
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-5 border-t border-[#2E6B8A]/5 pt-8 relative z-10">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2E6B8A]/10 to-[#C5A861]/10 flex items-center justify-center text-[#2E6B8A] font-bold text-sm">
-                        {review.author.charAt(0)}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-[15px] text-[#1A1A1A] tracking-tight mb-0.5">
-                          {review.author}
-                        </h4>
-                        <span className="text-[10px] uppercase tracking-widest text-[#2E6B8A]/60 font-bold">
-                          {review.location}
-                        </span>
-                      </div>
+                    <div className="mt-auto">
+                      <h4 className="font-bold text-[11px] text-gray-500 uppercase tracking-widest">
+                        {review.author}
+                      </h4>
                     </div>
                   </div>
                 </div>
