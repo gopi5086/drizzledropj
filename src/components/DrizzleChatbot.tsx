@@ -42,7 +42,7 @@ export default function DrizzleChatbot() {
     return () => clearTimeout(timer);
   }, [isOpen]);
 
-  const filteredFaqs = faqs.filter(f => 
+  const filteredFaqs = faqs.filter(f =>
     f.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
     f.answer.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -84,8 +84,8 @@ export default function DrizzleChatbot() {
                   </div>
                 </div>
               </div>
-              <button 
-                onClick={() => setIsOpen(false)} 
+              <button
+                onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-white/10 rounded-xl transition-all relative z-10"
               >
                 <X className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function DrizzleChatbot() {
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-gradient-to-b from-slate-50/50 to-white" ref={scrollRef}>
               {selectedFaq ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="space-y-5"
@@ -110,8 +110,8 @@ export default function DrizzleChatbot() {
                       {selectedFaq.answer}
                     </div>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => setSelectedFaq(null)}
                     className="w-full py-3 border-2 border-[#2E6B8A]/10 text-[#2E6B8A] rounded-xl text-xs font-bold hover:bg-[#2E6B8A] hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
                   >
@@ -125,9 +125,9 @@ export default function DrizzleChatbot() {
                     <p className="text-sm font-bold text-gray-800 mb-4 tracking-tight">How can we assist you today?</p>
                     <div className="relative group">
                       <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-[#2E6B8A] transition-colors" />
-                      <input 
-                        type="text" 
-                        placeholder="Search for answers..." 
+                      <input
+                        type="text"
+                        placeholder="Search for answers..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-transparent rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#2E6B8A]/20 focus:bg-white focus:border-[#2E6B8A]/10 transition-all"
@@ -182,7 +182,7 @@ export default function DrizzleChatbot() {
               className="mb-4 mr-2 bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 min-w-[220px] hidden sm:block relative cursor-pointer"
               onClick={() => { setIsOpen(true); setShowTooltip(false); }}
             >
-              <button 
+              <button
                 onClick={(e) => { e.stopPropagation(); setShowTooltip(false); }}
                 className="absolute -top-2 -left-2 bg-white border border-gray-100 shadow-sm rounded-full p-1 hover:bg-gray-50 transition-colors"
               >
@@ -190,7 +190,7 @@ export default function DrizzleChatbot() {
               </button>
               <p className="text-xs font-bold text-[#2a2a2a] mb-1">Need assistance?</p>
               <p className="text-[10px] text-gray-500 font-medium">Click here to chat with our team!</p>
-              
+
               {/* Arrow pointing down */}
               <div className="absolute right-6 -bottom-2 w-4 h-4 bg-white border-r border-b border-gray-100 rotate-45" />
             </motion.div>
@@ -204,14 +204,13 @@ export default function DrizzleChatbot() {
             setIsOpen(!isOpen);
             setShowTooltip(false);
           }}
-          className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 ${
-            isOpen 
-              ? "bg-white text-[#2E6B8A] border-2 border-[#2E6B8A]/10 rotate-90" 
+          className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 ${isOpen
+              ? "bg-white text-[#2E6B8A] border-2 border-[#2E6B8A]/10 rotate-90"
               : "bg-[#2E6B8A] text-white hover:shadow-[#2E6B8A]/40"
-          }`}
+            }`}
         >
           {isOpen ? <X className="w-7 h-7" /> : <MessageSquare className="w-7 h-7" />}
-          
+
           {!isOpen && (
             <div className="absolute -top-1 -right-1 flex h-5 w-5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2E6B8A] opacity-75"></span>
@@ -227,19 +226,19 @@ export default function DrizzleChatbot() {
 // Sub-component for back arrow since I forgot it in imports
 function ArrowLeft(props: any) {
   return (
-    <svg 
-      {...props} 
-      xmlns="http://www.w3.org/2000/svg" 
-      width="24" 
-      height="24" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+      <path d="m12 19-7-7 7-7" /><path d="M19 12H5" />
     </svg>
   );
 }

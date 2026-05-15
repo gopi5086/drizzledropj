@@ -263,7 +263,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [location]);
+  useEffect(() => { 
+    setMobileOpen(false); 
+    setLocationOpen(false);
+    setMobileLocOpen(false);
+  }, [location]);
 
   // Close location dropdown on outside click
   useEffect(() => {
@@ -315,9 +319,12 @@ export default function Navbar() {
           >
             <button
               onClick={() => setLocationOpen(!locationOpen)}
-              className={`px-2 py-1.5 text-[10px] font-bold tracking-wide transition-all duration-300 flex items-center gap-1 rounded-full border border-primary/20 bg-primary/5 ${currentLocObj ? "text-[#C5A861]" : "text-[#2a2a2a]/80"}`}
+              className={`px-2 py-1.5 text-[10px] font-bold tracking-wide transition-all duration-300 flex items-center gap-1 rounded-full border ${isTransparent
+                  ? "border-white/20 bg-white/10 text-white"
+                  : "border-[#2E6B8A]/20 bg-[#2E6B8A]/5"
+                } ${currentLocObj ? (isTransparent ? "text-[#C5A861]" : "text-[#2E6B8A]") : (isTransparent ? "" : "text-[#2a2a2a]/80")}`}
             >
-              <MapPin className="w-3 h-3 text-primary" />
+              <MapPin className={`w-3 h-3 ${isTransparent ? (currentLocObj ? "text-[#C5A861]" : "text-white") : "text-[#2E6B8A]"}`} />
               <span className="max-w-[70px] truncate uppercase tracking-tighter">
                 {currentLocObj ? currentLocObj.label.split(' – ')[0] : "Locations"}
               </span>
@@ -342,15 +349,15 @@ export default function Navbar() {
                       <span className="text-xs font-bold text-gray-800">All Locations</span>
                     </div>
                   </Link>
-                  {locations.filter(loc => loc.key !== activeLocKey).map((loc) => (
+                  {locations.map((loc) => (
                     <Link
                       key={loc.key}
                       to={loc.path}
                       onClick={() => handleLocationSelect(loc)}
-                      className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0"
+                      className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 ${activeLocKey === loc.key ? "bg-[#2E6B8A]/5" : ""}`}
                     >
                       <div className="w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: loc.color }} />
-                      <div className="text-xs font-bold text-gray-800">{loc.label}</div>
+                      <div className={`text-xs font-bold ${activeLocKey === loc.key ? "text-[#2E6B8A]" : "text-gray-800"}`}>{loc.label}</div>
                     </Link>
                   ))}
                 </motion.div>
@@ -371,7 +378,7 @@ export default function Navbar() {
             <button
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-3.5 py-2 text-sm font-medium tracking-wide transition-all duration-300 relative group flex items-center gap-1.5 rounded-md ${currentLocObj
-                ? "text-[#C5A861]"
+                ? (isTransparent ? "text-[#C5A861]" : "text-[#2E6B8A] font-bold")
                 : isTransparent ? "text-white/90" : "text-[#2a2a2a]/80 hover:text-[#2E6B8A]"
                 }`}
             >
@@ -403,7 +410,7 @@ export default function Navbar() {
                     </div>
                   </Link>
 
-                  {locations.filter(loc => loc.key !== activeLocKey).map((loc) => {
+                  {locations.map((loc) => {
                     const pathParts = location.pathname.split("/");
                     let targetPath = loc.path;
                     if (pathParts.length >= 3 && (pathParts[1] === "chennai" || pathParts[1] === "ooty")) {
@@ -416,11 +423,11 @@ export default function Navbar() {
                         key={loc.key}
                         to={targetPath}
                         onClick={() => handleLocationSelect(loc)}
-                        className="flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0"
+                        className={`flex items-start gap-3 px-5 py-4 transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${activeLocKey === loc.key ? "bg-[#2E6B8A]/5" : ""}`}
                       >
                         <div className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: loc.color }} />
                         <div>
-                          <div className="text-sm font-bold text-[#2a2a2a]">{loc.label}</div>
+                          <div className={`text-sm font-bold ${activeLocKey === loc.key ? "text-[#2E6B8A]" : "text-[#2a2a2a]"}`}>{loc.label}</div>
                           <p className="text-[10px] text-gray-400 mt-0.5 uppercase tracking-wider">{loc.sublabel}</p>
                         </div>
                       </Link>
@@ -697,7 +704,7 @@ export default function Navbar() {
                         <div className="text-xs opacity-60">Explore our brand properties</div>
                       </Link>
 
-                      {locations.filter(loc => loc.key !== activeLocKey).map((loc) => {
+                      {locations.map((loc) => {
                         // Intelligent routing: Preserve the current sub-page when switching locations
                         const pathParts = location.pathname.split("/");
                         let targetPath = loc.path;
@@ -716,7 +723,7 @@ export default function Navbar() {
                             key={loc.path}
                             to={targetPath}
                             onClick={() => handleLocationSelect(loc)}
-                            className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5`}
+                            className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${activeLocKey === loc.key ? "text-[#2E6B8A] bg-[#2E6B8A]/10 font-bold" : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"}`}
                           >
                             <div className="font-semibold">{loc.label}</div>
                             <div className="text-xs opacity-60">{loc.sublabel}</div>

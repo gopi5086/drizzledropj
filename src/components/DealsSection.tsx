@@ -60,12 +60,12 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
       <section id="deals" className="section-padding bg-secondary/5">
         <div className="container-luxury text-center">
           <Reveal width="100%">
-            <SectionHeading 
-              label="Exclusive Offers" 
-              title={location === "Chennai" ? "Chennai Special Deals" : "Ooty Hillside Offers"} 
+            <SectionHeading
+              label="Exclusive Offers"
+              title={location === "Chennai" ? "Chennai Special Deals" : "Ooty Hillside Offers"}
             />
           </Reveal>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-12 p-8 bg-white/60 backdrop-blur-sm rounded-2xl shadow-sm border border-border/40 max-w-2xl mx-auto"
@@ -85,9 +85,9 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
     <section id="deals" className="section-padding bg-secondary/5">
       <div className="container-luxury">
         <Reveal width="100%">
-          <SectionHeading 
-            label="Exclusive Offers" 
-            title={location === "Chennai" ? "Chennai Special Deals" : "Ooty Hillside Offers"} 
+          <SectionHeading
+            label="Exclusive Offers"
+            title={location === "Chennai" ? "Chennai Special Deals" : "Ooty Hillside Offers"}
           />
         </Reveal>
 
@@ -100,9 +100,9 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
               >
                 {/* Image & Badges */}
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img 
-                    src={deal.image} 
-                    alt={deal.title} 
+                  <img
+                    src={deal.image}
+                    alt={deal.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -122,7 +122,7 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
                   <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
                     {deal.title}
                   </h3>
-                  
+
                   {deal.customPrice && (
                     <div className="mb-4">
                       <span className="inline-block bg-primary/10 border border-primary/20 text-primary font-bold text-lg px-3 py-1 rounded-lg font-display">
@@ -134,23 +134,23 @@ export default function DealsSection({ location }: { location: "Chennai" | "Ooty
                   <p className="text-muted-foreground text-sm line-clamp-3 mb-6">
                     {deal.description}
                   </p>
-                  
+
                   <div className="mt-auto pt-5 border-t border-border/20 flex flex-col gap-4">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="text-[11px] text-muted-foreground flex items-center gap-1.5 uppercase tracking-widest font-semibold">
                         <Clock className="w-3.5 h-3.5 shrink-0" />
                         <span>Valid till {new Date(deal.validTo).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                       </p>
-                      
+
                       {deal.promoCode && (
                         <div className="flex items-center gap-1.5 bg-primary/5 border border-primary/10 rounded-md px-2 py-1 shrink-0">
-                           <span className="text-[9px] font-bold text-primary/60 uppercase tracking-wider">Code:</span>
-                           <span className="text-xs font-mono font-bold text-primary">{deal.promoCode}</span>
+                          <span className="text-[9px] font-bold text-primary/60 uppercase tracking-wider">Code:</span>
+                          <span className="text-xs font-mono font-bold text-primary">{deal.promoCode}</span>
                         </div>
                       )}
                     </div>
-                    
-                    <button 
+
+                    <button
                       onClick={() => openBooking({ offerCode: deal.promoCode, location: deal.location })}
                       className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white hover:bg-primary/90 hover:shadow-md hover:-translate-y-0.5 rounded-xl transition-all duration-300 font-bold text-sm tracking-wide whitespace-nowrap"
                     >

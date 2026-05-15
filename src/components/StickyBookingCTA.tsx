@@ -44,7 +44,7 @@ export default function StickyBookingCTA() {
              <Magnetic strength={0.3}>
                 <button
                   onClick={() => openBooking()}
-                  className="btn-luxury group bg-gradient-to-r from-[#2E6B8A] to-[#3a7d5a] text-white px-10 py-4 rounded-full text-[12px] font-bold uppercase tracking-[0.4em] flex items-center gap-3 shadow-[0_20px_50px_rgba(46,107,138,0.3)] hover:shadow-[0_20px_50px_rgba(58,125,90,0.5)]"
+                  className="btn-luxury group bg-gradient-to-r from-[#2E6B8A] to-[#3a7d5a] text-white px-8 py-3.5 sm:px-10 sm:py-4 rounded-full text-[11px] sm:text-[12px] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] flex items-center gap-2.5 sm:gap-3 shadow-[0_20px_50px_rgba(46,107,138,0.3)] hover:shadow-[0_20px_50px_rgba(58,125,90,0.5)]"
                 >
                   Book Now
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
