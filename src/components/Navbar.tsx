@@ -53,6 +53,7 @@ export default function Navbar() {
   const [diningOpen, setDiningOpen] = useState(false);
   const [mobileLocOpen, setMobileLocOpen] = useState(false);
   const locationDropRef = useRef<HTMLDivElement>(null);
+  const mobileLocationDropRef = useRef<HTMLDivElement>(null);
 
   const { currentLocation, setCurrentLocation } = useLocationContext();
   const [dynamicRooms, setDynamicRooms] = useState<any[]>([]);
@@ -272,7 +273,10 @@ export default function Navbar() {
   // Close location dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (locationDropRef.current && !locationDropRef.current.contains(e.target as Node)) {
+      const isOutsideDesktop = locationDropRef.current && !locationDropRef.current.contains(e.target as Node);
+      const isOutsideMobile = mobileLocationDropRef.current && !mobileLocationDropRef.current.contains(e.target as Node);
+      
+      if (isOutsideDesktop && isOutsideMobile) {
         setLocationOpen(false);
       }
     };
@@ -314,8 +318,7 @@ export default function Navbar() {
         <div className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
           <div
             className="relative"
-            onMouseEnter={() => setLocationOpen(true)}
-            onMouseLeave={() => setLocationOpen(false)}
+            ref={mobileLocationDropRef}
           >
             <button
               onClick={() => setLocationOpen(!locationOpen)}
@@ -349,17 +352,27 @@ export default function Navbar() {
                       <span className="text-xs font-bold text-gray-800">All Locations</span>
                     </div>
                   </Link>
-                  {locations.map((loc) => (
-                    <Link
-                      key={loc.key}
-                      to={loc.path}
-                      onClick={() => handleLocationSelect(loc)}
-                      className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 ${activeLocKey === loc.key ? "bg-[#2E6B8A]/5" : ""}`}
-                    >
-                      <div className="w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: loc.color }} />
-                      <div className={`text-xs font-bold ${activeLocKey === loc.key ? "text-[#2E6B8A]" : "text-gray-800"}`}>{loc.label}</div>
-                    </Link>
-                  ))}
+                  {locations.map((loc) => {
+                    const pathParts = location.pathname.split("/");
+                    let targetPath = loc.path;
+                    if (pathParts.length >= 3 && (pathParts[1] === "chennai" || pathParts[1] === "ooty")) {
+                      targetPath = `${loc.path}/${pathParts.slice(2).join("/")}`;
+                    } else if (pathParts.length === 2 && pathParts[1] && pathParts[1] !== "chennai" && pathParts[1] !== "ooty") {
+                      targetPath = `${loc.path}/${pathParts[1]}`;
+                    }
+
+                    return (
+                      <Link
+                        key={loc.key}
+                        to={targetPath}
+                        onClick={() => handleLocationSelect(loc)}
+                        className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 ${activeLocKey === loc.key ? "bg-[#2E6B8A]/5" : ""}`}
+                      >
+                        <div className="w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: loc.color }} />
+                        <div className={`text-xs font-bold ${activeLocKey === loc.key ? "text-[#2E6B8A]" : "text-gray-800"}`}>{loc.label}</div>
+                      </Link>
+                    );
+                  })}
                 </motion.div>
               )}
             </AnimatePresence>
