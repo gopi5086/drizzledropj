@@ -264,8 +264,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { 
-    setMobileOpen(false); 
+  useEffect(() => {
+    setMobileOpen(false);
     setLocationOpen(false);
     setMobileLocOpen(false);
   }, [location]);
@@ -275,7 +275,7 @@ export default function Navbar() {
     const handler = (e: MouseEvent) => {
       const isOutsideDesktop = locationDropRef.current && !locationDropRef.current.contains(e.target as Node);
       const isOutsideMobile = mobileLocationDropRef.current && !mobileLocationDropRef.current.contains(e.target as Node);
-      
+
       if (isOutsideDesktop && isOutsideMobile) {
         setLocationOpen(false);
       }
@@ -323,8 +323,8 @@ export default function Navbar() {
             <button
               onClick={() => setLocationOpen(!locationOpen)}
               className={`px-2 py-1.5 text-[10px] font-bold tracking-wide transition-all duration-300 flex items-center gap-1 rounded-full border ${isTransparent
-                  ? "border-white/20 bg-white/10 text-white"
-                  : "border-[#2E6B8A]/20 bg-[#2E6B8A]/5"
+                ? "border-white/20 bg-white/10 text-white"
+                : "border-[#2E6B8A]/20 bg-[#2E6B8A]/5"
                 } ${currentLocObj ? (isTransparent ? "text-[#C5A861]" : "text-[#2E6B8A]") : (isTransparent ? "" : "text-[#2a2a2a]/80")}`}
             >
               <MapPin className={`w-3 h-3 ${isTransparent ? (currentLocObj ? "text-[#C5A861]" : "text-white") : "text-[#2E6B8A]"}`} />
@@ -760,66 +760,7 @@ export default function Navbar() {
                   >
                     {link.label}
                   </Link>
-                  {(link.dropdown || (link.isFacilities && !activeLocKey) || (link.isGallery && !activeLocKey) || (link.isRooms && !activeLocKey) || (link.isDining && !activeLocKey)) && (
-                    <div className="pl-6 bg-gray-50/50">
-                      {link.dropdown ? (
-                        link.dropdown.map((item: any) => (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                          >
-                            {item.label}
-                          </Link>
-                        ))
-                      ) : link.isFacilities ? (
-                        facilitiesList.map((item: any) => (
-                          <Link
-                            key={item.name}
-                            to={item.path || "#"}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                          >
-                            {item.name}
-                          </Link>
-                        ))
-                      ) : link.isGallery ? (
-                        galleryList.map((item: any) => (
-                          <Link
-                            key={item.name}
-                            to={item.path || "#"}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                          >
-                            {item.name}
-                          </Link>
-                        ))
-                      ) : link.isRooms ? (
-                        roomsList.map((item: any) => (
-                          <Link
-                            key={item.name}
-                            to={item.path || (item.location ? `/${item.location}/rooms#${item.location}-${item.slug}` : "#")}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                          >
-                            {item.name}
-                          </Link>
-                        ))
-                      ) : link.isDining ? (
-                        diningList.map((item: any) => (
-                          <Link
-                            key={item.name}
-                            to={item.path || "#"}
-                            onClick={() => setMobileOpen(false)}
-                            className="block px-4 py-3 text-sm text-[#2a2a2a]/60 hover:text-[#2E6B8A] transition-colors"
-                          >
-                            {item.name}
-                          </Link>
-                        ))
-                      ) : null}
-                    </div>
-                  )}
+
                 </div>
               ))}
 
