@@ -274,7 +274,7 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
 
       <div className="container-luxury relative z-10">
         <div className="text-center mb-16 px-4">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -282,7 +282,7 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
           >
             GUEST REVIEWS
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -291,7 +291,7 @@ export default function GuestReviews({ property = "ALL" }: GuestReviewsProps) {
           >
             {title}
           </motion.h2>
-          <motion.div 
+          <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
