@@ -25,19 +25,21 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const AdminRoute = lazy(() => import("@/components/AdminRoute"));
-import SocialFloatingIcons from "@/components/SocialFloatingIcons";
 import { BookingProvider } from "@/context/BookingContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { LocationProvider } from "@/context/LocationContext";
-import NavbarBookingModal from "@/components/NavbarBookingModal";
 import { useBooking } from "@/context/BookingContext";
 import { locationMap } from "@/data/locationData";
 import { useEffect } from "react";
 import ScrollToTop from "@/components/ScrollToTop";
-import DrizzleChatbot from "@/components/DrizzleChatbot";
-import AdPopup from "@/components/AdPopup";
-import DealPopup from "@/components/DealPopup";
-import StickyBookingCTA from "@/components/StickyBookingCTA";
+
+// Lazy Loaded Overlay widgets & modals
+const SocialFloatingIcons = lazy(() => import("@/components/SocialFloatingIcons"));
+const NavbarBookingModal = lazy(() => import("@/components/NavbarBookingModal"));
+const DrizzleChatbot = lazy(() => import("@/components/DrizzleChatbot"));
+const AdPopup = lazy(() => import("@/components/AdPopup"));
+const DealPopup = lazy(() => import("@/components/DealPopup"));
+const StickyBookingCTA = lazy(() => import("@/components/StickyBookingCTA"));
 
 const queryClient = new QueryClient();
 
@@ -53,20 +55,22 @@ const GlobalBookingModal = () => {
   else displayLocation = "DrizzleDrop Inn, Chennai"; // Default fallback
 
   return (
-    <NavbarBookingModal
-      isOpen={isModalOpen}
-      onClose={closeBooking}
-      bookingData={{
-        location: displayLocation,
-        adults: Number(initialData?.guests) || 2,
-        children: 0,
-        rooms: 1,
-        checkIn: initialData?.checkIn,
-        checkOut: initialData?.checkOut,
-        roomType: initialData?.roomType,
-        offerCode: initialData?.offerCode,
-      }}
-    />
+    <Suspense fallback={null}>
+      <NavbarBookingModal
+        isOpen={isModalOpen}
+        onClose={closeBooking}
+        bookingData={{
+          location: displayLocation,
+          adults: Number(initialData?.guests) || 2,
+          children: 0,
+          rooms: 1,
+          checkIn: initialData?.checkIn,
+          checkOut: initialData?.checkOut,
+          roomType: initialData?.roomType,
+          offerCode: initialData?.offerCode,
+        }}
+      />
+    </Suspense>
   );
 };
 
@@ -168,14 +172,14 @@ const AppContent = () => {
       </Routes>
 
       {!isAdmin && (
-        <>
+        <Suspense fallback={null}>
           <SocialFloatingIcons />
           <DrizzleChatbot />
           <AdPopup />
           <DealPopup />
           <StickyBookingCTA />
           <GlobalBookingModal />
-        </>
+        </Suspense>
       )}
     </>
   );

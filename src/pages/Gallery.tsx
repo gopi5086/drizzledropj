@@ -103,6 +103,14 @@ export default function Gallery() {
 
   const images = displayImages;
 
+  useEffect(() => {
+    // Preload the first 6 images of the active tab to make browsing feel instant
+    images.slice(0, 6).forEach((img) => {
+      const preload = new Image();
+      preload.src = img.src;
+    });
+  }, [images]);
+
   return (
     <div className="pt-24">
       <SEO 
@@ -192,7 +200,9 @@ export default function Gallery() {
                       i % 4 === 2 ? "h-48 sm:h-56 md:h-64 lg:h-72" : 
                       "h-44 sm:h-56 md:h-60 lg:h-64"
                     }`}
-                    loading="lazy"
+                    loading={i < 6 ? "eager" : "lazy"}
+                    fetchPriority={i < 6 ? "high" : "auto"}
+                    decoding={i < 6 ? "sync" : "async"}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 flex flex-col items-center justify-end pb-6">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-center px-4">

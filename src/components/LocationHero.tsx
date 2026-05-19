@@ -53,6 +53,14 @@ export default function LocationHero({ location }: Props) {
   );
 
   useEffect(() => {
+    // Preload all location hero background images to ensure smooth, flicker-free transitions
+    slides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, [slides]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentSlide((prev) => (prev + 1) % slides.length);

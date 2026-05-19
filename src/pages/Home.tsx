@@ -124,6 +124,14 @@ export default function Home() {
     return ALL_HOME_IMAGES.filter(img => img.category === galleryCategory).slice(0, 16);
   }, [galleryCategory]);
 
+  useEffect(() => {
+    // Preload the first 4 images of the selected category to make them appear instantly
+    filteredHomeGallery.slice(0, 4).forEach((image) => {
+      const img = new Image();
+      img.src = image.src;
+    });
+  }, [filteredHomeGallery]);
+
   return (
     <>
       <SEO
@@ -340,8 +348,9 @@ export default function Home() {
                       src={image.src}
                       alt={`${image.location} ${image.category}`}
                       className="cinematic-zoom-image"
-                      loading="lazy"
-                      decoding="async"
+                      loading={i < 4 ? "eager" : "lazy"}
+                      fetchPriority={i < 4 ? "high" : "auto"}
+                      decoding={i < 4 ? "sync" : "async"}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
                       <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />

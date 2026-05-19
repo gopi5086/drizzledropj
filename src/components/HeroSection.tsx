@@ -98,6 +98,14 @@ export default function HeroSection() {
   );
 
   useEffect(() => {
+    // Preload all hero background images on mount to ensure smooth, flicker-free transitions
+    heroSlides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.image;
+    });
+  }, []);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setDirection(1);
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
