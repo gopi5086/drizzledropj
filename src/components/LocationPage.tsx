@@ -432,13 +432,13 @@ export default function LocationPage({ location }: Props) {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
             >
               {filteredGallery.map((image, i) => (
                 <Reveal key={image.id} delay={i * 0.05}>
                   <motion.div 
                     whileHover={{ scale: 1.02 }}
-                    className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-border/40"
+                    className="group relative aspect-video sm:aspect-square rounded-2xl overflow-hidden cursor-pointer shadow-sm border border-border/40"
                     onClick={() => setLightbox(image.src)}
                   >
                     <img 

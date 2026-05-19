@@ -327,13 +327,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
             >
               {filteredHomeGallery.map((image, i) => (
                 <Reveal key={image.id} delay={i * 0.05}>
                   <motion.div
                     whileHover={{ y: -5 }}
-                    className="group relative aspect-square cinematic-zoom-container cursor-pointer shadow-sm border border-border/40 hover-border-glow"
+                    className="group relative aspect-video sm:aspect-square cinematic-zoom-container cursor-pointer shadow-sm border border-border/40 hover-border-glow"
                     onClick={() => navigate(`/gallery?location=${image.location.toLowerCase()}`)}
                   >
                     <img
