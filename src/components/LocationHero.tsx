@@ -41,12 +41,14 @@ interface Props {
 
 export default function LocationHero({ location }: Props) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [prevSlide, setPrevSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const slides = location.heroSlides;
 
   const goToSlide = useCallback(
     (index: number) => {
       setDirection(index > currentSlide ? 1 : -1);
+      setPrevSlide(currentSlide);
       setCurrentSlide(index);
     },
     [currentSlide]
@@ -63,6 +65,7 @@ export default function LocationHero({ location }: Props) {
   useEffect(() => {
     const timer = setInterval(() => {
       setDirection(1);
+      setPrevSlide(currentSlide);
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, SLIDE_DURATION);
     return () => clearInterval(timer);
@@ -72,15 +75,24 @@ export default function LocationHero({ location }: Props) {
 
   return (
     <section className="relative w-full h-[90vh] sm:h-[95vh] min-h-[500px] sm:min-h-[650px] md:min-h-[750px] overflow-hidden bg-[#0a0a0a]">
-      {/* Background Slides */}
-      <AnimatePresence mode="popLayout" custom={direction}>
+      {/* Bottom Layer (exiting slide remains 100% solid underneath to prevent black showing through) */}
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src={slides[prevSlide].image}
+          alt="previous location slide"
+          className="absolute inset-0 w-full h-full object-cover brightness-[0.85] contrast-[1.05]"
+        />
+      </div>
+
+      {/* Top Layer (new slide fades in on top dynamically) */}
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
           className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1.05 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1.02 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
         >
           <img
             src={slide.image}

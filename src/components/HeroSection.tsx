@@ -87,11 +87,13 @@ function ShimmerParticles() {
 
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [prevSlide, setPrevSlide] = useState(0);
   const [direction, setDirection] = useState(1);
 
   const goToSlide = useCallback(
     (index: number) => {
       setDirection(index > currentSlide ? 1 : -1);
+      setPrevSlide(currentSlide);
       setCurrentSlide(index);
     },
     [currentSlide]
@@ -108,6 +110,7 @@ export default function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setDirection(1);
+      setPrevSlide(currentSlide);
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, SLIDE_DURATION);
 
@@ -131,22 +134,31 @@ export default function HeroSection() {
 
   return (
     <section className="relative w-full h-[90vh] sm:h-[95vh] min-h-[500px] sm:min-h-[650px] md:min-h-[750px] overflow-hidden bg-[#0a0a0a]">
-      {/* Background Slides with Parallax */}
-      <AnimatePresence mode="popLayout" custom={direction}>
+      {/* Bottom Layer (exiting slide remains 100% solid underneath to prevent black showing through) */}
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src={heroSlides[prevSlide].image}
+          alt="previous hero slide"
+          className="absolute inset-0 w-full h-full object-cover brightness-[0.85] contrast-[1.05]"
+        />
+      </div>
+
+      {/* Top Layer (new slide fades in on top dynamically with GPU-accelerated spring-parallax) */}
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
           className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0, scale: 1.1 }}
+          initial={{ opacity: 0, scale: 1.05 }}
           animate={{
             opacity: 1,
-            scale: 1.05,
+            scale: 1.02,
             x: mousePos.x,
             y: mousePos.y
           }}
-          exit={{ opacity: 0, scale: 1 }}
+          exit={{ opacity: 0 }}
           transition={{
-            opacity: { duration: 2 },
-            scale: { duration: 2 },
+            opacity: { duration: 1.2, ease: "easeInOut" },
+            scale: { duration: 1.2, ease: "easeInOut" },
             x: { type: "spring", stiffness: 50, damping: 30 },
             y: { type: "spring", stiffness: 50, damping: 30 }
           }}

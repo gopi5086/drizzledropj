@@ -7,10 +7,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Layout from "@/components/Layout";
 
+// Core Pages imported statically for instant, zero-lag rendering
+import Home from "@/pages/Home";
+import Chennai from "@/pages/Chennai";
+import Ooty from "@/pages/Ooty";
+import LocationPage from "@/components/LocationPage";
+
 // Lazy Loaded Pages
-const Home = lazy(() => import("@/pages/Home"));
-const Chennai = lazy(() => import("@/pages/Chennai"));
-const Ooty = lazy(() => import("@/pages/Ooty"));
 const Facilities = lazy(() => import("@/pages/Facilities"));
 const Rooms = lazy(() => import("@/pages/Rooms"));
 const Gallery = lazy(() => import("@/pages/Gallery"));
@@ -20,7 +23,6 @@ const About = lazy(() => import("@/pages/About"));
 const Overview = lazy(() => import("@/pages/Overview"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const BlogPost = lazy(() => import("@/pages/BlogPost"));
-const LocationPage = lazy(() => import("@/components/LocationPage"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
