@@ -288,11 +288,16 @@ export default function Navbar() {
 
   const currentLocObj = locations.find((l) => activeLocKey === l.key);
 
-  const handleLocationSelect = (loc: any) => {
-    setCurrentLocation(loc ? loc.key : null);
+  const handleLocationSelect = (loc: any, navigateTo?: string) => {
     setLocationOpen(false);
     setMobileLocOpen(false);
     setMobileOpen(false);
+    setCurrentLocation(loc ? loc.key : null);
+    if (navigateTo) {
+      setTimeout(() => {
+        navigate(navigateTo);
+      }, 50);
+    }
   };
 
   return (
@@ -344,7 +349,10 @@ export default function Navbar() {
                 >
                   <Link
                     to="/"
-                    onClick={() => handleLocationSelect(null)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLocationSelect(null, "/");
+                    }}
                     className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100"
                   >
                     <div className="w-2 h-2 rounded-full mt-1.5 bg-gray-400" />
@@ -365,7 +373,10 @@ export default function Navbar() {
                       <Link
                         key={loc.key}
                         to={targetPath}
-                        onClick={() => handleLocationSelect(loc)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLocationSelect(loc, targetPath);
+                        }}
                         className={`flex items-start gap-3 px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 ${activeLocKey === loc.key ? "bg-[#2E6B8A]/5" : ""}`}
                       >
                         <div className="w-2 h-2 rounded-full mt-1.5" style={{ backgroundColor: loc.color }} />
@@ -707,7 +718,10 @@ export default function Navbar() {
                     >
                       <Link
                         to="/"
-                        onClick={() => handleLocationSelect(null)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLocationSelect(null, "/");
+                        }}
                         className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${isCommonPage
                           ? "font-bold text-gray-700 bg-gray-100"
                           : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"
@@ -735,7 +749,10 @@ export default function Navbar() {
                           <Link
                             key={loc.path}
                             to={targetPath}
-                            onClick={() => handleLocationSelect(loc)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleLocationSelect(loc, targetPath);
+                            }}
                             className={`block px-4 py-2.5 text-sm rounded-md mb-1 transition-colors ${activeLocKey === loc.key ? "text-[#2E6B8A] bg-[#2E6B8A]/10 font-bold" : "text-[#2a2a2a]/70 hover:text-[#2E6B8A] hover:bg-[#2E6B8A]/5"}`}
                           >
                             <div className="font-semibold">{loc.label}</div>
