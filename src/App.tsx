@@ -51,7 +51,7 @@ const GlobalBookingModal = () => {
   // Map internal location keys to display strings used in the modal
   let displayLocation = initialData?.location || "";
   const normalizedLoc = displayLocation.toUpperCase();
-  
+
   if (normalizedLoc.includes("CHENNAI")) displayLocation = "DrizzleDrop Inn, Chennai";
   else if (normalizedLoc.includes("OOTY")) displayLocation = "DrizzleDrop Inn, Ooty";
   else displayLocation = "DrizzleDrop Inn, Chennai"; // Default fallback

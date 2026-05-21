@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BookingBar from "./BookingBar";
+import { OptimizedImage } from "./OptimizedImage";
 
 // Chennai hero images
 import c1 from "@/assets/CHennai_Front_Page_Website-3-001/CHennai_Front_Page_Website/Building_outer_002.webp";
@@ -136,10 +137,10 @@ export default function HeroSection() {
     <section className="relative w-full h-[90vh] sm:h-[95vh] min-h-[500px] sm:min-h-[650px] md:min-h-[750px] overflow-hidden bg-[#0a0a0a]">
       {/* Bottom Layer (exiting slide remains 100% solid underneath to prevent black showing through) */}
       <div className="absolute inset-0 w-full h-full">
-        <img
+        <OptimizedImage
           src={heroSlides[prevSlide].image}
           alt="previous hero slide"
-          className="absolute inset-0 w-full h-full object-cover brightness-[0.85] contrast-[1.05]"
+          className="absolute inset-0 w-full h-full brightness-[0.85] contrast-[1.05]"
         />
       </div>
 
@@ -163,12 +164,11 @@ export default function HeroSection() {
             y: { type: "spring", stiffness: 50, damping: 30 }
           }}
         >
-          <img
+          <OptimizedImage
             src={slide.image}
             alt={slide.location}
-            className="absolute inset-0 w-full h-full object-cover brightness-[0.85] contrast-[1.05]"
-            fetchPriority={currentSlide === 0 ? "high" : "auto"}
-            loading="eager"
+            className="absolute inset-0 w-full h-full brightness-[0.85] contrast-[1.05]"
+            priority={currentSlide === 0}
           />
         </motion.div>
       </AnimatePresence>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -24,7 +24,7 @@ export interface BookingData {
     offerCode?: string;
 }
 
-export default function BookingBar() {
+const BookingBar = React.memo(function BookingBar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [date, setDate] = useState<DateRange | undefined>({
         from: new Date(),
@@ -260,4 +260,6 @@ export default function BookingBar() {
             />
         </div>
     );
-}
+});
+
+export default BookingBar;
