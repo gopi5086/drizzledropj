@@ -21,7 +21,7 @@ const ChennaiContact = ({ locationData, openBooking }: any) => (
                 Connecting You from Inquiries to Reservations
               </h2>
               <p className="text-white text-lg md:text-xl font-medium leading-relaxed px-4 opacity-95">
-                Feel free to reach out with any questions, booking inquiries, or feedback. Our team is always ready to assist you and ensure a smooth and comfortable stay at DrizzleDrop Inn, Chennai.
+                Contact us for inquiries, reservations, or feedback. We look forward to providing you with a memorable stay at DrizzleDrop Inn, Chennai.
               </p>
             </div>
           </Reveal>

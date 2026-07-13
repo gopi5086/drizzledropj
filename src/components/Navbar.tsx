@@ -18,7 +18,7 @@ import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Trip
 import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
 import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
 import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
-import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+import ootyVilla from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
 
 const locations = [
   {
@@ -174,7 +174,8 @@ export default function Navbar() {
       ooty: {
         "standard room": ootyStdRoom,
         "deluxe room": ootyDeluxeRoom,
-        "triple room": ootyTripleRoom,
+        "double bed room villa": ootyVilla,
+        "double bedroom villa": ootyVilla,
         "family room": ootyFamilyRoom,
       },
     };
@@ -206,7 +207,7 @@ export default function Navbar() {
       return [
         { name: "Standard Room", slug: "standard-room", location: "ooty", image: ootyStdRoom },
         { name: "Deluxe Room", slug: "deluxe-room", location: "ooty", image: ootyDeluxeRoom },
-        { name: "Triple Room", slug: "triple-room", location: "ooty", image: ootyTripleRoom },
+        { name: "Double Bed Room Villa", slug: "double-bed-room-villa", location: "ooty", image: ootyVilla },
         { name: "Family Room", slug: "family-room", location: "ooty", image: ootyFamilyRoom },
       ];
     }

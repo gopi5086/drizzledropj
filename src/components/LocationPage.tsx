@@ -57,22 +57,55 @@ interface GalleryItem {
     category: string;
 }
 
+function getNormalizedCategory(path: string): string {
+  const pathUpper = path.toUpperCase();
+  if (pathUpper.includes("/STANDARD-ROOMS/") || pathUpper.includes("STANDARD ROOM")) {
+    return "STANDARD ROOMS";
+  }
+  if (pathUpper.includes("/DELUXE-ROOMS/") || pathUpper.includes("DELUXE ROOM") || pathUpper.includes("DELUXEROOM")) {
+    return "DELUXE ROOMS";
+  }
+  if (pathUpper.includes("/FAMILY-ROOMS/") || pathUpper.includes("FAMILY ROOM")) {
+    return "FAMILY ROOMS";
+  }
+  if (pathUpper.includes("/TRIPLE-ROOMS/") || pathUpper.includes("TRIPLE ROOM")) {
+    return "TRIPLE ROOMS";
+  }
+  if (pathUpper.includes("/ECO-STD ROOM/") || pathUpper.includes("ECO STD ROOM") || pathUpper.includes("ECO-STD-ROOM")) {
+    return "ECO STD ROOM";
+  }
+  if (pathUpper.includes("/VILLA/")) {
+    return "VILLA";
+  }
+  if (pathUpper.includes("/RECEPTION/")) {
+    return "RECEPTION";
+  }
+  if (pathUpper.includes("/VIEW/")) {
+    return "VIEW";
+  }
+  if (pathUpper.includes("/DINING/") || pathUpper.includes("/KITCHEN/")) {
+    return "DINING";
+  }
+  
+  const parts = path.split("/");
+  const folderName = parts[parts.length - 2];
+  if (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) {
+    return "GENERAL";
+  }
+  return folderName.replace(/-/g, " ").toUpperCase();
+}
+
 const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(prioritizedImages).map(([path, src]) => {
     const pathLower = path.toLowerCase();
     const isOoty = pathLower.includes("ooty");
     const location = isOoty ? "ooty" : "chennai";
-    
-    const parts = path.split("/");
-    const folderName = parts[parts.length - 2];
-    const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
-        ? "GENERAL" 
-        : folderName.replace(/-/g, " ").toUpperCase();
+    const categoryName = getNormalizedCategory(path);
     
     return {
         id: path,
         src: src,
         location,
-        category
+        category: categoryName
     };
 });
 
@@ -82,44 +115,44 @@ interface Props {
   location: LocationConfig;
 }
 
-function RoomCard({ room }: { room: LocationConfig["rooms"][0] }) {
+function getCategoryForRoom(name: string, location: string) {
+  if (location === "CHENNAI") {
+    if (name === "Standard Room") return "STANDARD ROOMS";
+    if (name === "Deluxe Room") return "DELUXE ROOMS";
+    if (name === "Triple Room") return "TRIPLE ROOMS";
+    if (name === "Family Room") return "FAMILY ROOMS";
+  } else {
+    if (name === "Standard Room") return "ECO STD ROOM";
+    if (name === "Deluxe Room") return "DELUXE ROOMS";
+    if (name === "Double Bed Room Villa") return "VILLA";
+    if (name === "Family Room") return "FAMILY ROOMS";
+  }
+  return "All";
+}
+
+function RoomCard({ room, locationKey }: { room: LocationConfig["rooms"][0]; locationKey: string }) {
   const { openBooking } = useBooking();
+  const galleryCategory = getCategoryForRoom(room.name, locationKey.toUpperCase());
   return (
     <Reveal direction="up">
       <div className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
-        <div className="relative h-64 overflow-hidden">
+        <Link to={`/${locationKey.toLowerCase()}/gallery?category=${encodeURIComponent(galleryCategory)}`} className="relative h-64 overflow-hidden block">
           <img
             src={room.image}
             alt={`${room.name} at DrizzleDrop Inn`}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
           />
-          <div className="absolute top-5 right-5 flex flex-col gap-2 items-end min-w-[150px]">
-            {(room.epPrice || room.cpPrice) ? (
-              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 w-full scale-90 origin-top-right">
-                {room.epPrice && (
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">EP <span className="font-medium opacity-60">(Room Only)</span></span>
-                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.epPrice}</span>
-                  </div>
-                )}
-                {room.cpPrice && (
-                  <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-1 mt-0.5">
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">CP <span className="font-medium opacity-60">(W/ BFast)</span></span>
-                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.cpPrice}</span>
-                  </div>
-                )}
-              </div>
-            ) : room.price && (
-              <div className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
-                <span className="text-lg font-bold text-[#2E6B8A]">{room.price}</span>
-                <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
-              </div>
-            )}
+
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+             <span className="bg-black/60 text-white px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-2 backdrop-blur-sm">
+                View Photos
+             </span>
           </div>
-          <div className="absolute bottom-5 left-5">
+
+          <div className="absolute bottom-5 left-5 z-10">
             <span className="px-3 py-1 bg-[#C5A861] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{room.type}</span>
           </div>
-        </div>
+        </Link>
         <div className="p-7 flex-1 flex flex-col">
           <h3 className="text-2xl font-medium mb-1 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
           <p className="px-3 py-1 bg-[#2E6B8A]/5 text-[#2E6B8A] text-[9px] font-bold uppercase tracking-wider rounded-md w-fit mb-4">{room.type}</p>
@@ -150,46 +183,31 @@ function RoomCard({ room }: { room: LocationConfig["rooms"][0] }) {
   );
 }
 
-const RoomCardDynamic = ({ room }: { room: any }) => {
+const RoomCardDynamic = ({ room, locationKey }: { room: any; locationKey: string }) => {
   const { openBooking } = useBooking();
   const imageUrl = room.image.startsWith("/") ? `${BACKEND_BASE}${room.image}` : room.image;
+  const galleryCategory = getCategoryForRoom(room.name, locationKey.toUpperCase());
 
   return (
     <Reveal direction="up">
       <div className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
-        <div className="relative h-64 overflow-hidden">
+        <Link to={`/${locationKey.toLowerCase()}/gallery?category=${encodeURIComponent(galleryCategory)}`} className="relative h-64 overflow-hidden block">
           <img
             src={imageUrl}
             alt={`${room.name} at DrizzleDrop Inn`}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]"
           />
-          <div className="absolute top-5 right-5 flex flex-col gap-2 items-end min-w-[150px]">
-            {(room.epPrice || room.cpPrice) ? (
-              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 w-full scale-90 origin-top-right">
-                {room.epPrice && (
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">EP <span className="font-medium opacity-60">(Room Only)</span></span>
-                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.epPrice}</span>
-                  </div>
-                )}
-                {room.cpPrice && (
-                  <div className="flex items-center justify-between gap-3 border-t border-gray-100 pt-1 mt-0.5">
-                    <span className="text-[8px] uppercase tracking-wider font-bold text-gray-500">CP <span className="font-medium opacity-60">(W/ BFast)</span></span>
-                    <span className="text-sm font-extrabold text-[#2a2a2a]">{room.cpPrice}</span>
-                  </div>
-                )}
-              </div>
-            ) : room.price && (
-              <div className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
-                <span className="text-lg font-bold text-[#2E6B8A]">{room.price}</span>
-                <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
-              </div>
-            )}
+
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+             <span className="bg-black/60 text-white px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-2 backdrop-blur-sm">
+                View Photos
+             </span>
           </div>
-          <div className="absolute bottom-5 left-5">
+
+          <div className="absolute bottom-5 left-5 z-10">
             <span className="px-3 py-1 bg-[#C5A861] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">{room.type}</span>
           </div>
-        </div>
+        </Link>
         <div className="p-7 flex-1 flex flex-col">
           <h3 className="text-2xl font-medium mb-1 group-hover:text-[#C5A861] transition-colors">{room.name}</h3>
           <p className="px-3 py-1 bg-[#2E6B8A]/5 text-[#2E6B8A] text-[9px] font-bold uppercase tracking-wider rounded-md w-fit mb-4">{room.type}</p>
@@ -367,13 +385,7 @@ export default function LocationPage({ location }: Props) {
                   >
                     Book Your Stay
                   </button>
-                  <Link
-                    to={isChennai ? "/ooty" : "/chennai"}
-                    className="px-8 py-3.5 border text-xs font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:border-[#C5A861] hover:text-[#C5A861] hover:bg-[#C5A861]/5 transform hover:-translate-y-0.5"
-                    style={{ borderColor: accentColor, color: accentColor }}
-                  >
-                    View {isChennai ? "Ooty" : "Chennai"} Property →
-                  </Link>
+
                 </div>
               </div>
             </Reveal>
@@ -394,11 +406,11 @@ export default function LocationPage({ location }: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
             {rooms.length > 0 ? (
               rooms.map((room) => (
-                <RoomCardDynamic key={room._id || room.name} room={room} />
+                <RoomCardDynamic key={room._id || room.name} room={room} locationKey={location.key} />
               ))
             ) : (
               location.rooms.map((room) => (
-                <RoomCard key={room.name} room={room} />
+                <RoomCard key={room.name} room={room} locationKey={location.key} />
               ))
             )}
           </div>

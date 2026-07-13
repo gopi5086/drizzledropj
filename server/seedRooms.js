@@ -83,14 +83,14 @@ const rooms = [
     order: 3
   },
   {
-    name: "Triple Room",
+    name: "Double Bed Room Villa",
     location: "OOTY",
-    type: "Cozy Trio",
-    desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.",
+    type: "Spacious Luxury",
+    desc: "Luxurious two-bedroom villa offering ultimate privacy, a spacious private balcony, and premium amenities with panoramic Nilgiri views.",
     epPrice: "₹3,200",
     cpPrice: "₹3,500",
     image: "/uploads/rooms/ooty-triple.webp",
-    amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"],
+    amenities: ["Mountain View", "Private Balcony", "Heater", "WiFi"],
     order: 4
   }
 ];

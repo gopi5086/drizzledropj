@@ -29,17 +29,49 @@ interface GalleryItem {
   category: string;
 }
 
+function getNormalizedCategory(path: string): string {
+  const pathUpper = path.toUpperCase();
+  if (pathUpper.includes("/STANDARD-ROOMS/") || pathUpper.includes("STANDARD ROOM")) {
+    return "STANDARD ROOMS";
+  }
+  if (pathUpper.includes("/DELUXE-ROOMS/") || pathUpper.includes("DELUXE ROOM") || pathUpper.includes("DELUXEROOM")) {
+    return "DELUXE ROOMS";
+  }
+  if (pathUpper.includes("/FAMILY-ROOMS/") || pathUpper.includes("FAMILY ROOM")) {
+    return "FAMILY ROOMS";
+  }
+  if (pathUpper.includes("/TRIPLE-ROOMS/") || pathUpper.includes("TRIPLE ROOM")) {
+    return "TRIPLE ROOMS";
+  }
+  if (pathUpper.includes("/ECO-STD ROOM/") || pathUpper.includes("ECO STD ROOM") || pathUpper.includes("ECO-STD-ROOM")) {
+    return "ECO STD ROOM";
+  }
+  if (pathUpper.includes("/VILLA/")) {
+    return "VILLA";
+  }
+  if (pathUpper.includes("/RECEPTION/")) {
+    return "RECEPTION";
+  }
+  if (pathUpper.includes("/VIEW/")) {
+    return "VIEW";
+  }
+  if (pathUpper.includes("/DINING/") || pathUpper.includes("/KITCHEN/")) {
+    return "DINING";
+  }
+  
+  const parts = path.split("/");
+  const folderName = parts[parts.length - 2];
+  if (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) {
+    return "GENERAL";
+  }
+  return folderName.replace(/-/g, " ").toUpperCase();
+}
+
 const ALL_GALLERY_IMAGES: GalleryItem[] = Object.entries(prioritizedImages).map(([path, src]) => {
   const pathLower = path.toLowerCase();
   const isOoty = pathLower.includes("ooty");
   const location = isOoty ? "ooty" : "chennai";
-  
-  const parts = path.split("/");
-  // Category is usually the folder before the filename, unless it's the location folder itself
-  const folderName = parts[parts.length - 2];
-  const categoryName = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) 
-    ? "General" 
-    : folderName.replace(/-/g, " ");
+  const categoryName = getNormalizedCategory(path);
   
   return {
     id: path,
@@ -55,13 +87,20 @@ export default function Gallery() {
   const { locationId } = useParams();
   const [searchParams] = useSearchParams();
   
-  const initialTabFromPath = locationId?.toLowerCase() === "ooty" ? "ooty" : locationId?.toLowerCase() === "chennai" ? "chennai" : null;
-  const initialTabFromSearch = searchParams.get("location") === "ooty" ? "ooty" : searchParams.get("location") === "chennai" ? "chennai" : "all";
-  
-  const [tab, setTab] = useState<TabKey>((initialTabFromPath || initialTabFromSearch) as TabKey);
+  const [tab, setTab] = useState<TabKey>("all");
   const [category, setCategory] = useState<string>("All");
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [randomImages, setRandomImages] = useState<GalleryItem[]>([]);
+
+  // Sync tab and category state from URL path / query params
+  useEffect(() => {
+    const initialTabFromPath = locationId?.toLowerCase() === "ooty" ? "ooty" : locationId?.toLowerCase() === "chennai" ? "chennai" : null;
+    const initialTabFromSearch = searchParams.get("location") === "ooty" ? "ooty" : searchParams.get("location") === "chennai" ? "chennai" : "all";
+    setTab((initialTabFromPath || initialTabFromSearch) as TabKey);
+    
+    const categoryFromSearch = searchParams.get("category");
+    setCategory(categoryFromSearch || "All");
+  }, [locationId, searchParams]);
 
   // Function to get 25 random images
   const shuffleAndSelect = () => {
@@ -204,6 +243,11 @@ export default function Gallery() {
                     fetchPriority={i < 6 ? "high" : "auto"}
                     decoding={i < 6 ? "sync" : "async"}
                   />
+                  <div className="absolute top-3 left-3 z-10 pointer-events-none">
+                    <span className="text-[10px] uppercase tracking-wider font-bold bg-[#C5A861] px-2 py-0.5 rounded text-white shadow-sm">
+                      DDI {img.location}
+                    </span>
+                  </div>
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-500 flex flex-col items-center justify-end pb-6">
                     <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 text-center px-4">
                       {tab !== 'all' && img.category !== 'General' && (

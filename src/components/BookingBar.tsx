@@ -214,7 +214,7 @@ const BookingBar = React.memo(function BookingBar() {
                     </div>
 
                     {/* ── Offer Code ────────────────────────────────────────── */}
-                    <div className="flex-1 border-b md:border-b-0 lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
+                    <div className="flex-[1.2] min-w-[130px] border-b md:border-b-0 lg:border-b-0 lg:border-r border-gray-100 hover:bg-slate-50/80 transition-colors">
                         <div className="w-full h-full px-5 py-4 flex items-center gap-3">
                             <div
                                 className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
@@ -234,7 +234,7 @@ const BookingBar = React.memo(function BookingBar() {
                                     placeholder="Enter Code"
                                     value={offerCode}
                                     onChange={(e) => setOfferCode(e.target.value)}
-                                    className="w-full bg-transparent border-none p-0 text-sm font-medium text-gray-800 focus:outline-none focus:ring-0 placeholder:text-gray-400"
+                                    className="w-full bg-transparent border-none p-0 py-0.5 text-sm font-medium text-gray-800 focus:outline-none focus:ring-0 placeholder:text-gray-400 leading-normal"
                                 />
                             </div>
                         </div>

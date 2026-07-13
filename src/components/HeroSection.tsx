@@ -25,17 +25,17 @@ interface HeroSlide {
 }
 
 const heroSlides: HeroSlide[] = [
-  { image: c1, location: "Chennai", tagline: "Sophisticated Urban Comfort" },
-  { image: o1, location: "Ooty", tagline: "Breathtaking Valley Views" },
-  { image: c2, location: "Chennai", tagline: "Elegantly Appointed Rooms" },
-  { image: o2, location: "Ooty", tagline: "Elegant Mountain Sanctuary" },
-  { image: c3, location: "Chennai", tagline: "Modern Living in OMR" },
-  { image: o3, location: "Ooty", tagline: "Serene Garden Evenings" },
-  { image: c4, location: "Chennai", tagline: "Contemporary Architectural Design" },
-  { image: o4, location: "Ooty", tagline: "Warm Alpine Hospitality" },
-  { image: c5, location: "Chennai", tagline: "Your Gateway to the IT Hub" },
-  { image: c6, location: "Chennai", tagline: "Elegant Night Ambience" },
-  { image: o5, location: "Ooty", tagline: "Experience the Nilgiris" },
+  { image: c1, location: "DDI CHENNAI", tagline: "Sophisticated Urban Comfort" },
+  { image: o1, location: "DDI OOTY", tagline: "Breathtaking Valley Views" },
+  { image: c2, location: "DDI CHENNAI", tagline: "Elegantly Appointed Rooms" },
+  { image: o2, location: "DDI OOTY", tagline: "Elegant Mountain Sanctuary" },
+  { image: c3, location: "DDI CHENNAI", tagline: "Modern Living in OMR" },
+  { image: o3, location: "DDI OOTY", tagline: "Serene Garden Evenings" },
+  { image: c4, location: "DDI CHENNAI", tagline: "Contemporary Architectural Design" },
+  { image: o4, location: "DDI OOTY", tagline: "Warm Alpine Hospitality" },
+  { image: c5, location: "DDI CHENNAI", tagline: "Your Gateway to the IT Hub" },
+  { image: c6, location: "DDI CHENNAI", tagline: "Elegant Night Ambience" },
+  { image: o5, location: "DDI OOTY", tagline: "Experience the Nilgiris" },
 ];
 
 const SLIDE_DURATION = 6000;
@@ -195,7 +195,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8"
           >
-            <span className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-full border border-[#C5A861]/30 bg-black/20 backdrop-blur-md text-[#C5A861] text-[8px] sm:text-[10px] uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-2 sm:gap-3">
+            <span className="px-5 sm:px-6 py-2 rounded-full border border-[#C5A861]/40 bg-black/40 backdrop-blur-md text-[#C5A861] text-[10px] sm:text-xs md:text-sm uppercase font-bold tracking-[0.2em] sm:tracking-[0.3em] flex items-center gap-2 sm:gap-3">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C5A861] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C5A861]"></span>
@@ -211,14 +211,12 @@ export default function HeroSection() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1] sm:leading-[1.1] md:leading-[0.9] text-white"
+            className="text-2xl sm:text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-[1.2] text-white"
             style={{ fontWeight: 700, letterSpacing: "-0.02em" }}
           >
             Welcome to
             <br />
-            <span className="italic bg-gradient-to-r from-[#C5A861] via-[#EBD5A3] to-[#C5A861] bg-clip-text text-transparent filter drop-shadow-[0_2px_15px_rgba(197,168,97,0.3)]">
-              DrizzleDrop Inn
-            </span>
+            DrizzleDrop Inn
           </motion.h1>
         </div>
 
@@ -227,9 +225,9 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1.2 }}
-          className="text-xs sm:text-sm md:text-lg lg:text-2xl text-white/60 font-light tracking-[0.05em] sm:tracking-[0.1em] md:tracking-widest max-w-3xl mb-8 sm:mb-12 px-2"
+          className="text-[10px] sm:text-xs md:text-sm lg:text-base text-gray-400 font-light tracking-[0.2em] sm:tracking-[0.3em] max-w-3xl mb-8 sm:mb-12 px-2 uppercase"
         >
-          Curated Hospitality In The Heart Of Chennai & Ooty
+          A PLACE TO FIND SERENITY
         </motion.p>
 
         {/* === CENTRAL BOOKING CONTAINER === */}

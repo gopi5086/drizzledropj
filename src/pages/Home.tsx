@@ -38,21 +38,54 @@ Object.entries(allImagesRaw).forEach(([path, module]) => {
   }
 });
 
+function getNormalizedCategory(path: string): string {
+  const pathUpper = path.toUpperCase();
+  if (pathUpper.includes("/STANDARD-ROOMS/") || pathUpper.includes("STANDARD ROOM")) {
+    return "STANDARD ROOMS";
+  }
+  if (pathUpper.includes("/DELUXE-ROOMS/") || pathUpper.includes("DELUXE ROOM") || pathUpper.includes("DELUXEROOM")) {
+    return "DELUXE ROOMS";
+  }
+  if (pathUpper.includes("/FAMILY-ROOMS/") || pathUpper.includes("FAMILY ROOM")) {
+    return "FAMILY ROOMS";
+  }
+  if (pathUpper.includes("/TRIPLE-ROOMS/") || pathUpper.includes("TRIPLE ROOM")) {
+    return "TRIPLE ROOMS";
+  }
+  if (pathUpper.includes("/ECO-STD ROOM/") || pathUpper.includes("ECO STD ROOM") || pathUpper.includes("ECO-STD-ROOM")) {
+    return "ECO STD ROOM";
+  }
+  if (pathUpper.includes("/VILLA/")) {
+    return "VILLA";
+  }
+  if (pathUpper.includes("/RECEPTION/")) {
+    return "RECEPTION";
+  }
+  if (pathUpper.includes("/VIEW/")) {
+    return "VIEW";
+  }
+  if (pathUpper.includes("/DINING/") || pathUpper.includes("/KITCHEN/")) {
+    return "DINING";
+  }
+  
+  const parts = path.split("/");
+  const folderName = parts[parts.length - 2];
+  if (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai")) {
+    return "GENERAL";
+  }
+  return folderName.replace(/-/g, " ").toUpperCase();
+}
+
 const ALL_HOME_IMAGES = Object.entries(prioritizedImages).map(([path, src]) => {
   const pathLower = path.toLowerCase();
   const isOoty = pathLower.includes("ooty");
   const location = isOoty ? "OOTY" : "CHENNAI";
-
-  const parts = path.split("/");
-  const folderName = parts[parts.length - 2];
-  const category = (folderName.toLowerCase().includes("ooty") || folderName.toLowerCase().includes("chennai"))
-    ? (isOoty ? "OOTY" : "CHENNAI")
-    : folderName.replace(/-/g, " ").toUpperCase();
+  const categoryName = getNormalizedCategory(path);
 
   return {
     id: path,
     src: src,
-    category,
+    category: categoryName,
     location
   };
 });
@@ -342,7 +375,7 @@ export default function Home() {
                   <motion.div
                     whileHover={{ y: -5 }}
                     className="group relative aspect-video sm:aspect-square cinematic-zoom-container cursor-pointer shadow-sm border border-border/40 hover-border-glow"
-                    onClick={() => navigate(`/gallery?location=${image.location.toLowerCase()}`)}
+                    onClick={() => navigate(`/gallery?location=${image.location.toLowerCase()}&category=${encodeURIComponent(image.category)}`)}
                   >
                     <img
                       src={image.src}
@@ -352,15 +385,17 @@ export default function Home() {
                       fetchPriority={i < 4 ? "high" : "auto"}
                       decoding={i < 4 ? "sync" : "async"}
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                      <ZoomIn className="text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 w-8 h-8" />
-                    </div>
-                    <div className="absolute bottom-3 left-3 flex flex-col gap-1">
-                      <span className="text-[7px] uppercase tracking-wider font-bold bg-[#C5A861] px-2 py-0.5 rounded text-white shadow-sm w-fit">
-                        {image.location}
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-all duration-300 flex items-center justify-center z-10">
+                      <span className="bg-black/70 text-white px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] shadow-lg">
+                        View Photos
                       </span>
-                      <span className="text-[8px] uppercase tracking-widest font-bold bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-black shadow-sm">
-                        {image.category === "GENERAL" ? image.location : image.category}
+                    </div>
+                    <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5 z-20">
+                      <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold bg-[#C5A861] px-3 py-1 rounded-full text-white shadow-sm">
+                        {image.location === "CHENNAI" ? "DDI Chennai" : "DDI Ooty"}
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] font-bold bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-black shadow-sm">
+                        {image.category === "GENERAL" ? "Gallery" : image.category}
                       </span>
                     </div>
                   </motion.div>

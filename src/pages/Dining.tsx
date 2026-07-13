@@ -125,7 +125,7 @@ export default function Dining() {
                   <Reveal direction="left">
                     <div className="relative">
                       <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl">
-                        <img src={chennaiDining1} alt="Chennai Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2000ms]" />
+                        <img src="/chennai_rooftop_kitchen.webp" alt="Chennai Dining" className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                       </div>
                       {/* Decorative element */}
                       <div className="absolute -z-10 -top-6 -left-6 w-full h-full border border-[#C5A861]/20 rounded-3xl" />
@@ -135,12 +135,12 @@ export default function Dining() {
                 <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                   <Reveal>
                     <span className="text-[#C5A861] font-bold tracking-[0.2em] uppercase text-xs">Exquisite Spaces</span>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">Chennai Rooftop <br /><span className="italic text-[#C5A861]">Experience</span></h2>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight uppercase">DDI KITCHEN – ROOFTOP <br /><span className="italic text-[#C5A861]">EXPERIENCE</span></h2>
                     <p className="body-text text-sm sm:text-base md:text-lg leading-relaxed">
-                      Our rooftop specialty restaurant in Chennai offers Multi-Cuisine and Asian delicacies. A modern vibe with exceptional services makes it an ideal abode for the modern traveller.
+                      Experience dining with a view at DDI Kitchen Rooftop Restaurant, where culinary delights meet panoramic cityscapes. Perched atop our hotel, the restaurant offers a vibrant and inviting atmosphere, perfect for both casual meals and special occasions. Savor a diverse menu featuring local and international cuisines, crafted with fresh ingredients by our talented chefs. The open-air setting provides a refreshing ambiance, especially during sunset and evening hours. Whether you're enjoying a morning coffee, a leisurely lunch, or a romantic dinner under the stars, DDI Kitchen rooftop promises a memorable gastronomic experience with stunning city vistas.
                     </p>
                     <div className="pt-2 sm:pt-4 flex flex-wrap gap-2 sm:gap-3">
-                      {["Gourmet Dining", "City Views", "Signature Cocktails"].map(tag => (
+                      {["Gourmet Dining", "City Views"].map(tag => (
                         <span key={tag} className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border border-border/60 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest bg-secondary/30">{tag}</span>
                       ))}
                     </div>

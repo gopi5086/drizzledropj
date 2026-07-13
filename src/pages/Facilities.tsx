@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
 import SEO from "@/components/SEO";
 import facilityHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0022.webp";
 import chennaiFacilitiesHero from "@/assets/Gallery/Chennai-images/RECEPTION/_SPY0024.webp";
@@ -10,7 +10,7 @@ import ootyHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6953.webp";
 import receptionImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (46).webp";
 import ootyReceptionImg from "@/assets/Gallery/Ooty-Images/RECEPTION/REception_Ooty.webp";
 import diningImg from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM (70).webp";
-import { commonFacilities, ootyExtraFacilities } from "@/data/facilitiesData";
+import { commonFacilities, ootyExtraFacilities, chennaiFacilities, ootyFacilities } from "@/data/facilitiesData";
 
 
 export default function Facilities() {
@@ -22,10 +22,12 @@ export default function Facilities() {
   const seoTitle = isOoty ? "Premium Hotel Facilities in Ooty | DrizzleDrop Inn" : isChennai ? "Business Hotel Amenities Chennai OMR | DrizzleDrop Inn" : "Our Hotel Facilities | DrizzleDrop Inn";
   const seoDesc = isOoty ? "Enjoy valley views, bonfire area, and premium trekking assistance at DrizzleDrop Inn Ooty." : isChennai ? "High-speed Wi-Fi, business center, and prime OMR connectivity for business travelers in Chennai." : "Discover world-class facilities at DrizzleDrop Inn properties in Ooty and Chennai.";
 
-  // Facilities to show: Ooty gets all, Chennai gets only common
+  // Facilities to show: Ooty gets ootyFacilities, Chennai gets chennaiFacilities, others get common
   const facilitiesToShow = isOoty
-    ? [...commonFacilities, ...ootyExtraFacilities]
-    : commonFacilities;
+    ? ootyFacilities
+    : isChennai
+      ? chennaiFacilities
+      : commonFacilities;
 
   return (
     <div className="pt-20">
@@ -115,15 +117,36 @@ export default function Facilities() {
               <p className="body-text text-sm md:text-base lg:text-lg leading-relaxed">
                 Our staff is dedicated to ensuring your stay is perfect. From the moment you check in at our premium reception desks until your departure, every request is handled with professional care.
               </p>
-              <ul className="space-y-3 sm:space-y-4">
-                {[
-                  "Express Check-in & Check-out",
-                  "Personalized Concierge Service",
-                  "Daily Housekeeping & Turndown",
-                  "Valet Parking Assist"
-                ].map(item => (
-                  <li key={item} className="flex items-center gap-3 text-xs sm:text-sm font-bold tracking-wide">
-                    <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-[#C5A861] shrink-0" />
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mt-2">
+                {(isOoty ? [
+                  "Reception and Concierge Services",
+                  "Dining Options",
+                  "Free Wi-Fi",
+                  "Parking Facilities",
+                  "Laundry and Housekeeping Services",
+                  "Comfortable Guest Rooms",
+                  "24-Hour Reception",
+                  "Lounge Area",
+                  "On-site Restaurant Area",
+                  "Travel Desk",
+                  "Basic Concierge Services",
+                ] : [
+                  "Reception and Concierge Services",
+                  "Dining Options",
+                  "Free Wi-Fi",
+                  "Parking Facilities",
+                  "Laundry and Housekeeping Services",
+                  "Comfortable Guest Rooms",
+                  "24-Hour Reception",
+                  "Lounge Area",
+                  "On-site Breakfast Area",
+                  "Lift/Elevator Access",
+                  "Public Transportation Links",
+                  "Basic Concierge Services",
+                  "Common Private Smoking Area",
+                ]).map(item => (
+                  <li key={item} className="flex items-start gap-2 text-xs sm:text-sm font-semibold tracking-wide text-foreground">
+                    <CheckCircle className="w-4 h-4 text-[#C5A861] shrink-0 mt-0.5" />
                     {item}
                   </li>
                 ))}

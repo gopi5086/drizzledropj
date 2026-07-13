@@ -18,7 +18,7 @@ import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Trip
 import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
 import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
 import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
-import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+import ootyVilla from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
 import heroImg from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.webp";
 import ootyRoomsHero from "@/assets/Gallery/Ooty-Images/VIEW/BROL6956.webp";
 import chennaiRoomsHero from "@/assets/Gallery/Chennai-images/DELUXE-ROOMS/_SPY0088.webp";
@@ -101,14 +101,14 @@ const ootyRooms: Room[] = [
     amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"] 
   },
   { 
-    name: "Triple Room", 
+    name: "Double Bed Room Villa", 
     location: "OOTY",
-    type: "Cozy Trio", 
-    desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.", 
+    type: "Spacious Luxury", 
+    desc: "Luxurious two-bedroom villa offering ultimate privacy, a spacious private balcony, and premium amenities with panoramic Nilgiri views.", 
     epPrice: "₹3,200", 
     cpPrice: "₹3,500", 
-    image: ootyTripleRoom, 
-    amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"] 
+    image: ootyVilla, 
+    amenities: ["Mountain View", "Private Balcony", "Heater", "WiFi"] 
   },
   { 
     name: "Family Room", 
@@ -149,49 +149,47 @@ const policies = [
   }
 ];
 
+import { Link } from "react-router-dom";
+
+function getCategoryForRoom(name: string, location: string) {
+  if (location === "CHENNAI") {
+    if (name === "Standard Room") return "STANDARD ROOMS";
+    if (name === "Deluxe Room") return "DELUXE ROOMS";
+    if (name === "Triple Room") return "TRIPLE ROOMS";
+    if (name === "Family Room") return "FAMILY ROOMS";
+  } else {
+    if (name === "Standard Room") return "ECO STD ROOM";
+    if (name === "Deluxe Room") return "DELUXE ROOMS";
+    if (name === "Double Bed Room Villa") return "VILLA";
+    if (name === "Family Room") return "FAMILY ROOMS";
+  }
+  return "All";
+}
+
 function RoomCard({ room }: { room: Room }) {
   const { openBooking } = useBooking();
+  const galleryCategory = getCategoryForRoom(room.name, room.location);
 
   return (
     <Reveal direction="up" className="h-full">
       <div id={`${room.location.toLowerCase()}-${room.name.toLowerCase().replace(/\s+/g, '-')}`} className="group bg-white rounded-3xl overflow-hidden border border-border/40 hover:border-[#C5A861]/30 transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] h-full flex flex-col">
-        <div className="relative h-72 overflow-hidden">
+        <Link to={`/${room.location.toLowerCase()}/gallery?category=${encodeURIComponent(galleryCategory)}`} className="relative h-72 overflow-hidden block">
           <img 
             src={room.image?.startsWith("/uploads") ? `${BACKEND_BASE}${room.image}` : room.image} 
             alt={room.name} 
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2s]" 
           />
           
-          <div className="absolute top-6 right-6 flex flex-col gap-2 items-end">
-            {room.price && (
-              <div className="px-4 py-2 bg-white/95 backdrop-blur-md rounded-full shadow-xl border border-[#C5A861]/20">
-                <span className="text-xl font-bold text-[#2E6B8A]">{room.price}</span>
-                <span className="text-[10px] uppercase tracking-tighter text-muted-foreground"> / night</span>
-              </div>
-            )}
-            
-            {(room.epPrice || room.cpPrice) && (
-              <div className="px-4 py-2.5 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#C5A861]/20 flex flex-col gap-1 min-w-[160px] scale-90 origin-top-right">
-                {room.epPrice && (
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">EP <span className="font-medium opacity-70">(Room Only)</span></span>
-                    <span className="text-base font-extrabold text-[#2a2a2a]">{room.epPrice}</span>
-                  </div>
-                )}
-                {room.cpPrice && (
-                  <div className="flex items-center justify-between gap-4 border-t border-gray-200/60 pt-1.5 mt-0.5">
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">CP <span className="font-medium opacity-70">(W/ BFast)</span></span>
-                    <span className="text-base font-extrabold text-[#2a2a2a]">{room.cpPrice}</span>
-                  </div>
-                )}
-              </div>
-            )}
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+             <span className="bg-black/60 text-white px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-2 backdrop-blur-sm">
+                View Photos
+             </span>
           </div>
           
-          <div className="absolute bottom-6 left-6">
+          <div className="absolute bottom-6 left-6 z-10">
             <span className="px-3 py-1 bg-[#C5A861] text-white text-[9px] font-bold uppercase tracking-widest rounded-full shadow-md">{room.type}</span>
           </div>
-        </div>
+        </Link>
 
         <div className="p-6 lg:p-7 flex-1 flex flex-col">
           <div className="flex items-center justify-between mb-3">

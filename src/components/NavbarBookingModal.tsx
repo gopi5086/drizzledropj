@@ -87,6 +87,18 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
         }
     }, [isOpen, bookingData?.offerCode, bookingData?.location]);
 
+    useEffect(() => {
+        if (location === "DrizzleDrop Inn, Ooty") {
+            if (guestDetails.roomType === "Triple Room") {
+                setGuestDetails(prev => ({ ...prev, roomType: "Double Bed Room Villa" }));
+            }
+        } else {
+            if (guestDetails.roomType === "Double Bed Room Villa") {
+                setGuestDetails(prev => ({ ...prev, roomType: "Triple Room" }));
+            }
+        }
+    }, [location]);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
@@ -117,7 +129,7 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
             const checkOutDate = date?.to ? format(date.to, "PPP") : "Not Set";
 
             const fields: Record<string, string> = {
-                access_key: "66f893ec-6a4a-4eab-81f7-ab4a03500abb",
+                access_key: "1b835e22-67dc-4709-8057-117eff7c75ab",
                 subject: "New Booking Request - DrizzleDrop Inn",
                 from_name: "DrizzleDrop Inn Website",
                 name: guestDetails.name,
@@ -258,8 +270,13 @@ export default function NavbarBookingModal({ isOpen, onClose, bookingData }: Nav
                                             <SelectContent>
                                                 <SelectItem value="Deluxe Room">Deluxe Room</SelectItem>
                                                 <SelectItem value="Standard Room">Standard Room</SelectItem>
-                                                <SelectItem value="Triple Room">Triple Room</SelectItem>
+                                                {location !== "DrizzleDrop Inn, Ooty" && (
+                                                    <SelectItem value="Triple Room">Triple Room</SelectItem>
+                                                )}
                                                 <SelectItem value="Family Suite">Family Suite</SelectItem>
+                                                {location === "DrizzleDrop Inn, Ooty" && (
+                                                    <SelectItem value="Double Bed Room Villa">Double Bed Room Villa</SelectItem>
+                                                )}
                                             </SelectContent>
                                         </Select>
                                     </div>

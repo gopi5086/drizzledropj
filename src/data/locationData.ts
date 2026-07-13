@@ -25,7 +25,7 @@ import chennaiTripleRoom from "@/assets/Gallery/Chennai-images/TRIPLE-ROOMS/Trip
 import ootyStdRoom from "@/assets/Gallery/Ooty-Images/ECO-STD ROOM/BROL6978.webp";
 import ootyDeluxeRoom from "@/assets/Gallery/Ooty-Images/DELUXE-ROOMS/BROL6924.webp";
 import ootyFamilyRoom from "@/assets/Gallery/Ooty-Images/FAMILY-ROOMS/BROL6995.webp";
-import ootyTripleRoom from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
+import ootyVilla from "@/assets/Gallery/Ooty-Images/VILLA/BROL7104.webp";
 
 // Chennai gallery subset (imgs 0–34)
 import cg0 from "@/asset_images/WhatsApp Image 2026-03-16 at 3.46.33 PM.webp";
@@ -282,13 +282,13 @@ export const ootyData: LocationConfig = {
       amenities: ["Hill View", "Private Balcony", "Heater", "WiFi"]
     },
     {
-      name: "Triple Room",
-      type: "Cozy Trio",
-      desc: "Mountain retreat for three, perfectly located to view the famous Nilgiris toy train route.",
+      name: "Double Bed Room Villa",
+      type: "Spacious Luxury",
+      desc: "Luxurious two-bedroom villa offering ultimate privacy, a spacious private balcony, and premium amenities with panoramic Nilgiri views.",
       epPrice: "₹3,200",
       cpPrice: "₹3,500",
-      image: ootyTripleRoom,
-      amenities: ["Mountain View", "Extra Bed", "Heater", "WiFi"]
+      image: ootyVilla,
+      amenities: ["Mountain View", "Private Balcony", "Heater", "WiFi"]
     },
     {
       name: "Family Room",
